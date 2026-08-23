@@ -7,6 +7,7 @@
         This is an organization-scoped entry point, not a full LMS.
       </p>
     </div>
+    <AcademySubNav />
     <p v-if="error" class="error">{{ error }}</p>
     <p v-else-if="isLoading" class="muted">Loading courses…</p>
     <p v-else-if="items.length === 0" class="muted">No published courses yet.</p>
@@ -27,6 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import AcademySubNav from '@/components/AcademySubNav.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationQuery } from '@/composables/useOrganizationQuery';
 import type { Course } from '@/types';

@@ -20,7 +20,21 @@
         <RouterLink to="/announcements" active-class="active">Announcements</RouterLink>
         <RouterLink to="/resources" active-class="active">Resources</RouterLink>
         <RouterLink to="/events" active-class="active">Events</RouterLink>
-        <RouterLink to="/academy" active-class="active">Academy</RouterLink>
+        <p class="nav-label">Academy</p>
+        <RouterLink to="/academy" exact-active-class="active" data-testid="nav-academy-courses">
+          Courses
+        </RouterLink>
+        <RouterLink
+          to="/academy/community-safety"
+          active-class="active"
+          data-testid="nav-community-safety"
+        >
+          Community Safety
+        </RouterLink>
+        <RouterLink to="/academy/progress" active-class="active" data-testid="nav-academy-progress">
+          My Progress
+        </RouterLink>
+        <p class="nav-label">Safety</p>
         <RouterLink to="/community-shield" active-class="active">Community Shield</RouterLink>
         <RouterLink to="/community-shield/my-reports" active-class="active" data-testid="nav-my-reports">
           My Reports
@@ -31,6 +45,17 @@
           <RouterLink to="/admin/community-shield" active-class="active">Reports</RouterLink>
           <RouterLink to="/community-shield/review-queue" active-class="active" data-testid="nav-review-queue">
             Review Queue
+          </RouterLink>
+        </template>
+
+        <template v-if="organization.canViewEducationPatterns">
+          <p class="nav-label">Education</p>
+          <RouterLink
+            to="/admin/education/patterns"
+            active-class="active"
+            data-testid="nav-learning-patterns"
+          >
+            Learning Patterns
           </RouterLink>
         </template>
 

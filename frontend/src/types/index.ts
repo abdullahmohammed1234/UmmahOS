@@ -633,3 +633,188 @@ export interface AdminDashboard {
     resolved_incidents: number;
   };
 }
+
+export type AcademyLessonStatus = 'draft' | 'published';
+
+export type AcademyLessonCategory = 'general' | 'community_safety';
+
+export type AcademyLessonProgressStatus = 'started' | 'completed';
+
+export type LearningPatternStatus = 'draft' | 'approved' | 'archived';
+
+export type LearningPatternType =
+  | 'religious_targeting'
+  | 'coded_language'
+  | 'repeated_harassment'
+  | 'contextual_hate'
+  | 'visual_hate'
+  | 'dog_whistle'
+  | 'coordinated_behavior'
+  | 'misinformation_related_harm'
+  | 'reporting_safety'
+  | 'other';
+
+export type LearningRecommendationStatus = 'draft' | 'published' | 'archived';
+
+export type AdaptSessionStatus = 'active' | 'completed' | 'unavailable';
+
+export interface AcademyLessonSection {
+  heading: string;
+  body: string;
+}
+
+export interface AcademyScenario {
+  id: number;
+  organization_id: number;
+  academy_lesson_id: number;
+  title: string;
+  prompt: string;
+  context: string | null;
+  options: string[] | Record<string, unknown> | null;
+  expected_reasoning_signals?: string[] | null;
+  misconception_tags?: string[] | null;
+  difficulty: number | string | null;
+  adapt_challenge_id: string | null;
+  adapt_topic_id: string | null;
+  adapt_concept_id: string | null;
+  adapt_domain: string | null;
+  sort_order: number;
+  is_demo: boolean;
+}
+
+export interface AcademyLesson {
+  id: number;
+  organization_id: number;
+  course_id: number | null;
+  title: string;
+  learning_objective: string | null;
+  sections: AcademyLessonSection[];
+  category: AcademyLessonCategory | string;
+  status: AcademyLessonStatus;
+  is_demo: boolean;
+  course?: Pick<Course, 'id' | 'title' | 'status'> | null;
+  scenarios?: AcademyScenario[];
+  scenario_count?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AcademyLessonProgress {
+  id: number;
+  organization_id: number;
+  user_id: number;
+  academy_lesson_id: number;
+  status: AcademyLessonProgressStatus | string;
+  started_at: string | null;
+  completed_at: string | null;
+  lesson?: Pick<AcademyLesson, 'id' | 'title' | 'category' | 'status'> | null;
+}
+
+export interface LearningPattern {
+  id: number;
+  organization_id: number;
+  pattern_type: LearningPatternType | string;
+  title: string;
+  summary: string;
+  learning_objective: string;
+  domain: string | null;
+  audience_context: string | null;
+  status: LearningPatternStatus | string;
+  source_incident_id?: number | null;
+  created_by?: UserSummary | null;
+  approved_by?: UserSummary | null;
+  approved_at?: string | null;
+  recommendations?: LearningRecommendation[];
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface LearningRecommendation {
+  id: number;
+  organization_id: number;
+  learning_pattern_id: number;
+  academy_course_id: number | null;
+  academy_lesson_id: number | null;
+  reason: string;
+  status: LearningRecommendationStatus | string;
+  pattern?: (Pick<
+    LearningPattern,
+    'id' | 'title' | 'pattern_type' | 'summary' | 'learning_objective' | 'domain' | 'status'
+  > & { source_incident_id?: number | null }) | null;
+  course?: Course | null;
+  lesson?: AcademyLesson | null;
+  created_by?: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AdaptChallenge {
+  challenge_id: string | null;
+  prompt: string | null;
+  choices: string[];
+  difficulty: number | null;
+  difficulty_label: string | null;
+  challenge_type: string | null;
+  concept_id: string | null;
+  domain: string | null;
+  topic_id: string | null;
+}
+
+export interface AdaptSessionPayload {
+  session_id: string;
+  learner_id: string | null;
+  status: string | null;
+  challenge: AdaptChallenge | null;
+  evidence_plan: Record<string, unknown>;
+  confidence_scale: Array<{ value?: number; label?: string } | number | string>;
+  can_submit: boolean;
+  complete: boolean;
+}
+
+export interface AdaptFeedbackPayload {
+  session_id: string;
+  status: string | null;
+  challenge: AdaptChallenge | null;
+  feedback: Record<string, unknown> | null;
+  noticed: Record<string, unknown> | null;
+  why_this_question: Record<string, unknown> | null;
+  next_challenge: AdaptChallenge | null;
+  adaptation: Record<string, unknown> | null;
+  complete: boolean;
+}
+
+export interface AdaptLearningSessionRecord {
+  id: number;
+  organization_id: number;
+  user_id: number;
+  academy_lesson_id: number;
+  academy_scenario_id: number | null;
+  adapt_session_id: string | null;
+  adapt_topic_id: string | null;
+  adapt_subject_id: string | null;
+  status: AdaptSessionStatus | string;
+  started_at: string | null;
+  completed_at: string | null;
+}
+
+export interface AdaptStartResponse {
+  available: boolean;
+  message?: string;
+  session: AdaptLearningSessionRecord;
+  adapt?: AdaptSessionPayload;
+}
+
+export interface AdaptSessionShowResponse {
+  available: boolean;
+  message?: string;
+  session: AdaptLearningSessionRecord;
+  adapt?: AdaptSessionPayload;
+  last_result?: AdaptFeedbackPayload | null;
+}
+
+export interface AdaptSubmitResponse {
+  available: boolean;
+  message?: string;
+  session: AdaptLearningSessionRecord;
+  result?: AdaptFeedbackPayload;
+}

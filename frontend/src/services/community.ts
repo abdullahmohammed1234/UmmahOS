@@ -4,6 +4,12 @@ import { unwrapData } from '@/services/unwrap';
 import type {
   AdminDashboard,
   Announcement,
+  AcademyLesson,
+  AcademyLessonProgress,
+  AcademyScenario,
+  AdaptSessionShowResponse,
+  AdaptStartResponse,
+  AdaptSubmitResponse,
   CommunityEvent,
   CommunityShieldOverview,
   CommunityShieldSafetyClassification,
@@ -17,6 +23,8 @@ import type {
   IncidentRelatedItem,
   IncidentReply,
   IncidentReviewPackage,
+  LearningPattern,
+  LearningRecommendation,
   MemberReportSummary,
   MemberDashboard,
   ResourceItem,
@@ -522,5 +530,192 @@ export const communityApi = {
 
   myReport(organizationId: number | string, reportId: number | string): Promise<MemberReportSummary> {
     return scoped(organizationId, `/community-shield/my-reports/${reportId}`);
+  },
+
+  communitySafetyLessons(organizationId: number | string): Promise<AcademyLesson[]> {
+    return scoped(organizationId, '/academy/community-safety');
+  },
+
+  academyLesson(organizationId: number | string, lessonId: number | string): Promise<AcademyLesson> {
+    return scoped(organizationId, `/academy/lessons/${lessonId}`);
+  },
+
+  academyScenario(
+    organizationId: number | string,
+    scenarioId: number | string,
+  ): Promise<AcademyScenario> {
+    return scoped(organizationId, `/academy/scenarios/${scenarioId}`);
+  },
+
+  academyProgress(organizationId: number | string): Promise<AcademyLessonProgress[]> {
+    return scoped(organizationId, '/academy/progress');
+  },
+
+  async completeAcademyLesson(
+    organizationId: number | string,
+    lessonId: number | string,
+  ): Promise<AcademyLessonProgress> {
+    const { data } = await api.post<AcademyLessonProgress | { data: AcademyLessonProgress }>(
+      organizationPath(organizationId, `/academy/lessons/${lessonId}/complete`),
+    );
+    return unwrapData(data);
+  },
+
+  async startAdaptSession(
+    organizationId: number | string,
+    lessonId: number | string,
+  ): Promise<AdaptStartResponse> {
+    const { data } = await api.post<AdaptStartResponse | { data: AdaptStartResponse }>(
+      organizationPath(organizationId, `/academy/lessons/${lessonId}/adapt-sessions`),
+    );
+    return unwrapData(data);
+  },
+
+  async adaptSession(
+    organizationId: number | string,
+    sessionId: number | string,
+  ): Promise<AdaptSessionShowResponse> {
+    const { data } = await api.get<AdaptSessionShowResponse | { data: AdaptSessionShowResponse }>(
+      organizationPath(organizationId, `/academy/adapt-sessions/${sessionId}`),
+    );
+    return unwrapData(data);
+  },
+
+  async submitAdaptResponse(
+    organizationId: number | string,
+    sessionId: number | string,
+    payload: {
+      answer: string;
+      confidence: number;
+      reasoning?: string;
+      challenge_id?: string;
+    },
+  ): Promise<AdaptSubmitResponse> {
+    const { data } = await api.post<AdaptSubmitResponse | { data: AdaptSubmitResponse }>(
+      organizationPath(organizationId, `/academy/adapt-sessions/${sessionId}/responses`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  learningPatterns(organizationId: number | string): Promise<LearningPattern[]> {
+    return scoped(organizationId, '/learning-patterns');
+  },
+
+  learningPattern(
+    organizationId: number | string,
+    patternId: number | string,
+  ): Promise<LearningPattern> {
+    return scoped(organizationId, `/learning-patterns/${patternId}`);
+  },
+
+  async reportLearningPattern(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<LearningPattern | null> {
+    const { data } = await api.get<LearningPattern | { data: LearningPattern | null }>(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/learning-pattern`),
+    );
+    if (data && typeof data === 'object' && 'data' in data) {
+      return data.data;
+    }
+    return data as LearningPattern;
+  },
+
+  async createReportLearningPattern(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: {
+      pattern_type: string;
+      title: string;
+      summary: string;
+      learning_objective: string;
+      domain?: string | null;
+      audience_context?: string | null;
+    },
+  ): Promise<LearningPattern> {
+    const { data } = await api.post<LearningPattern | { data: LearningPattern }>(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/learning-pattern`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async updateLearningPattern(
+    organizationId: number | string,
+    patternId: number | string,
+    payload: Partial<{
+      pattern_type: string;
+      title: string;
+      summary: string;
+      learning_objective: string;
+      domain: string | null;
+      audience_context: string | null;
+      status: string;
+    }>,
+  ): Promise<LearningPattern> {
+    const { data } = await api.patch<LearningPattern | { data: LearningPattern }>(
+      organizationPath(organizationId, `/learning-patterns/${patternId}`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async approveLearningPattern(
+    organizationId: number | string,
+    patternId: number | string,
+  ): Promise<LearningPattern> {
+    const { data } = await api.post<LearningPattern | { data: LearningPattern }>(
+      organizationPath(organizationId, `/learning-patterns/${patternId}/approve`),
+    );
+    return unwrapData(data);
+  },
+
+  async archiveLearningPattern(
+    organizationId: number | string,
+    patternId: number | string,
+  ): Promise<LearningPattern> {
+    const { data } = await api.post<LearningPattern | { data: LearningPattern }>(
+      organizationPath(organizationId, `/learning-patterns/${patternId}/archive`),
+    );
+    return unwrapData(data);
+  },
+
+  learningRecommendations(organizationId: number | string): Promise<LearningRecommendation[]> {
+    return scoped(organizationId, '/learning-recommendations');
+  },
+
+  async createLearningRecommendation(
+    organizationId: number | string,
+    payload: {
+      learning_pattern_id: number;
+      academy_course_id?: number | null;
+      academy_lesson_id?: number | null;
+      reason: string;
+      status?: string;
+    },
+  ): Promise<LearningRecommendation> {
+    const { data } = await api.post<LearningRecommendation | { data: LearningRecommendation }>(
+      organizationPath(organizationId, '/learning-recommendations'),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async updateLearningRecommendation(
+    organizationId: number | string,
+    recommendationId: number | string,
+    payload: Partial<{
+      academy_course_id: number | null;
+      academy_lesson_id: number | null;
+      reason: string;
+      status: string;
+    }>,
+  ): Promise<LearningRecommendation> {
+    const { data } = await api.patch<LearningRecommendation | { data: LearningRecommendation }>(
+      organizationPath(organizationId, `/learning-recommendations/${recommendationId}`),
+      payload,
+    );
+    return unwrapData(data);
   },
 };

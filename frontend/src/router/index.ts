@@ -57,6 +57,26 @@ const router = createRouter({
           component: () => import('@/pages/AcademyPage.vue'),
         },
         {
+          path: 'academy/community-safety',
+          name: 'academy-community-safety',
+          component: () => import('@/pages/CommunitySafetyPage.vue'),
+        },
+        {
+          path: 'academy/progress',
+          name: 'academy-progress',
+          component: () => import('@/pages/AcademyProgressPage.vue'),
+        },
+        {
+          path: 'academy/lessons/:lessonId',
+          name: 'academy-lesson-detail',
+          component: () => import('@/pages/AcademyLessonDetailPage.vue'),
+        },
+        {
+          path: 'academy/adapt-sessions/:sessionId',
+          name: 'academy-adapt-practice',
+          component: () => import('@/pages/AdaptPracticePage.vue'),
+        },
+        {
           path: 'academy/:id',
           name: 'course-detail',
           component: () => import('@/pages/CourseDetailPage.vue'),
@@ -160,6 +180,16 @@ const router = createRouter({
           path: 'admin/academy/:id/edit',
           name: 'admin-course-edit',
           component: () => import('@/pages/admin/AdminCourseFormPage.vue'),
+        },
+        {
+          path: 'admin/education/patterns',
+          name: 'admin-learning-patterns',
+          component: () => import('@/pages/admin/LearningPatternsPage.vue'),
+        },
+        {
+          path: 'admin/education/patterns/:id',
+          name: 'admin-learning-pattern-detail',
+          component: () => import('@/pages/admin/LearningPatternDetailPage.vue'),
         },
         {
           path: 'admin/community-shield',

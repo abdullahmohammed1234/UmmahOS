@@ -420,6 +420,122 @@
       />
 
       <section
+        v-if="
+          pkg.incident.review_outcome === 'confirmed'
+          && (organization.canViewEducationPatterns || organization.canCreateEducationPatterns)
+        "
+        class="block education-block"
+        data-testid="community-education-section"
+      >
+        <h2>COMMUNITY EDUCATION</h2>
+        <p class="muted">
+          Capture a learning pattern from this confirmed review for Academy curriculum planning.
+        </p>
+
+        <p v-if="patternLoading" class="muted">Loading learning pattern…</p>
+        <p v-else-if="patternError" class="error">{{ patternError }}</p>
+
+        <template v-else-if="learningPattern">
+          <dl class="details" data-testid="existing-learning-pattern">
+            <div>
+              <dt>Status</dt>
+              <dd>{{ learningPattern.status }}</dd>
+            </div>
+            <div>
+              <dt>Objective</dt>
+              <dd>{{ learningPattern.learning_objective }}</dd>
+            </div>
+            <div>
+              <dt>Type</dt>
+              <dd>{{ patternTypeLabel(learningPattern.pattern_type) }}</dd>
+            </div>
+          </dl>
+          <div class="actions">
+            <RouterLink
+              :to="{ name: 'admin-learning-pattern-detail', params: { id: learningPattern.id } }"
+              data-testid="view-learning-pattern"
+            >
+              View learning pattern
+            </RouterLink>
+            <RouterLink
+              to="/admin/education/patterns"
+              data-testid="browse-learning-patterns"
+            >
+              Browse learning patterns
+            </RouterLink>
+          </div>
+        </template>
+
+        <form
+          v-else-if="organization.canCreateEducationPatterns"
+          class="stack"
+          data-testid="create-learning-pattern-form"
+          @submit.prevent="createLearningPattern"
+        >
+          <label class="field">
+            <span>Pattern type</span>
+            <select
+              v-model="patternForm.pattern_type"
+              name="pattern_type"
+              data-testid="pattern-type"
+              required
+            >
+              <option disabled value="">Select a type</option>
+              <option
+                v-for="option in LEARNING_PATTERN_TYPE_OPTIONS"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Title</span>
+            <input
+              v-model="patternForm.title"
+              name="title"
+              type="text"
+              data-testid="pattern-title"
+              required
+            />
+          </label>
+          <label class="field">
+            <span>Summary</span>
+            <textarea
+              v-model="patternForm.summary"
+              name="summary"
+              data-testid="pattern-summary"
+              required
+            />
+          </label>
+          <label class="field">
+            <span>Learning objective</span>
+            <textarea
+              v-model="patternForm.learning_objective"
+              name="learning_objective"
+              data-testid="pattern-learning-objective"
+              required
+            />
+          </label>
+          <label class="field">
+            <span>Domain</span>
+            <input
+              v-model="patternForm.domain"
+              name="domain"
+              type="text"
+              data-testid="pattern-domain"
+            />
+          </label>
+          <button class="button" type="submit" :disabled="patternBusy">
+            Create Learning Pattern
+          </button>
+        </form>
+
+        <p v-else class="muted">No learning pattern has been created for this report yet.</p>
+      </section>
+
+      <section
         v-if="organization.canExportIncidents"
         class="block export-block"
         data-testid="evidence-package-section"
@@ -568,6 +684,8 @@ import type {
   CommunityShieldSafetyClassification,
   IncidentEvidencePackage,
   IncidentReviewPackage,
+  LearningPattern,
+  LearningPatternType,
   ReviewAllowedAction,
 } from '@/types';
 import {
@@ -585,6 +703,7 @@ import {
   statusLabel,
   visibilityLabel,
 } from '@/utils/communityShield';
+import { LEARNING_PATTERN_TYPE_OPTIONS, patternTypeLabel } from '@/utils/education';
 import { formatDateTime } from '@/utils/date';
 
 const organization = useOrganizationStore();
@@ -596,6 +715,18 @@ const error = ref<string | null>(null);
 const actionError = ref<string | null>(null);
 const busy = ref(false);
 const activeDialog = ref<'confirm' | 'uncertain' | 'context' | 'escalate' | 'close' | null>(null);
+
+const learningPattern = ref<LearningPattern | null>(null);
+const patternLoading = ref(false);
+const patternBusy = ref(false);
+const patternError = ref<string | null>(null);
+const patternForm = ref({
+  pattern_type: '' as LearningPatternType | '',
+  title: '',
+  summary: '',
+  learning_objective: '',
+  domain: '',
+});
 
 const confirmForm = ref({
   classification: '' as CommunityShieldSafetyClassification | '',
@@ -650,11 +781,65 @@ async function loadPackage(): Promise<void> {
       organization.currentOrganization.id,
       String(route.params.id),
     );
+    await loadLearningPattern();
   } catch {
     error.value = 'Unable to load this review package.';
     pkg.value = null;
   } finally {
     isLoading.value = false;
+  }
+}
+
+async function loadLearningPattern(): Promise<void> {
+  learningPattern.value = null;
+  patternError.value = null;
+
+  if (
+    !organization.currentOrganization
+    || !(organization.canViewEducationPatterns || organization.canCreateEducationPatterns)
+    || pkg.value?.incident.review_outcome !== 'confirmed'
+  ) {
+    return;
+  }
+
+  patternLoading.value = true;
+
+  try {
+    learningPattern.value = await communityApi.reportLearningPattern(
+      organization.currentOrganization.id,
+      String(route.params.id),
+    );
+  } catch {
+    patternError.value = 'Unable to load the learning pattern for this report.';
+  } finally {
+    patternLoading.value = false;
+  }
+}
+
+async function createLearningPattern(): Promise<void> {
+  if (!organization.currentOrganization || !patternForm.value.pattern_type) {
+    return;
+  }
+
+  patternBusy.value = true;
+  patternError.value = null;
+
+  try {
+    learningPattern.value = await communityApi.createReportLearningPattern(
+      organization.currentOrganization.id,
+      String(route.params.id),
+      {
+        pattern_type: patternForm.value.pattern_type,
+        title: patternForm.value.title,
+        summary: patternForm.value.summary,
+        learning_objective: patternForm.value.learning_objective,
+        domain: patternForm.value.domain || null,
+      },
+    );
+  } catch {
+    patternError.value = 'Unable to create a learning pattern from this report.';
+  } finally {
+    patternBusy.value = false;
   }
 }
 
@@ -673,6 +858,7 @@ async function runAction(action: () => Promise<IncidentReviewPackage | unknown>)
       );
     }
     activeDialog.value = null;
+    await loadLearningPattern();
   } catch (err: unknown) {
     const message =
       (err as { response?: { data?: { message?: string }; status?: number } })?.response?.data
@@ -975,6 +1161,13 @@ watch(
   border-radius: 12px;
   border: 1px solid var(--line);
   border-top: 1px solid var(--line);
+}
+
+.education-block {
+  background: rgba(31, 107, 74, 0.04);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
 }
 
 .package-preview {

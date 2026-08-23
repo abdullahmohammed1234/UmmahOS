@@ -16,6 +16,17 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(FakeAnalysisProvider::class);
+        $this->app->singleton(\App\Services\Adapt\FakeAdaptClient::class);
+
+        $this->app->bind(\App\Contracts\Adapt\AdaptClient::class, function ($app) {
+            $configured = (string) config('adapt.client', 'http');
+
+            if ($configured === 'fake' || $app->environment('testing')) {
+                return $app->make(\App\Services\Adapt\FakeAdaptClient::class);
+            }
+
+            return $app->make(\App\Services\Adapt\HttpAdaptClient::class);
+        });
 
         $this->app->bind(AIAnalysisProvider::class, function ($app) {
             $configured = (string) config('ai.provider', 'gemini');

@@ -69,6 +69,36 @@ class Organization extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function academyLessons(): HasMany
+    {
+        return $this->hasMany(AcademyLesson::class);
+    }
+
+    public function academyScenarios(): HasMany
+    {
+        return $this->hasMany(AcademyScenario::class);
+    }
+
+    public function academyLessonProgress(): HasMany
+    {
+        return $this->hasMany(AcademyLessonProgress::class);
+    }
+
+    public function learningPatterns(): HasMany
+    {
+        return $this->hasMany(LearningPattern::class);
+    }
+
+    public function learningRecommendations(): HasMany
+    {
+        return $this->hasMany(LearningRecommendation::class);
+    }
+
+    public function adaptLearningSessions(): HasMany
+    {
+        return $this->hasMany(AdaptLearningSession::class);
+    }
+
     public function incidents(): HasMany
     {
         return $this->hasMany(Incident::class);

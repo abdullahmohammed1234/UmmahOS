@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AcademyEducationController;
 use App\Http\Controllers\Api\V1\AnnouncementController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CourseController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\Api\V1\IncidentController;
 use App\Http\Controllers\Api\V1\IncidentEvidencePackageController;
 use App\Http\Controllers\Api\V1\IncidentOutcomeController;
 use App\Http\Controllers\Api\V1\IncidentReviewController;
+use App\Http\Controllers\Api\V1\LearningPatternController;
+use App\Http\Controllers\Api\V1\LearningRecommendationController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\OrganizationContextController;
 use App\Http\Controllers\Api\V1\OrganizationController;
@@ -135,6 +138,60 @@ Route::prefix('v1')->group(function () {
                     ->middleware('organization.permission:courses.manage')
                     ->name('api.organizations.courses.destroy');
 
+                Route::get('/academy/community-safety', [AcademyEducationController::class, 'communitySafety'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.community-safety');
+                Route::get('/academy/progress', [AcademyEducationController::class, 'progress'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.progress');
+                Route::get('/academy/lessons/{lesson}', [AcademyEducationController::class, 'showLesson'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.lessons.show');
+                Route::post('/academy/lessons/{lesson}/complete', [AcademyEducationController::class, 'completeLesson'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.lessons.complete');
+                Route::post('/academy/lessons/{lesson}/adapt-sessions', [AcademyEducationController::class, 'startAdapt'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.lessons.adapt-sessions.store');
+                Route::get('/academy/scenarios/{scenario}', [AcademyEducationController::class, 'showScenario'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.scenarios.show');
+                Route::get('/academy/adapt-sessions/{session}', [AcademyEducationController::class, 'showAdaptSession'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.adapt-sessions.show');
+                Route::post('/academy/adapt-sessions/{session}/responses', [AcademyEducationController::class, 'submitAdapt'])
+                    ->middleware('organization.permission:courses.view')
+                    ->name('api.organizations.academy.adapt-sessions.responses');
+
+                Route::get('/learning-patterns', [LearningPatternController::class, 'index'])
+                    ->middleware('organization.permission:education.patterns.view|education.patterns.create|education.patterns.manage')
+                    ->name('api.organizations.learning-patterns.index');
+                Route::get('/learning-patterns/{pattern}', [LearningPatternController::class, 'show'])
+                    ->middleware('organization.permission:education.patterns.view|education.patterns.create|education.patterns.manage')
+                    ->name('api.organizations.learning-patterns.show');
+                Route::patch('/learning-patterns/{pattern}', [LearningPatternController::class, 'update'])
+                    ->middleware('organization.permission:education.patterns.create|education.patterns.manage')
+                    ->name('api.organizations.learning-patterns.update');
+                Route::post('/learning-patterns/{pattern}/approve', [LearningPatternController::class, 'approve'])
+                    ->middleware('organization.permission:education.patterns.manage')
+                    ->name('api.organizations.learning-patterns.approve');
+                Route::post('/learning-patterns/{pattern}/archive', [LearningPatternController::class, 'archive'])
+                    ->middleware('organization.permission:education.patterns.manage')
+                    ->name('api.organizations.learning-patterns.archive');
+
+                Route::get('/learning-recommendations', [LearningRecommendationController::class, 'index'])
+                    ->middleware('organization.permission:courses.view|education.recommendations.manage|education.patterns.manage')
+                    ->name('api.organizations.learning-recommendations.index');
+                Route::post('/learning-recommendations', [LearningRecommendationController::class, 'store'])
+                    ->middleware('organization.permission:education.recommendations.manage|education.patterns.manage')
+                    ->name('api.organizations.learning-recommendations.store');
+                Route::get('/learning-recommendations/{recommendation}', [LearningRecommendationController::class, 'show'])
+                    ->middleware('organization.permission:courses.view|education.recommendations.manage|education.patterns.manage')
+                    ->name('api.organizations.learning-recommendations.show');
+                Route::patch('/learning-recommendations/{recommendation}', [LearningRecommendationController::class, 'update'])
+                    ->middleware('organization.permission:education.recommendations.manage|education.patterns.manage')
+                    ->name('api.organizations.learning-recommendations.update');
+
                 Route::get('/community-shield', [IncidentController::class, 'overview'])
                     ->name('api.organizations.community-shield.overview');
                 Route::post('/incidents', [IncidentController::class, 'store'])
@@ -177,6 +234,12 @@ Route::prefix('v1')->group(function () {
                 Route::get('/community-shield/reports/{report}/review', [IncidentReviewController::class, 'show'])
                     ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.community-shield.reports.review');
+                Route::get('/community-shield/reports/{report}/learning-pattern', [LearningPatternController::class, 'forReport'])
+                    ->middleware('organization.permission:education.patterns.view|education.patterns.create|education.patterns.manage|incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.reports.learning-pattern.show');
+                Route::post('/community-shield/reports/{report}/learning-pattern', [LearningPatternController::class, 'storeForReport'])
+                    ->middleware('organization.permission:education.patterns.create|education.patterns.manage')
+                    ->name('api.organizations.community-shield.reports.learning-pattern.store');
                 Route::post('/community-shield/reports/{report}/review/start', [IncidentReviewController::class, 'start'])
                     ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.community-shield.reports.review.start');
