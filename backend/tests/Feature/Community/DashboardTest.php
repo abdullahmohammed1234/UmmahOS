@@ -113,7 +113,9 @@ class DashboardTest extends TestCase
             ->assertJsonPath('data.counts.upcoming_events', 1)
             ->assertJsonPath('data.counts.published_announcements', 1)
             ->assertJsonPath('data.counts.published_courses', 1)
-            ->assertJsonPath('data.counts.open_incidents', 1);
+            ->assertJsonPath('data.counts.open_incidents', 1)
+            ->assertJsonPath('data.counts.reviewing_incidents', 0)
+            ->assertJsonPath('data.counts.resolved_incidents', 0);
 
         $this->actingAsApi($alphaAdmin)
             ->getJson($this->orgUrl($beta, 'admin/dashboard'))

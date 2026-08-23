@@ -20,6 +20,13 @@ class UpdateIncidentRequest extends FormRequest
     {
         return [
             'status' => ['required', 'string', Rule::in(Incident::statuses())],
+            'organization_id' => ['prohibited'],
+            'reported_by' => ['prohibited'],
+            'platform' => ['prohibited'],
+            'content_type' => ['prohibited'],
+            'visibility' => ['prohibited'],
+            'source_url' => ['prohibited'],
+            'description' => ['prohibited'],
         ];
     }
 }

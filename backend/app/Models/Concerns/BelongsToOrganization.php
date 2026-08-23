@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Organization-scoped community records
- * (announcements, resources, events, courses, incidents).
+ * (announcements, resources, events, courses, Community Shield incidents).
  *
  * Queries must always be constrained through the current organization.
  * Do not rely on client-supplied IDs alone.

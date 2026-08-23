@@ -34,8 +34,12 @@
         <h2>{{ dashboard.counts.published_courses }}</h2>
       </RouterLink>
       <RouterLink class="panel content card-link" to="/admin/community-shield">
-        <p class="muted">Open Community Shield reports</p>
-        <h2>{{ dashboard.counts.open_incidents }}</h2>
+        <p class="muted">Community Shield</p>
+        <h2>{{ dashboard.counts.open_incidents }} open</h2>
+        <p class="muted">
+          {{ dashboard.counts.reviewing_incidents }} reviewing ·
+          {{ dashboard.counts.resolved_incidents }} resolved
+        </p>
       </RouterLink>
     </div>
   </section>

@@ -148,11 +148,44 @@ class DemoCommunitySeeder extends Seeder
             [
                 'organization_id' => $alpha->id,
                 'reported_by' => $member->id,
-                'category' => Incident::CATEGORY_COMMUNITY_CONCERN,
+                'platform' => Incident::PLATFORM_X,
+                'content_type' => Incident::CONTENT_TYPE_POST,
             ],
             [
-                'description' => 'Alpha member reported a hallway confrontation after jumuah. This report belongs only to Demo MSA Alpha.',
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'source_url' => 'https://x.com/example/status/alpha-demo-1',
+                'description' => 'Alpha member reported a concerning public post targeting students after jumuah. This report belongs only to Demo MSA Alpha.',
                 'status' => Incident::STATUS_OPEN,
+            ]
+        );
+
+        Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $member->id,
+                'platform' => Incident::PLATFORM_DISCORD,
+                'content_type' => Incident::CONTENT_TYPE_MESSAGE,
+            ],
+            [
+                'visibility' => Incident::VISIBILITY_GROUP,
+                'source_url' => null,
+                'description' => 'Concerning messages appeared in an Alpha Discord community channel. No public URL is available.',
+                'status' => Incident::STATUS_REVIEWING,
+            ]
+        );
+
+        Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $admin->id,
+                'platform' => Incident::PLATFORM_REDDIT,
+                'content_type' => Incident::CONTENT_TYPE_THREAD,
+            ],
+            [
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'source_url' => 'https://reddit.com/r/example/comments/alpha-demo',
+                'description' => 'Resolved Alpha demo thread that was reviewed by organization admins.',
+                'status' => Incident::STATUS_RESOLVED,
             ]
         );
     }
@@ -251,11 +284,44 @@ class DemoCommunitySeeder extends Seeder
             [
                 'organization_id' => $beta->id,
                 'reported_by' => $multiUser->id,
-                'category' => Incident::CATEGORY_HARASSMENT,
+                'platform' => Incident::PLATFORM_TIKTOK,
+                'content_type' => Incident::CONTENT_TYPE_VIDEO,
             ],
             [
-                'description' => 'Beta-only Community Shield report submitted by the multi-organization user while operating inside Beta.',
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'source_url' => 'https://tiktok.com/@example/video/beta-demo-1',
+                'description' => 'Beta-only Community Shield report about a public TikTok video, submitted by the multi-organization user while operating inside Beta.',
                 'status' => Incident::STATUS_REVIEWING,
+            ]
+        );
+
+        Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $beta->id,
+                'reported_by' => $admin->id,
+                'platform' => Incident::PLATFORM_WHATSAPP,
+                'content_type' => Incident::CONTENT_TYPE_MESSAGE,
+            ],
+            [
+                'visibility' => Incident::VISIBILITY_PRIVATE,
+                'source_url' => null,
+                'description' => 'Private WhatsApp message reported to Demo MSA Beta. Only necessary context was included.',
+                'status' => Incident::STATUS_OPEN,
+            ]
+        );
+
+        Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $beta->id,
+                'reported_by' => $multiUser->id,
+                'platform' => Incident::PLATFORM_YOUTUBE,
+                'content_type' => Incident::CONTENT_TYPE_COMMENT,
+            ],
+            [
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'source_url' => 'https://youtube.com/watch?v=beta-demo-comment',
+                'description' => 'Resolved Beta demo YouTube comment that was reviewed by organization admins.',
+                'status' => Incident::STATUS_RESOLVED,
             ]
         );
     }
