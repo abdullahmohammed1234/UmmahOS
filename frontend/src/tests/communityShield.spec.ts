@@ -7,7 +7,14 @@ import AdminIncidentsPage from '@/pages/admin/AdminIncidentsPage.vue';
 import AdminIncidentDetailPage from '@/pages/admin/AdminIncidentDetailPage.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useOrganizationStore } from '@/stores/organization';
-import type { Incident, Membership, Organization, OrganizationContext, User } from '@/types';
+import type {
+  Incident,
+  IncidentAiAnalysis,
+  Membership,
+  Organization,
+  OrganizationContext,
+  User,
+} from '@/types';
 
 const reportIncidentMock = vi.fn();
 const incidentsMock = vi.fn();
@@ -16,6 +23,8 @@ const updateIncidentMock = vi.fn();
 const overviewMock = vi.fn();
 const contextMock = vi.fn();
 const membersMock = vi.fn();
+const aiAnalysesMock = vi.fn();
+const requestAiAnalysisMock = vi.fn();
 
 vi.mock('@/services/community', () => ({
   communityApi: {
@@ -24,6 +33,8 @@ vi.mock('@/services/community', () => ({
     incident: (...args: unknown[]) => incidentMock(...args),
     updateIncident: (...args: unknown[]) => updateIncidentMock(...args),
     communityShieldOverview: (...args: unknown[]) => overviewMock(...args),
+    aiAnalyses: (...args: unknown[]) => aiAnalysesMock(...args),
+    requestAiAnalysis: (...args: unknown[]) => requestAiAnalysisMock(...args),
   },
 }));
 
@@ -94,6 +105,47 @@ function sampleIncident(overrides: Partial<Incident> = {}): Incident {
   };
 }
 
+function sampleAiAnalysis(overrides: Partial<IncidentAiAnalysis> = {}): IncidentAiAnalysis {
+  return {
+    id: 901,
+    incident_id: 55,
+    provider: 'fake',
+    model: 'fake-model',
+    prompt_version: 'community_shield_context_v1',
+    status: 'completed',
+    analysis: {
+      signals: [
+        {
+          name: 'religious_identity_targeting',
+          description: 'The language may reference a religious identity in a derogatory context.',
+          evidence: ['Demo evidence phrase'],
+          confidence: 'moderate',
+        },
+      ],
+      classification: {
+        label: 'potential_coded_visual_hate',
+        confidence: 'moderate',
+      },
+      uncertainty: {
+        level: 'moderate',
+        explanation:
+          'The surrounding conversation is incomplete and may change the interpretation.',
+      },
+      alternative_interpretation:
+        "The phrase may be quoting another participant rather than expressing the author's own position.",
+      recommended_action: {
+        type: 'human_review',
+        reason: 'Human review recommended.',
+      },
+    },
+    requested_by: { id: 1, name: 'Multi Org User', email: 'multi.user@example.com' },
+    created_at: '2026-08-22T19:00:00+00:00',
+    advisory_disclaimer:
+      'AI-generated analysis is advisory and may be incorrect. Human review is required for decisions.',
+    ...overrides,
+  };
+}
+
 describe('Community Shield UI', () => {
   const alpha = organization(1, 'Demo MSA Alpha');
   const beta = organization(2, 'Demo MSA Beta');
@@ -110,6 +162,9 @@ describe('Community Shield UI', () => {
     overviewMock.mockReset();
     contextMock.mockReset();
     membersMock.mockReset();
+    aiAnalysesMock.mockReset();
+    requestAiAnalysisMock.mockReset();
+    aiAnalysesMock.mockResolvedValue([]);
 
     const auth = useAuthStore();
     const user: User = {
@@ -463,6 +518,193 @@ describe('Community Shield UI', () => {
     expect(wrapper.find('[data-testid="classification-block"]').exists()).toBe(false);
     expect(wrapper.find('[data-testid="save-classification"]').exists()).toBe(false);
     expect(wrapper.find('[data-testid="admin-review-link"]').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="analyze-with-ai"]').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="ai-analysis-block"]').exists()).toBe(false);
+  });
+
+  it('admin can request AI analysis and render structured advisory results', async () => {
+    const store = useOrganizationStore();
+    store.persistCurrentOrganization(beta.id);
+    contextMock.mockResolvedValue(
+      contextFor(beta, 'admin', [
+        'organization.view',
+        'organization.manage',
+        'incidents.manage',
+      ]),
+    );
+    membersMock.mockResolvedValue([]);
+    incidentMock.mockResolvedValue(
+      sampleIncident({
+        id: 55,
+        organization_id: 2,
+        status: 'open',
+        original_item_content: 'Arabic demo content',
+      }),
+    );
+    aiAnalysesMock.mockResolvedValue([]);
+
+    let resolveAnalysis!: (value: IncidentAiAnalysis) => void;
+    requestAiAnalysisMock.mockReturnValue(
+      new Promise<IncidentAiAnalysis>((resolve) => {
+        resolveAnalysis = resolve;
+      }),
+    );
+    await store.loadContext();
+
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/', component: { template: '<div />' } },
+        { path: '/admin/community-shield', component: { template: '<div />' } },
+        {
+          path: '/admin/community-shield/:id',
+          name: 'admin-incident-detail',
+          component: AdminIncidentDetailPage,
+        },
+      ],
+    });
+    await router.push('/admin/community-shield/55');
+    await router.isReady();
+
+    const wrapper = mount(AdminIncidentDetailPage, {
+      global: {
+        plugins: [pinia, router],
+      },
+    });
+    await flushPromises();
+
+    expect(wrapper.find('[data-testid="analyze-with-ai"]').exists()).toBe(true);
+    expect(wrapper.get('[data-testid="analyze-with-ai"]').text()).toContain('Analyze with AI');
+    expect(wrapper.get('[data-testid="ai-disclaimer"]').text()).toContain('advisory');
+    expect(wrapper.get('[data-testid="ai-privacy-note"]').text()).toContain('configured AI provider');
+
+    await wrapper.get('[data-testid="analyze-with-ai"]').trigger('click');
+    await flushPromises();
+    expect(wrapper.find('[data-testid="ai-loading"]').exists()).toBe(true);
+
+    resolveAnalysis(sampleAiAnalysis());
+    await flushPromises();
+
+    expect(requestAiAnalysisMock).toHaveBeenCalledWith(2, 55);
+    expect(wrapper.get('[data-testid="ai-signals"]').text()).toContain('Religious Identity Targeting');
+    expect(wrapper.get('[data-testid="ai-classification"]').text()).toContain(
+      'Potential coded/visual hate',
+    );
+    expect(wrapper.get('[data-testid="ai-confidence"]').text()).toContain('Moderate');
+    expect(wrapper.get('[data-testid="ai-uncertainty"]').text()).toContain('incomplete');
+    expect(wrapper.get('[data-testid="ai-alternative"]').text()).toContain('quoting');
+    expect(wrapper.get('[data-testid="ai-recommended-action"]').text()).toContain(
+      'Human review recommended',
+    );
+    expect(wrapper.get('[data-testid="analyze-with-ai"]').text()).toContain('Run New Analysis');
+  });
+
+  it('failed AI analysis renders a safe error state and rerun keeps prior analyses', async () => {
+    const store = useOrganizationStore();
+    store.persistCurrentOrganization(beta.id);
+    contextMock.mockResolvedValue(
+      contextFor(beta, 'admin', [
+        'organization.view',
+        'organization.manage',
+        'incidents.manage',
+      ]),
+    );
+    membersMock.mockResolvedValue([]);
+    incidentMock.mockResolvedValue(sampleIncident({ id: 55, organization_id: 2 }));
+    const first = sampleAiAnalysis({ id: 901 });
+    aiAnalysesMock.mockResolvedValue([first]);
+    requestAiAnalysisMock.mockResolvedValue(
+      sampleAiAnalysis({
+        id: 902,
+        status: 'failed',
+        analysis: null,
+        error_message: 'AI analysis unavailable.',
+      }),
+    );
+    await store.loadContext();
+
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/', component: { template: '<div />' } },
+        { path: '/admin/community-shield', component: { template: '<div />' } },
+        {
+          path: '/admin/community-shield/:id',
+          name: 'admin-incident-detail',
+          component: AdminIncidentDetailPage,
+        },
+      ],
+    });
+    await router.push('/admin/community-shield/55');
+    await router.isReady();
+
+    const wrapper = mount(AdminIncidentDetailPage, {
+      global: {
+        plugins: [pinia, router],
+      },
+    });
+    await flushPromises();
+
+    expect(wrapper.find('[data-testid="ai-analysis-901"]').exists()).toBe(true);
+
+    await wrapper.get('[data-testid="analyze-with-ai"]').trigger('click');
+    await flushPromises();
+
+    expect(wrapper.find('[data-testid="ai-analysis-902"]').exists()).toBe(true);
+    expect(wrapper.get('[data-testid="ai-failed-state"]').text()).toContain(
+      'AI analysis unavailable',
+    );
+    expect(wrapper.text()).not.toContain('No harmful content detected');
+    expect(wrapper.find('[data-testid="ai-analysis-901"]').exists()).toBe(true);
+  });
+
+  it('organization switching isolates AI analyses on admin detail', async () => {
+    const store = useOrganizationStore();
+    store.persistCurrentOrganization(beta.id);
+    contextMock.mockResolvedValue(
+      contextFor(beta, 'admin', [
+        'organization.view',
+        'organization.manage',
+        'incidents.manage',
+      ]),
+    );
+    membersMock.mockResolvedValue([]);
+    incidentMock.mockResolvedValue(sampleIncident({ id: 55, organization_id: 2 }));
+    aiAnalysesMock.mockResolvedValue([sampleAiAnalysis({ id: 901, incident_id: 55 })]);
+    await store.loadContext();
+
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/', component: { template: '<div />' } },
+        { path: '/admin/community-shield', component: { template: '<div />' } },
+        {
+          path: '/admin/community-shield/:id',
+          name: 'admin-incident-detail',
+          component: AdminIncidentDetailPage,
+        },
+      ],
+    });
+    await router.push('/admin/community-shield/55');
+    await router.isReady();
+
+    const wrapper = mount(AdminIncidentDetailPage, {
+      global: {
+        plugins: [pinia, router],
+      },
+    });
+    await flushPromises();
+    expect(wrapper.find('[data-testid="ai-analysis-901"]').exists()).toBe(true);
+
+    contextMock.mockResolvedValue(
+      contextFor(alpha, 'member', ['organization.view', 'incidents.view']),
+    );
+    await store.switchOrganization(alpha.id);
+    await flushPromises();
+
+    expect(wrapper.find('[data-testid="admin-denied"]').exists()).toBe(true);
+    expect(wrapper.find('[data-testid="analyze-with-ai"]').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="ai-analysis-901"]').exists()).toBe(false);
   });
 });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\CourseController;
 use App\Http\Controllers\Api\V1\DashboardController;
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\FutureModuleIsolationController;
+use App\Http\Controllers\Api\V1\IncidentAiAnalysisController;
 use App\Http\Controllers\Api\V1\IncidentController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\OrganizationContextController;
@@ -156,6 +157,16 @@ Route::prefix('v1')->group(function () {
                 Route::delete('/incidents/{incident}/related-items/{relatedItem}', [IncidentController::class, 'destroyRelatedItem'])
                     ->middleware('organization.permission:incidents.manage')
                     ->name('api.organizations.incidents.related-items.destroy');
+
+                Route::post('/incidents/{incident}/ai-analysis', [IncidentAiAnalysisController::class, 'store'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.ai-analysis.store');
+                Route::get('/incidents/{incident}/ai-analyses', [IncidentAiAnalysisController::class, 'index'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.ai-analyses.index');
+                Route::get('/incidents/{incident}/ai-analyses/{analysis}', [IncidentAiAnalysisController::class, 'show'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.ai-analyses.show');
 
                 Route::prefix('{module}')
                     ->whereIn('module', ['content', 'reports'])

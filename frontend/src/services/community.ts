@@ -10,6 +10,7 @@ import type {
   CommunityShieldStatus,
   Course,
   Incident,
+  IncidentAiAnalysis,
   IncidentRelatedItem,
   IncidentReply,
   MemberDashboard,
@@ -276,5 +277,30 @@ export const communityApi = {
     await api.delete(
       organizationPath(organizationId, `/incidents/${incidentId}/related-items/${itemId}`),
     );
+  },
+
+  aiAnalyses(
+    organizationId: number | string,
+    incidentId: number | string,
+  ): Promise<IncidentAiAnalysis[]> {
+    return scoped(organizationId, `/incidents/${incidentId}/ai-analyses`);
+  },
+
+  aiAnalysis(
+    organizationId: number | string,
+    incidentId: number | string,
+    analysisId: number | string,
+  ): Promise<IncidentAiAnalysis> {
+    return scoped(organizationId, `/incidents/${incidentId}/ai-analyses/${analysisId}`);
+  },
+
+  async requestAiAnalysis(
+    organizationId: number | string,
+    incidentId: number | string,
+  ): Promise<IncidentAiAnalysis> {
+    const { data } = await api.post<IncidentAiAnalysis | { data: IncidentAiAnalysis }>(
+      organizationPath(organizationId, `/incidents/${incidentId}/ai-analysis`),
+    );
+    return unwrapData(data);
   },
 };

@@ -250,4 +250,9 @@ class Incident extends Model
     {
         return $this->hasMany(IncidentRelatedItem::class)->orderBy('id');
     }
+
+    public function aiAnalyses(): HasMany
+    {
+        return $this->hasMany(IncidentAiAnalysis::class)->orderByDesc('id');
+    }
 }
