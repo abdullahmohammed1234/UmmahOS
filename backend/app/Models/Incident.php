@@ -317,4 +317,9 @@ class Incident extends Model
     {
         return $this->hasMany(IncidentContextRequest::class)->orderByDesc('id');
     }
+
+    public function evidenceExports(): HasMany
+    {
+        return $this->hasMany(IncidentEvidenceExport::class)->orderByDesc('id');
+    }
 }

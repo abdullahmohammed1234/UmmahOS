@@ -319,6 +319,115 @@ export interface IncidentReviewPackage {
   };
 }
 
+export interface IncidentEvidencePackage {
+  package: {
+    schema_version: number;
+    package_version: number;
+    generated_at: string;
+    generated_by: { name: string; role_label?: string };
+    organization: { name: string | null; slug: string | null };
+    source_incident_updated_at: string | null;
+    hierarchy: Record<string, string>;
+  };
+  incident: {
+    reference: string;
+    submitted_at: string | null;
+    observed_at: string | null;
+    original_item_posted_at: string | null;
+    status: string | null;
+    review_outcome: CommunityShieldReviewOutcome | null;
+    content_type: string | null;
+    visibility: string | null;
+    platform: string | null;
+    language: string | null;
+    source_url: string | null;
+    description: string | null;
+  };
+  evidence: {
+    label: string;
+    original_item: Record<string, unknown>;
+    surrounding_context: string | null;
+    replies: Array<Record<string, unknown>>;
+    related_items: Array<Record<string, unknown>>;
+    language: string | null;
+    reporter_notes: { label: string; notes: string | null };
+    reported_safety_classification: {
+      label: string;
+      value: string;
+      note: string;
+    };
+  };
+  ai_analysis: {
+    label: string;
+    advisory: boolean;
+    disclaimer: string;
+    current: Record<string, unknown>;
+    previous: Array<Record<string, unknown>>;
+    uncertainty: {
+      confidence: string;
+      uncertainty: string;
+      interpretation_note: string;
+    };
+  };
+  human_review: {
+    label: string;
+    authoritative: boolean;
+    disclaimer: string;
+    status: 'reviewed' | 'not_yet_reviewed' | string;
+    reviewer: string | null;
+    review_started_at: string | null;
+    review_completed_at: string | null;
+    outcome: CommunityShieldReviewOutcome | null;
+    human_classification: string | null;
+    notes: string | null;
+    escalation: {
+      escalated: boolean;
+      escalated_by: string | null;
+      escalated_at: string | null;
+      reason: string | null;
+      note: string;
+    };
+    context_requests: Array<Record<string, unknown>>;
+    history: Array<Record<string, unknown>>;
+    decision: {
+      outcome: CommunityShieldReviewOutcome | null;
+      classification: string | null;
+      reviewer: string | null;
+      reviewed_at: string | null;
+      rationale: string | null;
+      uncertain_prominence: string | null;
+    };
+  };
+  references: Array<{
+    type: string;
+    label: string;
+    url: string | null;
+    note: string | null;
+  }>;
+  reporting_route: {
+    label?: string;
+    platform: string;
+    platform_label: string;
+    recommended_route: string;
+    general_instructions: string;
+    safety_notes: string;
+    privacy_notes: string;
+    last_reviewed: string | null;
+    disclaimer: string;
+    automatic_submission: boolean;
+  };
+  safety_privacy_notes: {
+    label: string;
+    notes: string[];
+    reporting_disclaimer: string;
+  };
+  disclaimers: {
+    ai: string;
+    human_review: string;
+    reporting: string;
+  };
+}
+
 export type IncidentAiAnalysisStatus = 'queued' | 'running' | 'completed' | 'failed';
 
 export type AiConfidenceLevel = 'low' | 'moderate' | 'high';

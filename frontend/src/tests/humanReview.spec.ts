@@ -40,6 +40,9 @@ vi.mock('@/services/community', () => ({
     escalateReview: (...args: unknown[]) => escalateReviewMock(...args),
     requestContext: (...args: unknown[]) => requestContextMock(...args),
     communityShieldOverview: (...args: unknown[]) => overviewMock(...args),
+    evidencePackage: vi.fn(),
+    exportEvidenceJson: vi.fn(),
+    exportEvidencePdf: vi.fn(),
   },
 }));
 
@@ -96,6 +99,7 @@ const reviewerPermissions = [
   'incidents.request_context',
   'incidents.escalate',
   'incidents.classify',
+  'incidents.export',
 ];
 
 const memberPermissions = [
@@ -115,6 +119,7 @@ const adminPermissions = [
   'incidents.classify',
   'incidents.escalate',
   'incidents.request_context',
+  'incidents.export',
   'members.manage',
   'members.view',
 ];

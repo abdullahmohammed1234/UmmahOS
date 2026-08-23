@@ -12,6 +12,7 @@ import type {
   Incident,
   IncidentAiAnalysis,
   IncidentContextRequest,
+  IncidentEvidencePackage,
   IncidentRelatedItem,
   IncidentReply,
   IncidentReviewPackage,
@@ -425,5 +426,34 @@ export const communityApi = {
       payload,
     );
     return unwrapData(data);
+  },
+
+  evidencePackage(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<IncidentEvidencePackage> {
+    return scoped(organizationId, `/community-shield/reports/${reportId}/evidence-package`);
+  },
+
+  async exportEvidenceJson(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<Blob> {
+    const { data } = await api.get(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/evidence-package.json`),
+      { responseType: 'blob' },
+    );
+    return data as Blob;
+  },
+
+  async exportEvidencePdf(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<Blob> {
+    const { data } = await api.get(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/evidence-package.pdf`),
+      { responseType: 'blob', timeout: 60000 },
+    );
+    return data as Blob;
   },
 };

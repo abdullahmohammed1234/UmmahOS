@@ -411,6 +411,142 @@
         </ul>
         <p v-else class="muted">No review actions yet.</p>
       </section>
+
+      <section
+        v-if="organization.canExportIncidents"
+        class="block export-block"
+        data-testid="evidence-package-section"
+      >
+        <h2>Evidence Package</h2>
+        <p class="muted">
+          The complete evidence package combines the incident, context, AI analysis, human review,
+          references, and reporting guidance. UmmahOS does not submit reports to external platforms.
+        </p>
+
+        <div v-if="evidencePackage" class="package-preview" data-testid="evidence-package-preview">
+          <p class="eyebrow">INCIDENT EVIDENCE PACKAGE</p>
+          <dl class="details">
+            <div>
+              <dt>Incident</dt>
+              <dd>
+                {{ platformLabel(evidencePackage.incident.platform || '') }} ·
+                {{ contentTypeLabel(evidencePackage.incident.content_type || '') }} ·
+                {{ visibilityLabel(evidencePackage.incident.visibility || '') }}
+              </dd>
+            </div>
+            <div>
+              <dt>Review</dt>
+              <dd data-testid="package-review-status">
+                <template v-if="evidencePackage.human_review.status === 'not_yet_reviewed'">
+                  Not yet reviewed
+                </template>
+                <template v-else-if="evidencePackage.human_review.decision.uncertain_prominence === 'UNCERTAIN'">
+                  UNCERTAIN
+                </template>
+                <template v-else>
+                  {{ reviewOutcomeLabel(evidencePackage.human_review.outcome) }}
+                </template>
+              </dd>
+            </div>
+            <div>
+              <dt>AI</dt>
+              <dd data-testid="package-ai-summary">
+                {{ evidencePackage.ai_analysis.uncertainty.confidence }} confidence ·
+                {{ evidencePackage.ai_analysis.uncertainty.uncertainty }} uncertainty
+              </dd>
+            </div>
+            <div>
+              <dt>Evidence</dt>
+              <dd>
+                1 original item ·
+                {{ evidencePackage.evidence.replies.length }} replies ·
+                {{ evidencePackage.evidence.related_items.length }} related items
+              </dd>
+            </div>
+            <div>
+              <dt>Reporting route</dt>
+              <dd data-testid="package-reporting-route">
+                {{ evidencePackage.reporting_route.platform_label }} —
+                {{ evidencePackage.reporting_route.recommended_route }}
+              </dd>
+            </div>
+            <div>
+              <dt>Privacy</dt>
+              <dd data-testid="package-privacy-notes">
+                Review sensitive information before sharing
+              </dd>
+            </div>
+          </dl>
+
+          <button
+            class="button secondary"
+            type="button"
+            data-testid="toggle-package-details"
+            @click="showPackageDetails = !showPackageDetails"
+          >
+            {{ showPackageDetails ? 'Hide package details' : 'Expand package sections' }}
+          </button>
+
+          <div v-if="showPackageDetails" class="package-details" data-testid="package-details">
+            <h3>AI uncertainty</h3>
+            <p data-testid="package-ai-uncertainty">
+              {{ evidencePackage.ai_analysis.uncertainty.interpretation_note }}
+            </p>
+            <h3>Human decision</h3>
+            <p data-testid="package-human-decision">
+              <template v-if="evidencePackage.human_review.status === 'not_yet_reviewed'">
+                Not yet reviewed
+              </template>
+              <template v-else>
+                {{ reviewOutcomeLabel(evidencePackage.human_review.outcome) }}
+                · {{ safetyClassificationLabel(evidencePackage.human_review.human_classification || 'unclassified') }}
+              </template>
+            </p>
+            <h3>Safety &amp; privacy notes</h3>
+            <ul>
+              <li
+                v-for="note in evidencePackage.safety_privacy_notes.notes"
+                :key="note"
+              >
+                {{ note }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <p v-if="exportError" class="error" data-testid="export-error">{{ exportError }}</p>
+        <p v-if="exportStatus" class="muted" data-testid="export-status">{{ exportStatus }}</p>
+
+        <div class="actions-panel">
+          <button
+            class="button secondary"
+            type="button"
+            data-testid="view-evidence-package"
+            :disabled="exportBusy"
+            @click="loadEvidencePackage"
+          >
+            View Evidence Package
+          </button>
+          <button
+            class="button"
+            type="button"
+            data-testid="export-json"
+            :disabled="exportBusy"
+            @click="exportJson"
+          >
+            Export JSON
+          </button>
+          <button
+            class="button"
+            type="button"
+            data-testid="export-pdf"
+            :disabled="exportBusy"
+            @click="exportPdf"
+          >
+            Export PDF
+          </button>
+        </div>
+      </section>
     </template>
   </section>
 </template>
@@ -422,6 +558,7 @@ import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type {
   CommunityShieldSafetyClassification,
+  IncidentEvidencePackage,
   IncidentReviewPackage,
   ReviewAllowedAction,
 } from '@/types';
@@ -460,6 +597,12 @@ const uncertainNotes = ref('');
 const contextReason = ref('');
 const escalateReason = ref('');
 const closeNotes = ref('');
+
+const evidencePackage = ref<IncidentEvidencePackage | null>(null);
+const showPackageDetails = ref(false);
+const exportBusy = ref(false);
+const exportError = ref<string | null>(null);
+const exportStatus = ref<string | null>(null);
 
 const latestAnalysis = computed(() => pkg.value?.ai_assisted_triage.latest ?? null);
 const hasOriginalItem = computed(() => {
@@ -599,9 +742,101 @@ async function onClose(): Promise<void> {
   );
 }
 
+function downloadBlob(blob: Blob, filename: string): void {
+  const url = window.URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  window.URL.revokeObjectURL(url);
+}
+
+async function loadEvidencePackage(): Promise<void> {
+  if (!organization.currentOrganization) return;
+
+  exportBusy.value = true;
+  exportError.value = null;
+  exportStatus.value = 'Loading evidence package…';
+
+  try {
+    evidencePackage.value = await communityApi.evidencePackage(
+      organization.currentOrganization.id,
+      String(route.params.id),
+    );
+    exportStatus.value = 'Evidence package ready.';
+  } catch {
+    exportError.value = 'Unable to load the evidence package.';
+    exportStatus.value = null;
+  } finally {
+    exportBusy.value = false;
+  }
+}
+
+async function exportJson(): Promise<void> {
+  if (!organization.currentOrganization) return;
+
+  exportBusy.value = true;
+  exportError.value = null;
+  exportStatus.value = 'Generating report…';
+
+  try {
+    if (!evidencePackage.value) {
+      evidencePackage.value = await communityApi.evidencePackage(
+        organization.currentOrganization.id,
+        String(route.params.id),
+      );
+    }
+    const blob = await communityApi.exportEvidenceJson(
+      organization.currentOrganization.id,
+      String(route.params.id),
+    );
+    const reference = evidencePackage.value.incident.reference || String(route.params.id);
+    downloadBlob(blob, `community-shield-incident-${reference}.json`);
+    exportStatus.value = 'Report ready.';
+  } catch {
+    exportError.value = 'Unable to export JSON.';
+    exportStatus.value = null;
+  } finally {
+    exportBusy.value = false;
+  }
+}
+
+async function exportPdf(): Promise<void> {
+  if (!organization.currentOrganization) return;
+
+  exportBusy.value = true;
+  exportError.value = null;
+  exportStatus.value = 'Generating report…';
+
+  try {
+    if (!evidencePackage.value) {
+      evidencePackage.value = await communityApi.evidencePackage(
+        organization.currentOrganization.id,
+        String(route.params.id),
+      );
+    }
+    const blob = await communityApi.exportEvidencePdf(
+      organization.currentOrganization.id,
+      String(route.params.id),
+    );
+    const reference = evidencePackage.value.incident.reference || String(route.params.id);
+    downloadBlob(blob, `community-shield-incident-${reference}.pdf`);
+    exportStatus.value = 'Report ready.';
+  } catch {
+    exportError.value = 'Unable to export PDF.';
+    exportStatus.value = null;
+  } finally {
+    exportBusy.value = false;
+  }
+}
+
 watch(
   () => [organization.currentOrganization?.id, organization.canReviewIncidents, route.params.id],
   () => {
+    evidencePackage.value = null;
+    showPackageDetails.value = false;
+    exportError.value = null;
+    exportStatus.value = null;
     void loadPackage();
   },
   { immediate: true },
@@ -724,5 +959,23 @@ watch(
 
 .title-line {
   font-weight: 600;
+}
+
+.export-block {
+  background: rgba(31, 61, 107, 0.04);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+
+.package-preview {
+  margin: 0.85rem 0;
+}
+
+.package-details {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.5rem;
 }
 </style>

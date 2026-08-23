@@ -25,6 +25,7 @@ final class Permissions
     public const INCIDENTS_REQUEST_CONTEXT = 'incidents.request_context';
     public const INCIDENTS_ESCALATE = 'incidents.escalate';
     public const INCIDENTS_CLASSIFY = 'incidents.classify';
+    public const INCIDENTS_EXPORT = 'incidents.export';
 
     public const REPORTS_VIEW = 'reports.view';
     public const REPORTS_MANAGE = 'reports.manage';
@@ -51,6 +52,7 @@ final class Permissions
             ['name' => 'Request incident context', 'slug' => self::INCIDENTS_REQUEST_CONTEXT],
             ['name' => 'Escalate incidents', 'slug' => self::INCIDENTS_ESCALATE],
             ['name' => 'Classify incidents', 'slug' => self::INCIDENTS_CLASSIFY],
+            ['name' => 'Export incident evidence packages', 'slug' => self::INCIDENTS_EXPORT],
             ['name' => 'View reports', 'slug' => self::REPORTS_VIEW],
             ['name' => 'Manage reports', 'slug' => self::REPORTS_MANAGE],
         ];
@@ -70,6 +72,7 @@ final class Permissions
             self::INCIDENTS_REQUEST_CONTEXT,
             self::INCIDENTS_ESCALATE,
             self::INCIDENTS_CLASSIFY,
+            self::INCIDENTS_EXPORT,
         ];
     }
 
