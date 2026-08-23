@@ -201,6 +201,51 @@ export interface Incident {
   updated_at?: string;
 }
 
+export type IncidentAiAnalysisStatus = 'queued' | 'running' | 'completed' | 'failed';
+
+export type AiConfidenceLevel = 'low' | 'moderate' | 'high';
+
+export type AiRecommendedActionType = 'human_review' | 'request_more_context' | 'no_immediate_action';
+
+export interface IncidentAiSignal {
+  name: string;
+  description: string;
+  evidence: string[];
+  confidence: AiConfidenceLevel;
+}
+
+export interface IncidentAiAnalysisPackage {
+  signals: IncidentAiSignal[];
+  classification: {
+    label: string;
+    confidence: AiConfidenceLevel;
+  };
+  uncertainty: {
+    level: AiConfidenceLevel;
+    explanation: string;
+  };
+  alternative_interpretation: string | null;
+  recommended_action: {
+    type: AiRecommendedActionType;
+    reason: string;
+  };
+}
+
+export interface IncidentAiAnalysis {
+  id: number;
+  incident_id: number;
+  provider: string;
+  model: string | null;
+  prompt_version: string;
+  status: IncidentAiAnalysisStatus;
+  analysis: IncidentAiAnalysisPackage | null;
+  error_message?: string | null;
+  requested_by?: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+  advisory_disclaimer?: string;
+}
+
 export interface CommunityShieldOverview {
   can_report: boolean;
   can_review: boolean;

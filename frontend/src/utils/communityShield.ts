@@ -149,6 +149,50 @@ export function safetyClassificationLabel(value: string | null | undefined): str
   return SAFETY_CLASSIFICATION_OPTIONS.find((option) => option.value === value)?.label ?? value;
 }
 
+export function aiSignalLabel(value: string): string {
+  return value
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+export function aiClassificationLabel(value: string): string {
+  const known: Record<string, string> = {
+    potential_harassment: 'Potential harassment',
+    potential_hate: 'Potential hate',
+    potential_coded_visual_hate: 'Potential coded/visual hate',
+    potential_targeted_abuse: 'Potential targeted abuse',
+    potential_threat: 'Potential threat',
+    potential_discrimination: 'Potential discrimination',
+    potential_incitement: 'Potential incitement',
+    unclear: 'Unclear',
+    no_clear_harm_signal: 'No clear harm signal',
+  };
+
+  return known[value] ?? aiSignalLabel(value);
+}
+
+export function aiConfidenceLabel(value: string): string {
+  const known: Record<string, string> = {
+    low: 'Low',
+    moderate: 'Moderate',
+    high: 'High',
+  };
+
+  return known[value] ?? value;
+}
+
+export function aiRecommendedActionLabel(value: string): string {
+  const known: Record<string, string> = {
+    human_review: 'Human review recommended',
+    request_more_context: 'Additional context recommended before classification',
+    no_immediate_action: 'No immediate action suggested',
+  };
+
+  return known[value] ?? aiSignalLabel(value);
+}
+
 export function platformContentHint(platform: CommunityShieldPlatform | ''): string {
   if (!platform) {
     return 'Select a platform to see common content examples.';

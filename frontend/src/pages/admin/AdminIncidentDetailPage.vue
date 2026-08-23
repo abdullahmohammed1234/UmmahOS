@@ -156,10 +156,129 @@
         <p v-else class="muted">No reporter notes provided.</p>
       </section>
 
+      <section class="block" data-testid="ai-analysis-block">
+        <h2>AI Context Analysis</h2>
+        <p class="disclaimer" data-testid="ai-disclaimer">
+          AI-generated analysis is advisory and may be incorrect. Human review is required for
+          decisions.
+        </p>
+        <p class="privacy-note" data-testid="ai-privacy-note">
+          This sends the report's captured context to the configured AI provider for analysis. The
+          result is advisory and requires human review.
+        </p>
+
+        <div class="ai-actions">
+          <button
+            class="button"
+            type="button"
+            :disabled="isAnalyzing"
+            data-testid="analyze-with-ai"
+            @click="onAnalyze"
+          >
+            {{ analyzeButtonLabel }}
+          </button>
+          <p v-if="isAnalyzing" class="muted" data-testid="ai-loading">Running AI analysis…</p>
+          <p v-if="aiError" class="error" data-testid="ai-error">{{ aiError }}</p>
+        </div>
+
+        <p v-if="analyses.length === 0 && !isAnalyzing" class="muted" data-testid="ai-empty">
+          No AI analysis yet. Analysis is optional and does not change this report's status or human
+          classification.
+        </p>
+
+        <article
+          v-for="entry in analyses"
+          :key="entry.id"
+          class="ai-package"
+          :data-testid="`ai-analysis-${entry.id}`"
+          :data-status="entry.status"
+        >
+          <header class="ai-meta">
+            <p class="section-label">Analysis #{{ entry.id }}</p>
+            <p class="meta">
+              {{ entry.provider }}
+              <span v-if="entry.model"> / {{ entry.model }}</span>
+              · Prompt {{ entry.prompt_version }}
+              · {{ formatTimestamp(entry.created_at) }}
+            </p>
+          </header>
+
+          <template v-if="entry.status === 'failed'">
+            <p class="error" data-testid="ai-failed-state">
+              {{ entry.error_message || 'AI analysis unavailable.' }}
+            </p>
+            <p class="muted">This does not mean no harmful content was detected.</p>
+          </template>
+
+          <template v-else-if="entry.status === 'completed' && entry.analysis">
+            <div class="ai-section" data-testid="ai-signals">
+              <h3>Potential signals</h3>
+              <ul class="signal-list">
+                <li v-for="(signal, index) in entry.analysis.signals" :key="`${entry.id}-${index}`">
+                  <p class="signal-name">{{ aiSignalLabel(signal.name) }}</p>
+                  <p class="body">{{ signal.description }}</p>
+                  <p class="meta">Potential signal confidence: {{ aiConfidenceLabel(signal.confidence) }}</p>
+                  <ul v-if="signal.evidence?.length" class="evidence-bullets">
+                    <li v-for="(ev, evIndex) in signal.evidence" :key="evIndex">{{ ev }}</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <hr />
+
+            <div class="ai-section" data-testid="ai-classification">
+              <h3>Potential classification</h3>
+              <p class="emphasis">{{ aiClassificationLabel(entry.analysis.classification.label) }}</p>
+              <p class="meta" data-testid="ai-confidence">
+                Confidence: {{ aiConfidenceLabel(entry.analysis.classification.confidence) }}
+              </p>
+            </div>
+
+            <hr />
+
+            <div class="ai-section uncertainty" data-testid="ai-uncertainty">
+              <h3>Uncertainty</h3>
+              <p class="emphasis">{{ aiConfidenceLabel(entry.analysis.uncertainty.level) }}</p>
+              <p class="body">{{ entry.analysis.uncertainty.explanation }}</p>
+            </div>
+
+            <template v-if="entry.analysis.alternative_interpretation">
+              <hr />
+              <div class="ai-section" data-testid="ai-alternative">
+                <h3>Alternative interpretation</h3>
+                <p class="body">{{ entry.analysis.alternative_interpretation }}</p>
+              </div>
+            </template>
+
+            <hr />
+
+            <div class="ai-section" data-testid="ai-recommended-action">
+              <h3>Recommended action</h3>
+              <p class="emphasis">
+                {{ aiRecommendedActionLabel(entry.analysis.recommended_action.type) }}
+              </p>
+              <p class="body">{{ entry.analysis.recommended_action.reason }}</p>
+            </div>
+
+            <hr />
+
+            <p class="disclaimer">
+              AI-generated analysis — not a final determination. Human classification remains
+              authoritative.
+            </p>
+          </template>
+
+          <template v-else>
+            <p class="muted">Analysis status: {{ entry.status }}</p>
+          </template>
+        </article>
+      </section>
+
       <section class="block" data-testid="classification-block">
-        <h2>Safety classification</h2>
+        <h2>Human classification</h2>
         <p class="disclaimer">
-          Internal review classification — not a legal determination.
+          Internal review classification — not a legal determination. Separate from AI analysis.
         </p>
         <fieldset class="choice-group">
           <legend class="sr-only">Safety classification</legend>
@@ -224,10 +343,15 @@ import type {
   CommunityShieldSafetyClassification,
   CommunityShieldStatus,
   Incident,
+  IncidentAiAnalysis,
 } from '@/types';
 import {
   SAFETY_CLASSIFICATION_OPTIONS,
   STATUS_OPTIONS,
+  aiClassificationLabel,
+  aiConfidenceLabel,
+  aiRecommendedActionLabel,
+  aiSignalLabel,
   contentTypeLabel,
   languageLabel,
   platformLabel,
@@ -238,16 +362,19 @@ import {
 const route = useRoute();
 const organization = useOrganizationStore();
 const item = ref<Incident | null>(null);
+const analyses = ref<IncidentAiAnalysis[]>([]);
 const status = ref<CommunityShieldStatus>('open');
 const classification = ref<CommunityShieldSafetyClassification>('unclassified');
 const isLoading = ref(false);
 const isSaving = ref(false);
 const isSavingClassification = ref(false);
+const isAnalyzing = ref(false);
 const error = ref('');
 const saveError = ref('');
 const message = ref('');
 const classificationError = ref('');
 const classificationMessage = ref('');
+const aiError = ref('');
 
 const hasOriginalItem = computed(() => {
   if (!item.value) {
@@ -263,6 +390,14 @@ const hasOriginalItem = computed(() => {
   );
 });
 
+const analyzeButtonLabel = computed(() => {
+  if (isAnalyzing.value) {
+    return 'Analyzing…';
+  }
+
+  return analyses.value.length > 0 ? 'Run New Analysis' : 'Analyze with AI';
+});
+
 function formatTimestamp(value: string | null | undefined): string {
   if (!value) {
     return 'Not provided';
@@ -276,27 +411,63 @@ function formatTimestamp(value: string | null | undefined): string {
   return date.toLocaleString();
 }
 
+async function loadAnalyses(organizationId: number, incidentId: number): Promise<void> {
+  try {
+    analyses.value = await communityApi.aiAnalyses(organizationId, incidentId);
+  } catch {
+    analyses.value = [];
+  }
+}
+
 async function load(): Promise<void> {
   const organizationId = organization.currentOrganization?.id;
   const id = Number(route.params.id);
 
   if (!organizationId || !id || !organization.canManageIncidents) {
     item.value = null;
+    analyses.value = [];
     return;
   }
 
   isLoading.value = true;
   error.value = '';
+  aiError.value = '';
 
   try {
     item.value = await communityApi.incident(organizationId, id);
     status.value = item.value.status;
     classification.value = item.value.safety_classification ?? 'unclassified';
+    await loadAnalyses(organizationId, id);
   } catch {
     item.value = null;
+    analyses.value = [];
     error.value = 'This report is not available in the current organization.';
   } finally {
     isLoading.value = false;
+  }
+}
+
+async function onAnalyze(): Promise<void> {
+  const organizationId = organization.currentOrganization?.id;
+
+  if (!organizationId || !item.value) {
+    return;
+  }
+
+  isAnalyzing.value = true;
+  aiError.value = '';
+
+  try {
+    const created = await communityApi.requestAiAnalysis(organizationId, item.value.id);
+    analyses.value = [created, ...analyses.value.filter((entry) => entry.id !== created.id)];
+
+    if (created.status === 'failed') {
+      aiError.value = created.error_message || 'AI analysis is currently unavailable.';
+    }
+  } catch {
+    aiError.value = 'AI analysis is currently unavailable.';
+  } finally {
+    isAnalyzing.value = false;
   }
 }
 
@@ -421,10 +592,18 @@ h3 {
   font-size: 0.92rem;
 }
 
-.disclaimer {
+.disclaimer,
+.privacy-note {
   margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.privacy-note {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(20, 40, 30, 0.03);
 }
 
 .evidence-list {
@@ -498,6 +677,75 @@ h3 {
 
 .completeness li.done::before {
   content: '✓ ';
+}
+
+.ai-actions {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+
+.ai-package {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.ai-meta .section-label {
+  margin-bottom: 0.25rem;
+}
+
+.ai-section {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.ai-section.uncertainty {
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(166, 124, 0, 0.35);
+  border-radius: 12px;
+  background: rgba(166, 124, 0, 0.08);
+}
+
+.signal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.signal-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.signal-name::before {
+  content: 'Potential: ';
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.evidence-bullets {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.emphasis {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0.15rem 0;
 }
 
 .sr-only {
