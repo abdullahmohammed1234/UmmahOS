@@ -46,7 +46,15 @@ export const useOrganizationStore = defineStore('organization', () => {
   const canManageEvents = computed(() => permissions.value.includes('events.manage'));
   const canManageCourses = computed(() => permissions.value.includes('courses.manage'));
   const canManageIncidents = computed(() => permissions.value.includes('incidents.manage'));
+  const canReviewIncidents = computed(
+    () =>
+      permissions.value.includes('incidents.manage')
+      || permissions.value.includes('incidents.review'),
+  );
   const isOrganizationAdmin = computed(() => canManageOrganization.value);
+  const isCommunitySafetyReviewer = computed(
+    () => currentRole.value === 'community_safety_reviewer',
+  );
 
   function readStoredOrganizationId(): number | null {
     const raw = window.localStorage.getItem(CURRENT_ORG_KEY);
@@ -152,7 +160,9 @@ export const useOrganizationStore = defineStore('organization', () => {
     canManageEvents,
     canManageCourses,
     canManageIncidents,
+    canReviewIncidents,
     isOrganizationAdmin,
+    isCommunitySafetyReviewer,
     isLoading,
     error,
     switchOrganization,

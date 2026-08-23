@@ -25,7 +25,8 @@ class IncidentController extends Controller
 
     public function overview(Organization $organization): JsonResponse
     {
-        $canReview = CommunityVisibility::canManage(Permissions::INCIDENTS_MANAGE);
+        $canReview = CommunityVisibility::canManage(Permissions::INCIDENTS_MANAGE)
+            || CommunityVisibility::canManage(Permissions::INCIDENTS_REVIEW);
 
         $payload = [
             'can_report' => true,

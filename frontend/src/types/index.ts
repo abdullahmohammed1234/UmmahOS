@@ -21,6 +21,29 @@ export type CommunityShieldVisibility = 'public' | 'group' | 'private' | 'unknow
 
 export type CommunityShieldStatus = 'open' | 'reviewing' | 'resolved';
 
+export type CommunityShieldReviewOutcome = 'confirmed' | 'uncertain' | 'closed';
+
+export type CommunityShieldReviewActionType =
+  | 'started'
+  | 'confirmed'
+  | 'marked_uncertain'
+  | 'closed'
+  | 'escalated'
+  | 'context_requested'
+  | 'context_fulfilled'
+  | 'context_cancelled'
+  | 'notes_updated';
+
+export type ContextRequestStatus = 'open' | 'fulfilled' | 'cancelled';
+
+export type ReviewAllowedAction =
+  | 'start'
+  | 'confirm'
+  | 'uncertain'
+  | 'close'
+  | 'escalate'
+  | 'request_context';
+
 export type CommunityShieldLanguage =
   | 'en'
   | 'ar'
@@ -194,11 +217,106 @@ export interface Incident {
   classified_by?: UserSummary | null;
   classified_at: string | null;
   status: CommunityShieldStatus;
+  review_outcome?: CommunityShieldReviewOutcome | null;
+  escalated?: boolean;
+  escalation_reason?: string | null;
+  escalated_by?: UserSummary | null;
+  escalated_at?: string | null;
+  current_reviewer?: UserSummary | null;
+  review_started_at?: string | null;
+  review_notes?: string | null;
+  review_lock_version?: number;
   replies?: IncidentReply[];
   related_items?: IncidentRelatedItem[];
   reported_by?: UserSummary | null;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface ReviewQueueItem {
+  id: number;
+  platform: CommunityShieldPlatform;
+  content_type: CommunityShieldContentType;
+  visibility: CommunityShieldVisibility;
+  status: CommunityShieldStatus;
+  review_outcome: CommunityShieldReviewOutcome | null;
+  escalated: boolean;
+  safety_classification: CommunityShieldSafetyClassification;
+  related_item_count: number;
+  open_context_requests: number;
+  ai_assisted_triage: {
+    classification: string | null;
+    confidence: AiConfidenceLevel | null;
+    uncertainty: AiConfidenceLevel | null;
+    recommended_action: AiRecommendedActionType | null;
+  };
+  current_reviewer?: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IncidentReviewRecord {
+  id: number;
+  incident_id: number;
+  outcome: CommunityShieldReviewOutcome | null;
+  notes: string | null;
+  safety_classification: CommunityShieldSafetyClassification | null;
+  escalation_reason: string | null;
+  is_current: boolean;
+  reviewer?: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IncidentReviewAction {
+  id: number;
+  incident_id: number;
+  action: CommunityShieldReviewActionType;
+  notes: string | null;
+  payload?: Record<string, unknown> | null;
+  actor?: UserSummary | null;
+  created_at?: string;
+}
+
+export interface IncidentContextRequest {
+  id: number;
+  incident_id: number;
+  reason: string;
+  status: ContextRequestStatus;
+  requested_at: string;
+  resolved_at: string | null;
+  requested_by?: UserSummary | null;
+  resolved_by?: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IncidentReviewPackage {
+  incident: Incident;
+  ai_assisted_triage: {
+    label: string;
+    advisory_disclaimer: string;
+    latest: IncidentAiAnalysis | null;
+    history: IncidentAiAnalysis[];
+  };
+  human_review: {
+    outcome: CommunityShieldReviewOutcome | null;
+    notes: string | null;
+    escalated: boolean;
+    escalation_reason: string | null;
+    current_review: IncidentReviewRecord | null;
+    reviews: IncidentReviewRecord[];
+    context_requests: IncidentContextRequest[];
+    history: IncidentReviewAction[];
+    allowed_actions: ReviewAllowedAction[];
+  };
+  queue_summary: {
+    related_item_count: number;
+    reply_count: number;
+    ai_classification: string | null;
+    ai_confidence: AiConfidenceLevel | null;
+    ai_uncertainty: AiConfidenceLevel | null;
+  };
 }
 
 export type IncidentAiAnalysisStatus = 'queued' | 'running' | 'completed' | 'failed';

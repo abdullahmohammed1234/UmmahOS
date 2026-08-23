@@ -10,6 +10,7 @@ class Role extends Model
 {
     public const ADMIN = 'admin';
     public const MEMBER = 'member';
+    public const COMMUNITY_SAFETY_REVIEWER = 'community_safety_reviewer';
 
     protected $fillable = [
         'name',
@@ -40,5 +41,10 @@ class Role extends Model
     public static function member(): self
     {
         return static::query()->where('slug', self::MEMBER)->firstOrFail();
+    }
+
+    public static function communitySafetyReviewer(): self
+    {
+        return static::query()->where('slug', self::COMMUNITY_SAFETY_REVIEWER)->firstOrFail();
     }
 }

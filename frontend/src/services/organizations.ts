@@ -33,6 +33,18 @@ export const organizationApi = {
     return unwrapData(data);
   },
 
+  async updateMembership(
+    organizationId: number | string,
+    membershipId: number | string,
+    payload: { role: string },
+  ): Promise<Membership> {
+    const { data } = await api.patch<Membership | { data: Membership }>(
+      organizationPath(organizationId, `/members/${membershipId}`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
   async update(
     organizationId: number | string,
     payload: Partial<Pick<Organization, 'name' | 'slug' | 'status'>>,

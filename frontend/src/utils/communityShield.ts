@@ -193,6 +193,40 @@ export function aiRecommendedActionLabel(value: string): string {
   return known[value] ?? aiSignalLabel(value);
 }
 
+export function reviewOutcomeLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'No determination yet';
+  }
+
+  const known: Record<string, string> = {
+    confirmed: 'Confirmed',
+    uncertain: 'Uncertain',
+    closed: 'Closed',
+  };
+
+  return known[value] ?? value;
+}
+
+export function reviewActionLabel(value: string): string {
+  const known: Record<string, string> = {
+    started: 'Started review',
+    confirmed: 'Confirmed',
+    marked_uncertain: 'Marked uncertain',
+    closed: 'Closed review',
+    escalated: 'Escalated',
+    context_requested: 'Requested additional context',
+    context_fulfilled: 'Context added',
+    context_cancelled: 'Cancelled context request',
+    notes_updated: 'Updated notes',
+  };
+
+  return known[value] ?? aiSignalLabel(value);
+}
+
+export const HUMAN_CLASSIFICATION_OPTIONS = SAFETY_CLASSIFICATION_OPTIONS.filter(
+  (option) => option.value !== 'unclassified',
+);
+
 export function platformContentHint(platform: CommunityShieldPlatform | ''): string {
   if (!platform) {
     return 'Select a platform to see common content examples.';

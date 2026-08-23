@@ -11,10 +11,13 @@ import type {
   Course,
   Incident,
   IncidentAiAnalysis,
+  IncidentContextRequest,
   IncidentRelatedItem,
   IncidentReply,
+  IncidentReviewPackage,
   MemberDashboard,
   ResourceItem,
+  ReviewQueueItem,
 } from '@/types';
 
 function scoped<T>(organizationId: number | string, suffix: string) {
@@ -300,6 +303,126 @@ export const communityApi = {
   ): Promise<IncidentAiAnalysis> {
     const { data } = await api.post<IncidentAiAnalysis | { data: IncidentAiAnalysis }>(
       organizationPath(organizationId, `/incidents/${incidentId}/ai-analysis`),
+    );
+    return unwrapData(data);
+  },
+
+  reviewQueue(
+    organizationId: number | string,
+    filters: {
+      status?: CommunityShieldStatus | '';
+      platform?: string;
+      confidence?: string;
+      uncertainty?: string;
+      classification?: string;
+      escalated?: boolean | '';
+    } = {},
+  ): Promise<ReviewQueueItem[]> {
+    const params = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.set(key, String(value));
+      }
+    });
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return scoped(organizationId, `/community-shield/review-queue${query}`);
+  },
+
+  reviewPackage(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<IncidentReviewPackage> {
+    return scoped(organizationId, `/community-shield/reports/${reportId}/review`);
+  },
+
+  async startReview(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: { review_lock_version?: number } = {},
+  ): Promise<IncidentReviewPackage> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/review/start`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async confirmReview(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: {
+      notes: string;
+      safety_classification: CommunityShieldSafetyClassification;
+      review_lock_version?: number;
+    },
+  ): Promise<IncidentReviewPackage> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/review/confirm`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async markUncertain(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: { notes: string; review_lock_version?: number },
+  ): Promise<IncidentReviewPackage> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/review/uncertain`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async closeReview(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: { notes?: string; review_lock_version?: number } = {},
+  ): Promise<IncidentReviewPackage> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/review/close`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async escalateReview(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: { reason: string; review_lock_version?: number },
+  ): Promise<IncidentReviewPackage> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/review/escalate`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async requestContext(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: { reason: string; review_lock_version?: number },
+  ): Promise<IncidentContextRequest> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/context-requests`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async updateContextRequest(
+    organizationId: number | string,
+    reportId: number | string,
+    contextRequestId: number | string,
+    payload: { status: 'fulfilled' | 'cancelled'; review_lock_version?: number },
+  ): Promise<IncidentContextRequest> {
+    const { data } = await api.patch(
+      organizationPath(
+        organizationId,
+        `/community-shield/reports/${reportId}/context-requests/${contextRequestId}`,
+      ),
+      payload,
     );
     return unwrapData(data);
   },

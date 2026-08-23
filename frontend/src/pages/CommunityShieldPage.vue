@@ -20,6 +20,14 @@
           Report a Concern
         </button>
         <RouterLink
+          v-if="organization.canReviewIncidents"
+          class="button secondary"
+          to="/community-shield/review-queue"
+          data-testid="review-queue-link"
+        >
+          Open Review Queue
+        </RouterLink>
+        <RouterLink
           v-if="organization.canManageIncidents"
           class="button secondary"
           to="/admin/community-shield"

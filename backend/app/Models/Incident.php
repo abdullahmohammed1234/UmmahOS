@@ -76,6 +76,12 @@ class Incident extends Model
 
     public const CLASSIFICATION_OTHER = 'other';
 
+    public const OUTCOME_CONFIRMED = 'confirmed';
+
+    public const OUTCOME_UNCERTAIN = 'uncertain';
+
+    public const OUTCOME_CLOSED = 'closed';
+
     public const DESCRIPTION_MAX_LENGTH = 8000;
 
     public const ORIGINAL_ITEM_TITLE_MAX_LENGTH = 255;
@@ -87,6 +93,12 @@ class Incident extends Model
     public const SURROUNDING_CONTEXT_MAX_LENGTH = 8000;
 
     public const REPORTER_NOTES_MAX_LENGTH = 4000;
+
+    public const REVIEW_NOTES_MAX_LENGTH = 4000;
+
+    public const ESCALATION_REASON_MAX_LENGTH = 4000;
+
+    public const CONTEXT_REQUEST_REASON_MAX_LENGTH = 4000;
 
     public const LANGUAGE_MAX_LENGTH = 32;
 
@@ -110,6 +122,15 @@ class Incident extends Model
         'classified_by',
         'classified_at',
         'status',
+        'review_outcome',
+        'escalated',
+        'escalation_reason',
+        'escalated_by',
+        'escalated_at',
+        'current_reviewer_id',
+        'review_started_at',
+        'review_notes',
+        'review_lock_version',
     ];
 
     /**
@@ -121,6 +142,10 @@ class Incident extends Model
             'original_item_posted_at' => 'datetime',
             'observed_at' => 'datetime',
             'classified_at' => 'datetime',
+            'escalated' => 'boolean',
+            'escalated_at' => 'datetime',
+            'review_started_at' => 'datetime',
+            'review_lock_version' => 'integer',
         ];
     }
 
@@ -133,6 +158,18 @@ class Incident extends Model
             self::STATUS_OPEN,
             self::STATUS_REVIEWING,
             self::STATUS_RESOLVED,
+        ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function reviewOutcomes(): array
+    {
+        return [
+            self::OUTCOME_CONFIRMED,
+            self::OUTCOME_UNCERTAIN,
+            self::OUTCOME_CLOSED,
         ];
     }
 
@@ -241,6 +278,16 @@ class Incident extends Model
         return $this->belongsTo(User::class, 'classified_by');
     }
 
+    public function currentReviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'current_reviewer_id');
+    }
+
+    public function escalatedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'escalated_by');
+    }
+
     public function replies(): HasMany
     {
         return $this->hasMany(IncidentReply::class)->orderBy('position')->orderBy('id');
@@ -254,5 +301,20 @@ class Incident extends Model
     public function aiAnalyses(): HasMany
     {
         return $this->hasMany(IncidentAiAnalysis::class)->orderByDesc('id');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(IncidentReview::class)->orderByDesc('id');
+    }
+
+    public function reviewActions(): HasMany
+    {
+        return $this->hasMany(IncidentReviewAction::class)->orderBy('id');
+    }
+
+    public function contextRequests(): HasMany
+    {
+        return $this->hasMany(IncidentContextRequest::class)->orderByDesc('id');
     }
 }
