@@ -80,25 +80,30 @@ class IdorTest extends TestCase
 
         $this->actingAsApi($alphaUser)
             ->patchJson('/api/v1/organizations/'.$beta->id.'/incidents/123', [
-                'title' => 'IDOR',
+                'status' => 'resolved',
             ])
-            ->assertForbidden();
-
-        $this->actingAsApi($alphaUser)
-            ->deleteJson('/api/v1/organizations/'.$beta->id.'/incidents/123')
             ->assertForbidden();
     }
 
     public function test_incident_ids_are_not_readable_across_organizations_even_for_members_of_the_current_org(): void
     {
         $alpha = $this->createOrganization(['name' => 'Demo MSA Alpha']);
+        $beta = $this->createOrganization(['name' => 'Demo MSA Beta']);
         $alphaUser = $this->createMember($alpha, $this->adminRole);
+        $betaUser = $this->createMember($beta, $this->memberRole);
+
+        $betaIncident = \App\Models\Incident::factory()->create([
+            'organization_id' => $beta->id,
+            'reported_by' => $betaUser->id,
+        ]);
+
+        $this->actingAsApi($alphaUser)
+            ->getJson('/api/v1/organizations/'.$alpha->id.'/incidents/'.$betaIncident->id)
+            ->assertNotFound();
 
         $this->actingAsApi($alphaUser)
             ->getJson('/api/v1/organizations/'.$alpha->id.'/incidents/123')
-            ->assertNotFound()
-            ->assertJsonPath('organization_id', $alpha->id)
-            ->assertJsonMissing(['data']);
+            ->assertNotFound();
     }
 
     public function test_future_module_namespaces_are_organization_isolated(): void

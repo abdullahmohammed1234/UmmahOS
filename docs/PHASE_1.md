@@ -282,11 +282,12 @@ Covered on the backend:
 
 Later phases, not this one:
 
-- Events, courses, content, incidents, reports as real organization-scoped modules
-- Community Shield
+- Deeper Events, Academy, content, incidents, and reports product features
 - AI hate analysis
 - Evidence packaging and report generation
 - Cross-platform pattern detection
 - ADAPT integration
 - Final UmmahOS design system
 - Richer membership lifecycle (invites, ownership transfer)
+
+Organization-scoped announcements, resources, events, Academy, and Community Shield foundations were added in Phase 2. See `PHASE_2.md`.

@@ -42,6 +42,11 @@ export const useOrganizationStore = defineStore('organization', () => {
   const canManageOrganization = computed(() => permissions.value.includes('organization.manage'));
   const canViewMembers = computed(() => permissions.value.includes('members.view'));
   const canManageMembers = computed(() => permissions.value.includes('members.manage'));
+  const canManageContent = computed(() => permissions.value.includes('content.manage'));
+  const canManageEvents = computed(() => permissions.value.includes('events.manage'));
+  const canManageCourses = computed(() => permissions.value.includes('courses.manage'));
+  const canManageIncidents = computed(() => permissions.value.includes('incidents.manage'));
+  const isOrganizationAdmin = computed(() => canManageOrganization.value);
 
   function readStoredOrganizationId(): number | null {
     const raw = window.localStorage.getItem(CURRENT_ORG_KEY);
@@ -143,6 +148,11 @@ export const useOrganizationStore = defineStore('organization', () => {
     canManageOrganization,
     canViewMembers,
     canManageMembers,
+    canManageContent,
+    canManageEvents,
+    canManageCourses,
+    canManageIncidents,
+    isOrganizationAdmin,
     isLoading,
     error,
     switchOrganization,

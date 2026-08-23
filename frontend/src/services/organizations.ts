@@ -1,13 +1,6 @@
 import type { Membership, Organization, OrganizationContext } from '@/types';
 import { api } from '@/services/api';
-
-function unwrapData<T>(payload: T | { data: T }): T {
-  if (payload && typeof payload === 'object' && 'data' in payload) {
-    return (payload as { data: T }).data;
-  }
-
-  return payload as T;
-}
+import { unwrapData } from '@/services/unwrap';
 
 export function organizationPath(organizationId: number | string, suffix = ''): string {
   return `/organizations/${organizationId}${suffix}`;
