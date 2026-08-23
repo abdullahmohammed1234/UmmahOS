@@ -7,6 +7,7 @@ use Database\Factories\IncidentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Incident extends Model
 {
@@ -57,7 +58,37 @@ class Incident extends Model
 
     public const VISIBILITY_UNKNOWN = 'unknown';
 
+    public const LANGUAGE_UNKNOWN = 'unknown';
+
+    public const CLASSIFICATION_UNCLASSIFIED = 'unclassified';
+
+    public const CLASSIFICATION_HARASSMENT = 'harassment';
+
+    public const CLASSIFICATION_HATE = 'hate';
+
+    public const CLASSIFICATION_THREAT = 'threat';
+
+    public const CLASSIFICATION_TARGETED_ABUSE = 'targeted_abuse';
+
+    public const CLASSIFICATION_DISCRIMINATION = 'discrimination';
+
+    public const CLASSIFICATION_INCITEMENT = 'incitement';
+
+    public const CLASSIFICATION_OTHER = 'other';
+
     public const DESCRIPTION_MAX_LENGTH = 8000;
+
+    public const ORIGINAL_ITEM_TITLE_MAX_LENGTH = 255;
+
+    public const ORIGINAL_ITEM_CONTENT_MAX_LENGTH = 16000;
+
+    public const ORIGINAL_ITEM_AUTHOR_MAX_LENGTH = 255;
+
+    public const SURROUNDING_CONTEXT_MAX_LENGTH = 8000;
+
+    public const REPORTER_NOTES_MAX_LENGTH = 4000;
+
+    public const LANGUAGE_MAX_LENGTH = 32;
 
     protected $fillable = [
         'organization_id',
@@ -67,8 +98,31 @@ class Incident extends Model
         'visibility',
         'source_url',
         'description',
+        'original_item_title',
+        'original_item_content',
+        'original_item_author',
+        'original_item_posted_at',
+        'observed_at',
+        'surrounding_context',
+        'language',
+        'reporter_notes',
+        'safety_classification',
+        'classified_by',
+        'classified_at',
         'status',
     ];
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'original_item_posted_at' => 'datetime',
+            'observed_at' => 'datetime',
+            'classified_at' => 'datetime',
+        ];
+    }
 
     /**
      * @return list<string>
@@ -128,8 +182,72 @@ class Incident extends Model
         ];
     }
 
+    /**
+     * Stable language codes. Expandable in code without a database migration.
+     *
+     * @return list<string>
+     */
+    public static function languages(): array
+    {
+        return [
+            'en',
+            'ar',
+            'fr',
+            'ur',
+            'tr',
+            'es',
+            'bn',
+            'id',
+            'ms',
+            'fa',
+            'so',
+            'sw',
+            'de',
+            'nl',
+            'pt',
+            'zh',
+            'hi',
+            'other',
+            self::LANGUAGE_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Internal safety-review classifications — not legal determinations.
+     *
+     * @return list<string>
+     */
+    public static function safetyClassifications(): array
+    {
+        return [
+            self::CLASSIFICATION_UNCLASSIFIED,
+            self::CLASSIFICATION_HARASSMENT,
+            self::CLASSIFICATION_HATE,
+            self::CLASSIFICATION_THREAT,
+            self::CLASSIFICATION_TARGETED_ABUSE,
+            self::CLASSIFICATION_DISCRIMINATION,
+            self::CLASSIFICATION_INCITEMENT,
+            self::CLASSIFICATION_OTHER,
+        ];
+    }
+
     public function reporter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reported_by');
+    }
+
+    public function classifier(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'classified_by');
+    }
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(IncidentReply::class)->orderBy('position')->orderBy('id');
+    }
+
+    public function relatedItems(): HasMany
+    {
+        return $this->hasMany(IncidentRelatedItem::class)->orderBy('id');
     }
 }
