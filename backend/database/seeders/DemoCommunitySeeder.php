@@ -376,7 +376,7 @@ class DemoCommunitySeeder extends Seeder
             ]);
         }
 
-        Incident::query()->firstOrCreate(
+        $confirmedPackage = Incident::query()->firstOrCreate(
             [
                 'organization_id' => $alpha->id,
                 'reported_by' => $admin->id,
@@ -386,20 +386,134 @@ class DemoCommunitySeeder extends Seeder
             [
                 'visibility' => Incident::VISIBILITY_PUBLIC,
                 'source_url' => 'https://reddit.com/r/example/comments/alpha-demo',
-                'description' => 'Resolved Alpha demo thread confirmed by a Community Safety Reviewer.',
+                'description' => 'Resolved Alpha demo thread confirmed by a Community Safety Reviewer. Used as the Phase 7 complete evidence package demo.',
+                'original_item_title' => 'Campus thread about Friday prayers',
+                'original_item_content' => 'They keep showing up after jumuah like they own the place. Someone needs to push back harder.',
+                'original_item_author' => 'u/campus_noise_demo',
+                'original_item_posted_at' => now()->subDays(5)->setTime(16, 10),
+                'observed_at' => now()->subDays(4)->setTime(11, 0),
+                'surrounding_context' => "Before: A thread about campus room bookings.\nReported item: Hostile post targeting students associated with Friday prayer.\nAfter: Several replies agreed and one related cross-post appeared on X.",
                 'language' => 'en',
+                'reporter_notes' => 'I preserved the original wording. A nearly identical post appeared on X later that night.',
                 'safety_classification' => Incident::CLASSIFICATION_HATE,
                 'classified_by' => $reviewer->id,
                 'classified_at' => now()->subDays(4),
                 'status' => Incident::STATUS_RESOLVED,
                 'review_outcome' => Incident::OUTCOME_CONFIRMED,
-                'review_notes' => 'Context and related copies support the classification.',
+                'review_notes' => 'The original content and surrounding replies support the classification despite moderate AI uncertainty.',
                 'current_reviewer_id' => $reviewer->id,
                 'review_started_at' => now()->subDays(4)->subHour(),
                 'escalated' => false,
                 'review_lock_version' => 4,
             ]
         );
+
+        if ($confirmedPackage->replies()->count() === 0) {
+            $confirmedPackage->replies()->createMany([
+                [
+                    'author' => 'u/ally_demo',
+                    'content' => 'This is targeting students for their faith. Report it.',
+                    'posted_at' => now()->subDays(5)->setTime(16, 25),
+                    'position' => 0,
+                ],
+                [
+                    'author' => 'u/campus_noise_demo',
+                    'content' => 'Keep the pressure on. They heard us.',
+                    'posted_at' => now()->subDays(5)->setTime(16, 40),
+                    'position' => 1,
+                ],
+            ]);
+        }
+
+        if ($confirmedPackage->relatedItems()->count() === 0) {
+            $confirmedPackage->relatedItems()->create([
+                'platform' => Incident::PLATFORM_X,
+                'content_type' => Incident::CONTENT_TYPE_POST,
+                'reference_url' => 'https://x.com/example/status/alpha-related-confirmed',
+                'description' => 'Nearly identical wording posted publicly on X the same evening.',
+                'observed_at' => now()->subDays(4)->setTime(22, 15),
+            ]);
+        }
+
+        $this->seedCompletedAnalysis($confirmedPackage, $admin, [
+            'signals' => [
+                [
+                    'name' => 'religious_identity_targeting',
+                    'description' => 'Targets students associated with Friday prayer attendance.',
+                    'evidence' => ['after jumuah', 'push back harder'],
+                    'confidence' => 'moderate',
+                ],
+                [
+                    'name' => 'related_content_detected',
+                    'description' => 'Related cross-platform copy appears on X.',
+                    'evidence' => ['related X post'],
+                    'confidence' => 'moderate',
+                ],
+            ],
+            'classification' => [
+                'label' => 'potential_hate',
+                'confidence' => 'moderate',
+            ],
+            'uncertainty' => [
+                'level' => 'moderate',
+                'explanation' => 'Context may change interpretation if the surrounding thread was primarily political debate.',
+            ],
+            'alternative_interpretation' => 'Could be hyperbolic political speech rather than actionable hate.',
+            'recommended_action' => [
+                'type' => 'human_review',
+                'reason' => 'Human review recommended before any determination.',
+            ],
+        ]);
+
+        if ($confirmedPackage->reviews()->count() === 0) {
+            $confirmedPackage->reviews()->create([
+                'reviewer_id' => $reviewer->id,
+                'outcome' => IncidentReview::OUTCOME_CONFIRMED,
+                'notes' => 'The original content and surrounding replies support the classification despite moderate AI uncertainty.',
+                'safety_classification' => Incident::CLASSIFICATION_HATE,
+                'is_current' => true,
+            ]);
+        }
+
+        if ($confirmedPackage->reviewActions()->count() === 0) {
+            $confirmedPackage->reviewActions()->createMany([
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_STARTED,
+                    'notes' => 'Started review',
+                    'created_at' => now()->subDays(4)->subHour(),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_CONTEXT_REQUESTED,
+                    'notes' => 'Requested the related X post reference.',
+                    'created_at' => now()->subDays(4)->subMinutes(40),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_CONTEXT_FULFILLED,
+                    'notes' => 'Related X reference added.',
+                    'created_at' => now()->subDays(4)->subMinutes(20),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_CONFIRMED,
+                    'notes' => 'The original content and surrounding replies support the classification despite moderate AI uncertainty.',
+                    'created_at' => now()->subDays(4),
+                ],
+            ]);
+        }
+
+        if ($confirmedPackage->contextRequests()->count() === 0) {
+            $confirmedPackage->contextRequests()->create([
+                'requested_by' => $reviewer->id,
+                'reason' => 'Requested the related X post reference.',
+                'status' => IncidentContextRequest::STATUS_FULFILLED,
+                'requested_at' => now()->subDays(4)->subMinutes(40),
+                'resolved_by' => $reviewer->id,
+                'resolved_at' => now()->subDays(4)->subMinutes(20),
+            ]);
+        }
     }
 
     private function seedBeta(Organization $beta, User $admin, User $multiUser): void

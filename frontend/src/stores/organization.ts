@@ -51,6 +51,11 @@ export const useOrganizationStore = defineStore('organization', () => {
       permissions.value.includes('incidents.manage')
       || permissions.value.includes('incidents.review'),
   );
+  const canExportIncidents = computed(
+    () =>
+      permissions.value.includes('incidents.manage')
+      || permissions.value.includes('incidents.export'),
+  );
   const isOrganizationAdmin = computed(() => canManageOrganization.value);
   const isCommunitySafetyReviewer = computed(
     () => currentRole.value === 'community_safety_reviewer',
@@ -161,6 +166,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     canManageCourses,
     canManageIncidents,
     canReviewIncidents,
+    canExportIncidents,
     isOrganizationAdmin,
     isCommunitySafetyReviewer,
     isLoading,

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\FutureModuleIsolationController;
 use App\Http\Controllers\Api\V1\IncidentAiAnalysisController;
 use App\Http\Controllers\Api\V1\IncidentController;
+use App\Http\Controllers\Api\V1\IncidentEvidencePackageController;
 use App\Http\Controllers\Api\V1\IncidentReviewController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\OrganizationContextController;
@@ -196,6 +197,16 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/community-shield/reports/{report}/context-requests/{contextRequest}', [IncidentReviewController::class, 'updateContextRequest'])
                     ->middleware('organization.permission:incidents.manage|incidents.request_context')
                     ->name('api.organizations.community-shield.reports.context-requests.update');
+
+                Route::get('/community-shield/reports/{report}/evidence-package', [IncidentEvidencePackageController::class, 'show'])
+                    ->middleware('organization.permission:incidents.manage|incidents.export')
+                    ->name('api.organizations.community-shield.reports.evidence-package');
+                Route::get('/community-shield/reports/{report}/evidence-package.json', [IncidentEvidencePackageController::class, 'exportJson'])
+                    ->middleware('organization.permission:incidents.manage|incidents.export')
+                    ->name('api.organizations.community-shield.reports.evidence-package.json');
+                Route::get('/community-shield/reports/{report}/evidence-package.pdf', [IncidentEvidencePackageController::class, 'exportPdf'])
+                    ->middleware('organization.permission:incidents.manage|incidents.export')
+                    ->name('api.organizations.community-shield.reports.evidence-package.pdf');
 
                 Route::prefix('{module}')
                     ->whereIn('module', ['content', 'reports'])
