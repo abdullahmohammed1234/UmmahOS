@@ -50,11 +50,21 @@ trait InteractsWithOrganizations
 
     protected function actingAsApi(User $user): self
     {
+        $this->flushHeaders();
+        $this->app['auth']->forgetGuards();
+
         $token = $user->createToken('test-token')->plainTextToken;
 
         $this->withHeader('Authorization', 'Bearer '.$token);
         $this->withHeader('Accept', 'application/json');
 
         return $this;
+    }
+
+    protected function orgUrl(Organization $organization, string $path = ''): string
+    {
+        $suffix = $path === '' ? '' : '/'.ltrim($path, '/');
+
+        return '/api/v1/organizations/'.$organization->id.$suffix;
     }
 }

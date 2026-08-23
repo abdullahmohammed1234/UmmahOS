@@ -7,11 +7,11 @@ use App\Models\Organization;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Phase 1 isolation lock for future organization-scoped modules.
+ * Isolation lock for remaining unimplemented organization-scoped modules.
  *
- * Events, courses, content, incidents, and reports are not implemented yet.
- * These endpoints only prove that non-members cannot reach another
- * organization's resource namespace, including direct-ID (IDOR) URLs.
+ * Content archives and reports are not product features yet. These endpoints
+ * only prove that non-members cannot reach another organization's resource
+ * namespace, including direct-ID (IDOR) URLs.
  */
 class FutureModuleIsolationController extends Controller
 {

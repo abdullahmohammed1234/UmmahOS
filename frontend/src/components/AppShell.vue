@@ -8,17 +8,38 @@
       <OrganizationSwitcher />
       <div class="session">
         <span>{{ auth.user?.name }}</span>
+        <span class="badge">{{ organization.currentRole ?? 'no role' }}</span>
         <button class="button secondary" type="button" @click="onLogout">Sign out</button>
       </div>
     </header>
 
     <div class="layout page">
       <nav class="nav panel">
-        <RouterLink to="/" exact-active-class="active">Overview</RouterLink>
-        <RouterLink to="/members" active-class="active">Members</RouterLink>
-        <RouterLink v-if="organization.canManageOrganization" to="/settings" active-class="active">
-          Settings
-        </RouterLink>
+        <p class="nav-label">Community</p>
+        <RouterLink to="/" exact-active-class="active">Home</RouterLink>
+        <RouterLink to="/announcements" active-class="active">Announcements</RouterLink>
+        <RouterLink to="/resources" active-class="active">Resources</RouterLink>
+        <RouterLink to="/events" active-class="active">Events</RouterLink>
+        <RouterLink to="/academy" active-class="active">Academy</RouterLink>
+        <RouterLink to="/community-shield" active-class="active">Community Shield</RouterLink>
+
+        <template v-if="organization.isOrganizationAdmin">
+          <p class="nav-label">Organization</p>
+          <RouterLink to="/admin" exact-active-class="active">Dashboard</RouterLink>
+          <RouterLink to="/members" active-class="active">Members</RouterLink>
+          <RouterLink to="/admin/announcements" active-class="active">Announcements</RouterLink>
+          <RouterLink to="/admin/events" active-class="active">Events</RouterLink>
+          <RouterLink to="/admin/resources" active-class="active">Resources</RouterLink>
+          <RouterLink to="/admin/academy" active-class="active">Academy</RouterLink>
+          <RouterLink to="/admin/community-shield" active-class="active">Community Shield</RouterLink>
+          <RouterLink
+            v-if="organization.canManageOrganization"
+            to="/settings"
+            active-class="active"
+          >
+            Settings
+          </RouterLink>
+        </template>
       </nav>
       <main>
         <RouterView />
@@ -75,7 +96,7 @@ async function onLogout(): Promise<void> {
 
 .layout {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 210px 1fr;
   gap: 1.25rem;
   padding: 1.5rem 0 3rem;
 }
@@ -84,6 +105,18 @@ async function onLogout(): Promise<void> {
   display: grid;
   align-content: start;
   padding: 0.75rem;
+}
+
+.nav-label {
+  margin: 0.85rem 0.8rem 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nav-label:first-child {
+  margin-top: 0.2rem;
 }
 
 .nav a {

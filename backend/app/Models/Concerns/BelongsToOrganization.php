@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Foundation for future organization-scoped modules
- * (events, courses, content, incidents, reports).
+ * Organization-scoped community records
+ * (announcements, resources, events, courses, incidents).
  *
  * Queries must always be constrained through the current organization.
  * Do not rely on client-supplied IDs alone.

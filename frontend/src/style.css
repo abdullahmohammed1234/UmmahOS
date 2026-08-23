@@ -67,9 +67,18 @@ a {
   border: 1px solid var(--line);
 }
 
-.button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.button.danger {
+  background: var(--danger);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
 }
 
 .field {
@@ -78,12 +87,18 @@ a {
 }
 
 .field input,
-.field select {
+.field select,
+.field textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 0.7rem 0.8rem;
   background: #fff;
+}
+
+.field textarea {
+  min-height: 8rem;
+  resize: vertical;
 }
 
 .muted {
@@ -97,4 +112,45 @@ a {
 .stack {
   display: grid;
   gap: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.list a.panel,
+.card-link {
+  text-decoration: none;
+  padding: 1rem 1.15rem;
+}
+
+.meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.content {
+  padding: 1.25rem 1.4rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.7rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
 }
