@@ -425,7 +425,128 @@ export interface IncidentEvidencePackage {
     ai: string;
     human_review: string;
     reporting: string;
+    outcome_tracking?: string;
   };
+  outcome_tracking?: {
+    label: string;
+    disclaimer: string;
+    reports: IncidentExternalReportSummary[];
+  };
+}
+
+export type ExternalReportStatus = 'reported' | 'under_review' | 'decision' | 'outcome';
+
+export type ExternalReportDecision =
+  | 'action_taken'
+  | 'no_action'
+  | 'content_does_not_violate_policy'
+  | 'insufficient_information'
+  | 'other';
+
+export type ExternalReportOutcome =
+  | 'content_removed'
+  | 'content_restricted'
+  | 'account_action'
+  | 'no_action'
+  | 'warning'
+  | 'resolved'
+  | 'unable_to_determine'
+  | 'other';
+
+export type ExternalReportOutcomeSource =
+  | 'platform_response'
+  | 'reporter_observation'
+  | 'reviewer_observation'
+  | 'other';
+
+export type ExternalReportVerificationStatus =
+  | 'unverified'
+  | 'reported_by_user'
+  | 'verified_by_reviewer';
+
+export type AppealStatus =
+  | 'submitted'
+  | 'under_review'
+  | 'accepted'
+  | 'rejected'
+  | 'withdrawn'
+  | 'resolved';
+
+export interface IncidentExternalReportStatusHistoryEntry {
+  id: number;
+  previous_status: ExternalReportStatus | null;
+  new_status: ExternalReportStatus;
+  decision: ExternalReportDecision | null;
+  outcome: ExternalReportOutcome | null;
+  changed_by: UserSummary | null;
+  changed_at: string | null;
+  note: string | null;
+}
+
+export interface IncidentReportAppealRecord {
+  id: number;
+  submitted_at: string | null;
+  submitted_by: UserSummary | null;
+  reason: string;
+  additional_evidence: string | null;
+  reference: string | null;
+  notes: string | null;
+  status: AppealStatus;
+  response: string | null;
+  responded_at: string | null;
+  responded_by: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IncidentExternalReportRecord {
+  id: number;
+  incident_id: number;
+  platform: string;
+  reporting_channel: string;
+  external_reference: string | null;
+  reported_at: string | null;
+  status: ExternalReportStatus;
+  decision: ExternalReportDecision | null;
+  decision_note: string | null;
+  outcome: ExternalReportOutcome | null;
+  outcome_source: ExternalReportOutcomeSource | null;
+  outcome_summary: string | null;
+  reporter_visible_summary: string | null;
+  verification_status: ExternalReportVerificationStatus;
+  internal_notes: string | null;
+  created_by: UserSummary | null;
+  updated_by: UserSummary | null;
+  created_at?: string;
+  updated_at?: string;
+  status_history?: IncidentExternalReportStatusHistoryEntry[];
+  appeals?: IncidentReportAppealRecord[];
+}
+
+export interface IncidentExternalReportSummary {
+  id?: number;
+  platform: string;
+  reporting_channel: string;
+  reported_at: string | null;
+  status: ExternalReportStatus;
+  external_reference: string | null;
+  decision: ExternalReportDecision | null;
+  outcome: ExternalReportOutcome | null;
+  outcome_source: ExternalReportOutcomeSource | null;
+  verification_status: ExternalReportVerificationStatus;
+  appeals: Array<{ id: number; status: AppealStatus; submitted_at: string | null; reason: string }>;
+}
+
+export interface MemberReportSummary {
+  id: number;
+  reference: string;
+  platform: string;
+  content_type: string;
+  status: CommunityShieldStatus;
+  review_outcome: CommunityShieldReviewOutcome | null;
+  submitted_at: string | null;
+  external_reports: IncidentExternalReportRecord[];
+  external_report_count?: number;
 }
 
 export type IncidentAiAnalysisStatus = 'queued' | 'running' | 'completed' | 'failed';

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\FutureModuleIsolationController;
 use App\Http\Controllers\Api\V1\IncidentAiAnalysisController;
 use App\Http\Controllers\Api\V1\IncidentController;
 use App\Http\Controllers\Api\V1\IncidentEvidencePackageController;
+use App\Http\Controllers\Api\V1\IncidentOutcomeController;
 use App\Http\Controllers\Api\V1\IncidentReviewController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\OrganizationContextController;
@@ -207,6 +208,36 @@ Route::prefix('v1')->group(function () {
                 Route::get('/community-shield/reports/{report}/evidence-package.pdf', [IncidentEvidencePackageController::class, 'exportPdf'])
                     ->middleware('organization.permission:incidents.manage|incidents.export')
                     ->name('api.organizations.community-shield.reports.evidence-package.pdf');
+
+                Route::get('/community-shield/reports/{report}/external-reports', [IncidentOutcomeController::class, 'index'])
+                    ->middleware('organization.permission:incidents.outcomes.view|incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.index');
+                Route::post('/community-shield/reports/{report}/external-reports', [IncidentOutcomeController::class, 'store'])
+                    ->middleware('organization.permission:incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.store');
+                Route::get('/community-shield/reports/{report}/external-reports/{externalReport}', [IncidentOutcomeController::class, 'show'])
+                    ->middleware('organization.permission:incidents.outcomes.view|incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.show');
+                Route::patch('/community-shield/reports/{report}/external-reports/{externalReport}', [IncidentOutcomeController::class, 'update'])
+                    ->middleware('organization.permission:incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.update');
+                Route::get('/community-shield/reports/{report}/external-reports/{externalReport}/history', [IncidentOutcomeController::class, 'history'])
+                    ->middleware('organization.permission:incidents.outcomes.view|incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.history');
+                Route::post('/community-shield/reports/{report}/external-reports/{externalReport}/appeals', [IncidentOutcomeController::class, 'storeAppeal'])
+                    ->middleware('organization.permission:incidents.outcomes.appeal|incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.appeals.store');
+                Route::patch('/community-shield/reports/{report}/external-reports/{externalReport}/appeals/{appeal}', [IncidentOutcomeController::class, 'updateAppeal'])
+                    ->middleware('organization.permission:incidents.outcomes.manage|incidents.manage')
+                    ->name('api.organizations.community-shield.reports.external-reports.appeals.update');
+
+                Route::get('/community-shield/my-reports', [IncidentOutcomeController::class, 'memberIndex'])
+                    ->name('api.organizations.community-shield.my-reports.index');
+                Route::get('/community-shield/my-reports/{report}', [IncidentOutcomeController::class, 'memberShow'])
+                    ->name('api.organizations.community-shield.my-reports.show');
+                Route::post('/community-shield/my-reports/{report}/external-reports/{externalReport}/appeals', [IncidentOutcomeController::class, 'memberStoreAppeal'])
+                    ->middleware('organization.permission:incidents.outcomes.appeal')
+                    ->name('api.organizations.community-shield.my-reports.external-reports.appeals.store');
 
                 Route::prefix('{module}')
                     ->whereIn('module', ['content', 'reports'])

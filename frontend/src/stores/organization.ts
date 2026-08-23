@@ -56,6 +56,23 @@ export const useOrganizationStore = defineStore('organization', () => {
       permissions.value.includes('incidents.manage')
       || permissions.value.includes('incidents.export'),
   );
+  const canViewOutcomes = computed(
+    () =>
+      permissions.value.includes('incidents.manage')
+      || permissions.value.includes('incidents.outcomes.view')
+      || permissions.value.includes('incidents.outcomes.manage'),
+  );
+  const canManageOutcomes = computed(
+    () =>
+      permissions.value.includes('incidents.manage')
+      || permissions.value.includes('incidents.outcomes.manage'),
+  );
+  const canAppealOutcomes = computed(
+    () =>
+      permissions.value.includes('incidents.outcomes.appeal')
+      || permissions.value.includes('incidents.outcomes.manage')
+      || permissions.value.includes('incidents.manage'),
+  );
   const isOrganizationAdmin = computed(() => canManageOrganization.value);
   const isCommunitySafetyReviewer = computed(
     () => currentRole.value === 'community_safety_reviewer',
@@ -167,6 +184,9 @@ export const useOrganizationStore = defineStore('organization', () => {
     canManageIncidents,
     canReviewIncidents,
     canExportIncidents,
+    canViewOutcomes,
+    canManageOutcomes,
+    canAppealOutcomes,
     isOrganizationAdmin,
     isCommunitySafetyReviewer,
     isLoading,
