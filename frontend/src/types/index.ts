@@ -21,6 +21,37 @@ export type CommunityShieldVisibility = 'public' | 'group' | 'private' | 'unknow
 
 export type CommunityShieldStatus = 'open' | 'reviewing' | 'resolved';
 
+export type CommunityShieldLanguage =
+  | 'en'
+  | 'ar'
+  | 'fr'
+  | 'ur'
+  | 'tr'
+  | 'es'
+  | 'bn'
+  | 'id'
+  | 'ms'
+  | 'fa'
+  | 'so'
+  | 'sw'
+  | 'de'
+  | 'nl'
+  | 'pt'
+  | 'zh'
+  | 'hi'
+  | 'other'
+  | 'unknown';
+
+export type CommunityShieldSafetyClassification =
+  | 'unclassified'
+  | 'harassment'
+  | 'hate'
+  | 'threat'
+  | 'targeted_abuse'
+  | 'discrimination'
+  | 'incitement'
+  | 'other';
+
 export interface Organization {
   id: number;
   name: string;
@@ -120,6 +151,29 @@ export interface Course {
   updated_at?: string;
 }
 
+export interface IncidentReply {
+  id?: number;
+  incident_id?: number;
+  author: string | null;
+  content: string;
+  posted_at: string | null;
+  position: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IncidentRelatedItem {
+  id?: number;
+  incident_id?: number;
+  platform: CommunityShieldPlatform;
+  content_type: CommunityShieldContentType;
+  reference_url: string | null;
+  description: string | null;
+  observed_at: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface Incident {
   id: number;
   organization_id: number;
@@ -128,7 +182,20 @@ export interface Incident {
   visibility: CommunityShieldVisibility;
   source_url: string | null;
   description: string;
+  original_item_title: string | null;
+  original_item_content: string | null;
+  original_item_author: string | null;
+  original_item_posted_at: string | null;
+  observed_at: string | null;
+  surrounding_context: string | null;
+  language: CommunityShieldLanguage | string | null;
+  reporter_notes: string | null;
+  safety_classification: CommunityShieldSafetyClassification;
+  classified_by?: UserSummary | null;
+  classified_at: string | null;
   status: CommunityShieldStatus;
+  replies?: IncidentReply[];
+  related_items?: IncidentRelatedItem[];
   reported_by?: UserSummary | null;
   created_at?: string;
   updated_at?: string;

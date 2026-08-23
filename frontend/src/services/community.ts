@@ -6,9 +6,12 @@ import type {
   Announcement,
   CommunityEvent,
   CommunityShieldOverview,
+  CommunityShieldSafetyClassification,
   CommunityShieldStatus,
   Course,
   Incident,
+  IncidentRelatedItem,
+  IncidentReply,
   MemberDashboard,
   ResourceItem,
 } from '@/types';
@@ -180,6 +183,21 @@ export const communityApi = {
     organizationId: number | string,
     payload: Pick<Incident, 'platform' | 'content_type' | 'visibility' | 'description'> & {
       source_url?: string | null;
+      original_item_title?: string | null;
+      original_item_content?: string | null;
+      original_item_author?: string | null;
+      original_item_posted_at?: string | null;
+      observed_at?: string | null;
+      surrounding_context?: string | null;
+      language?: string | null;
+      reporter_notes?: string | null;
+      replies?: Array<Pick<IncidentReply, 'author' | 'content' | 'posted_at' | 'position'>>;
+      related_items?: Array<
+        Pick<
+          IncidentRelatedItem,
+          'platform' | 'content_type' | 'reference_url' | 'description' | 'observed_at'
+        >
+      >;
     },
   ): Promise<{ incident: Incident; message: string }> {
     const { data } = await api.post<{ data: Incident; message?: string } | Incident>(
@@ -203,12 +221,60 @@ export const communityApi = {
   async updateIncident(
     organizationId: number | string,
     id: number | string,
-    payload: Pick<Incident, 'status'>,
+    payload: {
+      status?: CommunityShieldStatus;
+      safety_classification?: CommunityShieldSafetyClassification;
+    },
   ): Promise<Incident> {
     const { data } = await api.patch<Incident | { data: Incident }>(
       organizationPath(organizationId, `/incidents/${id}`),
       payload,
     );
     return unwrapData(data);
+  },
+
+  async addIncidentReply(
+    organizationId: number | string,
+    incidentId: number | string,
+    payload: Pick<IncidentReply, 'author' | 'content' | 'posted_at' | 'position'>,
+  ): Promise<IncidentReply> {
+    const { data } = await api.post<IncidentReply | { data: IncidentReply }>(
+      organizationPath(organizationId, `/incidents/${incidentId}/replies`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async deleteIncidentReply(
+    organizationId: number | string,
+    incidentId: number | string,
+    replyId: number | string,
+  ): Promise<void> {
+    await api.delete(organizationPath(organizationId, `/incidents/${incidentId}/replies/${replyId}`));
+  },
+
+  async addIncidentRelatedItem(
+    organizationId: number | string,
+    incidentId: number | string,
+    payload: Pick<
+      IncidentRelatedItem,
+      'platform' | 'content_type' | 'reference_url' | 'description' | 'observed_at'
+    >,
+  ): Promise<IncidentRelatedItem> {
+    const { data } = await api.post<IncidentRelatedItem | { data: IncidentRelatedItem }>(
+      organizationPath(organizationId, `/incidents/${incidentId}/related-items`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async deleteIncidentRelatedItem(
+    organizationId: number | string,
+    incidentId: number | string,
+    itemId: number | string,
+  ): Promise<void> {
+    await api.delete(
+      organizationPath(organizationId, `/incidents/${incidentId}/related-items/${itemId}`),
+    );
   },
 };

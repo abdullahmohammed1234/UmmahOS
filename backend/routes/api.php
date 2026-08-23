@@ -144,6 +144,18 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/incidents/{incident}', [IncidentController::class, 'update'])
                     ->middleware('organization.permission:incidents.manage')
                     ->name('api.organizations.incidents.update');
+                Route::post('/incidents/{incident}/replies', [IncidentController::class, 'storeReply'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.replies.store');
+                Route::delete('/incidents/{incident}/replies/{reply}', [IncidentController::class, 'destroyReply'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.replies.destroy');
+                Route::post('/incidents/{incident}/related-items', [IncidentController::class, 'storeRelatedItem'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.related-items.store');
+                Route::delete('/incidents/{incident}/related-items/{relatedItem}', [IncidentController::class, 'destroyRelatedItem'])
+                    ->middleware('organization.permission:incidents.manage')
+                    ->name('api.organizations.incidents.related-items.destroy');
 
                 Route::prefix('{module}')
                     ->whereIn('module', ['content', 'reports'])

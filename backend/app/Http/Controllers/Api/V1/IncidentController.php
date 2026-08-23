@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Incident\ListIncidentsRequest;
+use App\Http\Requests\Incident\StoreIncidentRelatedItemRequest;
+use App\Http\Requests\Incident\StoreIncidentReplyRequest;
 use App\Http\Requests\Incident\StoreIncidentRequest;
 use App\Http\Requests\Incident\UpdateIncidentRequest;
+use App\Http\Resources\IncidentRelatedItemResource;
+use App\Http\Resources\IncidentReplyResource;
 use App\Http\Resources\IncidentResource;
 use App\Models\Organization;
 use App\Services\IncidentService;
@@ -13,6 +17,7 @@ use App\Support\CommunityVisibility;
 use App\Support\Permissions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class IncidentController extends Controller
 {
@@ -80,7 +85,55 @@ class IncidentController extends Controller
         $model = $this->incidents->findInOrganization($organization, $incident);
 
         return new IncidentResource(
-            $this->incidents->updateStatus($model, $request->validated())
+            $this->incidents->updateReview($model, $request->user(), $request->validated())
         );
+    }
+
+    public function storeReply(
+        StoreIncidentReplyRequest $request,
+        Organization $organization,
+        int $incident
+    ): JsonResponse {
+        $model = $this->incidents->findInOrganization($organization, $incident);
+        $reply = $this->incidents->addReply($model, $request->validated());
+
+        return (new IncidentReplyResource($reply))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    public function destroyReply(
+        Organization $organization,
+        int $incident,
+        int $reply
+    ): Response {
+        $model = $this->incidents->findInOrganization($organization, $incident);
+        $this->incidents->deleteReply($model, $reply);
+
+        return response()->noContent();
+    }
+
+    public function storeRelatedItem(
+        StoreIncidentRelatedItemRequest $request,
+        Organization $organization,
+        int $incident
+    ): JsonResponse {
+        $model = $this->incidents->findInOrganization($organization, $incident);
+        $item = $this->incidents->addRelatedItem($model, $request->validated());
+
+        return (new IncidentRelatedItemResource($item))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    public function destroyRelatedItem(
+        Organization $organization,
+        int $incident,
+        int $relatedItem
+    ): Response {
+        $model = $this->incidents->findInOrganization($organization, $incident);
+        $this->incidents->deleteRelatedItem($model, $relatedItem);
+
+        return response()->noContent();
     }
 }

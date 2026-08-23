@@ -1,25 +1,20 @@
-export type CommunityShieldPlatform =
-  | 'x'
-  | 'youtube'
-  | 'tiktok'
-  | 'reddit'
-  | 'discord'
-  | 'telegram'
-  | 'whatsapp'
-  | 'other';
+import type {
+  CommunityShieldContentType,
+  CommunityShieldLanguage,
+  CommunityShieldPlatform,
+  CommunityShieldSafetyClassification,
+  CommunityShieldStatus,
+  CommunityShieldVisibility,
+} from '@/types';
 
-export type CommunityShieldContentType =
-  | 'post'
-  | 'comment'
-  | 'video'
-  | 'image'
-  | 'message'
-  | 'profile'
-  | 'thread';
-
-export type CommunityShieldVisibility = 'public' | 'group' | 'private' | 'unknown';
-
-export type CommunityShieldStatus = 'open' | 'reviewing' | 'resolved';
+export type {
+  CommunityShieldContentType,
+  CommunityShieldLanguage,
+  CommunityShieldPlatform,
+  CommunityShieldSafetyClassification,
+  CommunityShieldStatus,
+  CommunityShieldVisibility,
+};
 
 export const PLATFORM_OPTIONS: Array<{ value: CommunityShieldPlatform; label: string }> = [
   { value: 'x', label: 'X' },
@@ -75,6 +70,42 @@ export const STATUS_OPTIONS: Array<{ value: CommunityShieldStatus; label: string
   { value: 'resolved', label: 'Resolved' },
 ];
 
+export const LANGUAGE_OPTIONS: Array<{ value: CommunityShieldLanguage; label: string }> = [
+  { value: 'en', label: 'English' },
+  { value: 'ar', label: 'Arabic' },
+  { value: 'fr', label: 'French' },
+  { value: 'ur', label: 'Urdu' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'id', label: 'Indonesian' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'so', label: 'Somali' },
+  { value: 'sw', label: 'Swahili' },
+  { value: 'de', label: 'German' },
+  { value: 'nl', label: 'Dutch' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'zh', label: 'Chinese' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'other', label: 'Other' },
+  { value: 'unknown', label: 'Unknown / Not sure' },
+];
+
+export const SAFETY_CLASSIFICATION_OPTIONS: Array<{
+  value: CommunityShieldSafetyClassification;
+  label: string;
+}> = [
+  { value: 'unclassified', label: 'Not classified' },
+  { value: 'harassment', label: 'Harassment' },
+  { value: 'hate', label: 'Hate / hateful conduct' },
+  { value: 'threat', label: 'Threat' },
+  { value: 'targeted_abuse', label: 'Targeted abuse' },
+  { value: 'discrimination', label: 'Discrimination' },
+  { value: 'incitement', label: 'Incitement' },
+  { value: 'other', label: 'Other concern' },
+];
+
 const PLATFORM_CONTENT_HINTS: Record<CommunityShieldPlatform, string> = {
   x: 'Common examples: Post, Comment, Profile',
   youtube: 'Common examples: Video, Comment, Channel/Profile',
@@ -102,10 +133,54 @@ export function statusLabel(value: string): string {
   return STATUS_OPTIONS.find((option) => option.value === value)?.label ?? value;
 }
 
+export function languageLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Unknown / Not sure';
+  }
+
+  return LANGUAGE_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function safetyClassificationLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Not classified';
+  }
+
+  return SAFETY_CLASSIFICATION_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
 export function platformContentHint(platform: CommunityShieldPlatform | ''): string {
   if (!platform) {
     return 'Select a platform to see common content examples.';
   }
 
   return PLATFORM_CONTENT_HINTS[platform];
+}
+
+export function toDatetimeLocalValue(iso: string | null | undefined): string {
+  if (!iso) {
+    return '';
+  }
+
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+export function fromDatetimeLocalValue(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const date = new Date(trimmed);
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date.toISOString();
 }

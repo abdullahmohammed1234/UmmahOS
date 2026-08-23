@@ -144,7 +144,7 @@ class DemoCommunitySeeder extends Seeder
             ]
         );
 
-        Incident::query()->firstOrCreate(
+        $alphaFlagship = Incident::query()->firstOrCreate(
             [
                 'organization_id' => $alpha->id,
                 'reported_by' => $member->id,
@@ -155,9 +155,47 @@ class DemoCommunitySeeder extends Seeder
                 'visibility' => Incident::VISIBILITY_PUBLIC,
                 'source_url' => 'https://x.com/example/status/alpha-demo-1',
                 'description' => 'Alpha member reported a concerning public post targeting students after jumuah. This report belongs only to Demo MSA Alpha.',
-                'status' => Incident::STATUS_OPEN,
+                'original_item_title' => 'Campus students after jumuah',
+                'original_item_content' => "These people don't belong here. Someone should remind them after Friday prayer.",
+                'original_item_author' => '@campusvoice_demo',
+                'original_item_posted_at' => now()->subDays(2)->setTime(14, 20),
+                'observed_at' => now()->subDay()->setTime(9, 15),
+                'surrounding_context' => 'The post appeared in a public timeline thread about campus facilities. Several replies amplified the hostility before the original account deleted one reply.',
+                'language' => 'en',
+                'reporter_notes' => 'I saw a similar tone from this account earlier today in another public thread.',
+                'safety_classification' => Incident::CLASSIFICATION_HATE,
+                'classified_by' => $admin->id,
+                'classified_at' => now()->subHours(6),
+                'status' => Incident::STATUS_REVIEWING,
             ]
         );
+
+        if ($alphaFlagship->replies()->count() === 0) {
+            $alphaFlagship->replies()->createMany([
+                [
+                    'author' => '@ally_demo',
+                    'content' => 'This is wrong. Leave students alone.',
+                    'posted_at' => now()->subDays(2)->setTime(14, 35),
+                    'position' => 0,
+                ],
+                [
+                    'author' => '@campusvoice_demo',
+                    'content' => 'Keep pushing it. They heard us.',
+                    'posted_at' => now()->subDays(2)->setTime(14, 48),
+                    'position' => 1,
+                ],
+            ]);
+        }
+
+        if ($alphaFlagship->relatedItems()->count() === 0) {
+            $alphaFlagship->relatedItems()->create([
+                'platform' => Incident::PLATFORM_REDDIT,
+                'content_type' => Incident::CONTENT_TYPE_POST,
+                'reference_url' => 'https://reddit.com/r/example/comments/alpha-related-copy',
+                'description' => 'Nearly identical wording reposted in a campus subreddit the same evening.',
+                'observed_at' => now()->subDay()->setTime(21, 0),
+            ]);
+        }
 
         Incident::query()->firstOrCreate(
             [
@@ -170,7 +208,14 @@ class DemoCommunitySeeder extends Seeder
                 'visibility' => Incident::VISIBILITY_GROUP,
                 'source_url' => null,
                 'description' => 'Concerning messages appeared in an Alpha Discord community channel. No public URL is available.',
-                'status' => Incident::STATUS_REVIEWING,
+                'original_item_content' => 'Anyone know which dorm the MSA officers live in?',
+                'original_item_author' => 'guest_user_demo',
+                'observed_at' => now()->subHours(18),
+                'surrounding_context' => 'Posted in a general campus Discord server after a heated politics channel discussion.',
+                'language' => 'en',
+                'reporter_notes' => 'Channel moderators later deleted the message, but members still saw it.',
+                'safety_classification' => Incident::CLASSIFICATION_UNCLASSIFIED,
+                'status' => Incident::STATUS_OPEN,
             ]
         );
 
@@ -185,6 +230,10 @@ class DemoCommunitySeeder extends Seeder
                 'visibility' => Incident::VISIBILITY_PUBLIC,
                 'source_url' => 'https://reddit.com/r/example/comments/alpha-demo',
                 'description' => 'Resolved Alpha demo thread that was reviewed by organization admins.',
+                'language' => 'en',
+                'safety_classification' => Incident::CLASSIFICATION_OTHER,
+                'classified_by' => $admin->id,
+                'classified_at' => now()->subDays(4),
                 'status' => Incident::STATUS_RESOLVED,
             ]
         );
@@ -280,20 +329,57 @@ class DemoCommunitySeeder extends Seeder
             ]
         );
 
-        Incident::query()->firstOrCreate(
+        $betaFlagship = Incident::query()->firstOrCreate(
             [
                 'organization_id' => $beta->id,
                 'reported_by' => $multiUser->id,
-                'platform' => Incident::PLATFORM_TIKTOK,
-                'content_type' => Incident::CONTENT_TYPE_VIDEO,
+                'platform' => Incident::PLATFORM_DISCORD,
+                'content_type' => Incident::CONTENT_TYPE_MESSAGE,
             ],
             [
-                'visibility' => Incident::VISIBILITY_PUBLIC,
-                'source_url' => 'https://tiktok.com/@example/video/beta-demo-1',
-                'description' => 'Beta-only Community Shield report about a public TikTok video, submitted by the multi-organization user while operating inside Beta.',
-                'status' => Incident::STATUS_REVIEWING,
+                'visibility' => Incident::VISIBILITY_GROUP,
+                'source_url' => null,
+                'description' => 'Beta Community Shield report about hostile messages in a community Discord server, submitted by the multi-organization user while operating inside Beta.',
+                'original_item_title' => 'Server #general exchange',
+                'original_item_content' => 'لا أحد يريدكم هنا. اخرجوا من الحرم الجامعي.',
+                'original_item_author' => 'beta_guest_demo',
+                'original_item_posted_at' => now()->subDays(1)->setTime(19, 40),
+                'observed_at' => now()->subHours(10),
+                'surrounding_context' => 'The message followed a longer argument about student clubs. Several members replied before moderators muted the channel.',
+                'language' => 'ar',
+                'reporter_notes' => 'I can translate if needed. The account is new and has no public profile link.',
+                'safety_classification' => Incident::CLASSIFICATION_UNCLASSIFIED,
+                'status' => Incident::STATUS_OPEN,
             ]
         );
+
+        if ($betaFlagship->replies()->count() === 0) {
+            $betaFlagship->replies()->create([
+                'author' => 'mod_helper_demo',
+                'content' => 'Please stop. This is not allowed in this server.',
+                'posted_at' => now()->subDays(1)->setTime(19, 55),
+                'position' => 0,
+            ]);
+        }
+
+        if ($betaFlagship->relatedItems()->count() === 0) {
+            $betaFlagship->relatedItems()->createMany([
+                [
+                    'platform' => Incident::PLATFORM_TELEGRAM,
+                    'content_type' => Incident::CONTENT_TYPE_MESSAGE,
+                    'reference_url' => null,
+                    'description' => 'Similar Arabic phrasing appeared in a Telegram campus chat the next morning.',
+                    'observed_at' => now()->subHours(8),
+                ],
+                [
+                    'platform' => Incident::PLATFORM_TIKTOK,
+                    'content_type' => Incident::CONTENT_TYPE_VIDEO,
+                    'reference_url' => 'https://tiktok.com/@example/video/beta-related-copy',
+                    'description' => 'Short video repeating the same talking points with overlay text.',
+                    'observed_at' => now()->subHours(5),
+                ],
+            ]);
+        }
 
         Incident::query()->firstOrCreate(
             [
@@ -306,7 +392,16 @@ class DemoCommunitySeeder extends Seeder
                 'visibility' => Incident::VISIBILITY_PRIVATE,
                 'source_url' => null,
                 'description' => 'Private WhatsApp message reported to Demo MSA Beta. Only necessary context was included.',
-                'status' => Incident::STATUS_OPEN,
+                'original_item_content' => 'I know where your meetings are. Watch yourself.',
+                'original_item_author' => 'Unknown contact',
+                'observed_at' => now()->subHours(4),
+                'surrounding_context' => 'Received as a direct message after a public campus event flyer was shared in another chat.',
+                'language' => 'en',
+                'reporter_notes' => 'No phone number or contact details included beyond what is needed for review.',
+                'safety_classification' => Incident::CLASSIFICATION_THREAT,
+                'classified_by' => $admin->id,
+                'classified_at' => now()->subHour(),
+                'status' => Incident::STATUS_REVIEWING,
             ]
         );
 
@@ -321,6 +416,10 @@ class DemoCommunitySeeder extends Seeder
                 'visibility' => Incident::VISIBILITY_PUBLIC,
                 'source_url' => 'https://youtube.com/watch?v=beta-demo-comment',
                 'description' => 'Resolved Beta demo YouTube comment that was reviewed by organization admins.',
+                'language' => 'en',
+                'safety_classification' => Incident::CLASSIFICATION_HARASSMENT,
+                'classified_by' => $admin->id,
+                'classified_at' => now()->subDays(3),
                 'status' => Incident::STATUS_RESOLVED,
             ]
         );

@@ -22,6 +22,17 @@ class IncidentFactory extends Factory
             'visibility' => fake()->randomElement(Incident::visibilities()),
             'source_url' => null,
             'description' => fake()->paragraph(),
+            'original_item_title' => null,
+            'original_item_content' => null,
+            'original_item_author' => null,
+            'original_item_posted_at' => null,
+            'observed_at' => null,
+            'surrounding_context' => null,
+            'language' => Incident::LANGUAGE_UNKNOWN,
+            'reporter_notes' => null,
+            'safety_classification' => Incident::CLASSIFICATION_UNCLASSIFIED,
+            'classified_by' => null,
+            'classified_at' => null,
             'status' => Incident::STATUS_OPEN,
         ];
     }
