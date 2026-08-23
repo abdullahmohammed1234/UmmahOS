@@ -67,6 +67,16 @@ const router = createRouter({
           component: () => import('@/pages/CommunityShieldPage.vue'),
         },
         {
+          path: 'community-shield/review-queue',
+          name: 'community-shield-review-queue',
+          component: () => import('@/pages/admin/ReviewQueuePage.vue'),
+        },
+        {
+          path: 'community-shield/review-queue/:id',
+          name: 'community-shield-review-detail',
+          component: () => import('@/pages/admin/ReviewDetailPage.vue'),
+        },
+        {
           path: 'members',
           name: 'members',
           component: () => import('@/pages/MembersPage.vue'),

@@ -34,9 +34,20 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
+        $reviewer = Role::query()->firstOrCreate(
+            ['slug' => Role::COMMUNITY_SAFETY_REVIEWER],
+            [
+                'name' => 'Community Safety Reviewer',
+                'description' => 'Organization-scoped Community Shield reviewer. Permissions apply only inside the assigned organization.',
+            ]
+        );
+
         $admin->permissions()->sync(Permission::query()->pluck('id'));
         $member->permissions()->sync(
             Permission::query()->whereIn('slug', Permissions::viewSlugs())->pluck('id')
+        );
+        $reviewer->permissions()->sync(
+            Permission::query()->whereIn('slug', Permissions::communitySafetyReviewerSlugs())->pluck('id')
         );
     }
 }

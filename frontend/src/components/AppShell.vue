@@ -23,6 +23,14 @@
         <RouterLink to="/academy" active-class="active">Academy</RouterLink>
         <RouterLink to="/community-shield" active-class="active">Community Shield</RouterLink>
 
+        <template v-if="organization.canReviewIncidents">
+          <p class="nav-label">Community Shield Review</p>
+          <RouterLink to="/admin/community-shield" active-class="active">Reports</RouterLink>
+          <RouterLink to="/community-shield/review-queue" active-class="active" data-testid="nav-review-queue">
+            Review Queue
+          </RouterLink>
+        </template>
+
         <template v-if="organization.isOrganizationAdmin">
           <p class="nav-label">Organization</p>
           <RouterLink to="/admin" exact-active-class="active">Dashboard</RouterLink>
@@ -31,7 +39,6 @@
           <RouterLink to="/admin/events" active-class="active">Events</RouterLink>
           <RouterLink to="/admin/resources" active-class="active">Resources</RouterLink>
           <RouterLink to="/admin/academy" active-class="active">Academy</RouterLink>
-          <RouterLink to="/admin/community-shield" active-class="active">Community Shield</RouterLink>
           <RouterLink
             v-if="organization.canManageOrganization"
             to="/settings"

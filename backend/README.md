@@ -25,8 +25,10 @@ Demo password for seeded users: `password`
 
 - `alpha.admin@example.com` — Demo MSA Alpha admin
 - `alpha.member@example.com` — Demo MSA Alpha member
+- `alpha.reviewer@example.com` — Demo MSA Alpha Community Safety Reviewer
 - `beta.admin@example.com` — Demo MSA Beta admin
-- `multi.user@example.com` — Alpha member + Beta admin
+- `beta.reviewer@example.com` — Demo MSA Beta Community Safety Reviewer
+- `multi.user@example.com` — Alpha Community Safety Reviewer + Beta admin
 - `outsider@example.com` — no memberships
 
 ## Tests

@@ -34,6 +34,15 @@ class IncidentFactory extends Factory
             'classified_by' => null,
             'classified_at' => null,
             'status' => Incident::STATUS_OPEN,
+            'review_outcome' => null,
+            'escalated' => false,
+            'escalation_reason' => null,
+            'escalated_by' => null,
+            'escalated_at' => null,
+            'current_reviewer_id' => null,
+            'review_started_at' => null,
+            'review_notes' => null,
+            'review_lock_version' => 1,
         ];
     }
 

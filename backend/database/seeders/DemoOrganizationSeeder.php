@@ -15,6 +15,7 @@ class DemoOrganizationSeeder extends Seeder
     {
         $adminRole = Role::admin();
         $memberRole = Role::member();
+        $reviewerRole = Role::communitySafetyReviewer();
 
         $alpha = Organization::query()->firstOrCreate(
             ['slug' => 'demo-msa-alpha'],
@@ -48,6 +49,13 @@ class DemoOrganizationSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Alpha Reviewer',
+                'email' => 'alpha.reviewer@example.com',
+                'memberships' => [
+                    ['organization' => $alpha, 'role' => $reviewerRole],
+                ],
+            ],
+            [
                 'name' => 'Beta Admin',
                 'email' => 'beta.admin@example.com',
                 'memberships' => [
@@ -55,10 +63,17 @@ class DemoOrganizationSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Beta Reviewer',
+                'email' => 'beta.reviewer@example.com',
+                'memberships' => [
+                    ['organization' => $beta, 'role' => $reviewerRole],
+                ],
+            ],
+            [
                 'name' => 'Multi Org User',
                 'email' => 'multi.user@example.com',
                 'memberships' => [
-                    ['organization' => $alpha, 'role' => $memberRole],
+                    ['organization' => $alpha, 'role' => $reviewerRole],
                     ['organization' => $beta, 'role' => $adminRole],
                 ],
             ],
@@ -80,7 +95,7 @@ class DemoOrganizationSeeder extends Seeder
             );
 
             foreach ($definition['memberships'] as $membership) {
-                Membership::query()->firstOrCreate(
+                Membership::query()->updateOrCreate(
                     [
                         'user_id' => $user->id,
                         'organization_id' => $membership['organization']->id,

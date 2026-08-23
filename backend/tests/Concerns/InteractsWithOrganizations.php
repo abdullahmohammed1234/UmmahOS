@@ -14,12 +14,15 @@ trait InteractsWithOrganizations
 
     protected Role $memberRole;
 
+    protected Role $reviewerRole;
+
     protected function seedRbac(): void
     {
         $this->seed(RolePermissionSeeder::class);
 
         $this->adminRole = Role::admin();
         $this->memberRole = Role::member();
+        $this->reviewerRole = Role::communitySafetyReviewer();
     }
 
     protected function createOrganization(array $attributes = []): Organization

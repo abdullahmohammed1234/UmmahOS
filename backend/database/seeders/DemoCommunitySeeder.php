@@ -6,9 +6,14 @@ use App\Models\Announcement;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Incident;
+use App\Models\IncidentAiAnalysis;
+use App\Models\IncidentContextRequest;
+use App\Models\IncidentReview;
+use App\Models\IncidentReviewAction;
 use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
+use App\Prompts\CommunityShieldContextAnalysisV1;
 use Illuminate\Database\Seeder;
 
 class DemoCommunitySeeder extends Seeder
@@ -20,15 +25,21 @@ class DemoCommunitySeeder extends Seeder
 
         $alphaAdmin = User::query()->where('email', 'alpha.admin@example.com')->firstOrFail();
         $alphaMember = User::query()->where('email', 'alpha.member@example.com')->firstOrFail();
+        $alphaReviewer = User::query()->where('email', 'alpha.reviewer@example.com')->firstOrFail();
         $betaAdmin = User::query()->where('email', 'beta.admin@example.com')->firstOrFail();
         $multiUser = User::query()->where('email', 'multi.user@example.com')->firstOrFail();
 
-        $this->seedAlpha($alpha, $alphaAdmin, $alphaMember);
+        $this->seedAlpha($alpha, $alphaAdmin, $alphaMember, $alphaReviewer, $multiUser);
         $this->seedBeta($beta, $betaAdmin, $multiUser);
     }
 
-    private function seedAlpha(Organization $alpha, User $admin, User $member): void
-    {
+    private function seedAlpha(
+        Organization $alpha,
+        User $admin,
+        User $member,
+        User $reviewer,
+        User $multiUser
+    ): void {
         Announcement::query()->firstOrCreate(
             [
                 'organization_id' => $alpha->id,
@@ -163,10 +174,13 @@ class DemoCommunitySeeder extends Seeder
                 'surrounding_context' => 'The post appeared in a public timeline thread about campus facilities. Several replies amplified the hostility before the original account deleted one reply.',
                 'language' => 'en',
                 'reporter_notes' => 'I saw a similar tone from this account earlier today in another public thread.',
-                'safety_classification' => Incident::CLASSIFICATION_HATE,
-                'classified_by' => $admin->id,
-                'classified_at' => now()->subHours(6),
-                'status' => Incident::STATUS_REVIEWING,
+                'safety_classification' => Incident::CLASSIFICATION_UNCLASSIFIED,
+                'classified_by' => null,
+                'classified_at' => null,
+                'status' => Incident::STATUS_OPEN,
+                'review_outcome' => null,
+                'escalated' => false,
+                'review_lock_version' => 1,
             ]
         );
 
@@ -197,7 +211,31 @@ class DemoCommunitySeeder extends Seeder
             ]);
         }
 
-        Incident::query()->firstOrCreate(
+        $this->seedCompletedAnalysis($alphaFlagship, $admin, [
+            'signals' => [
+                [
+                    'name' => 'religious_identity_targeting',
+                    'description' => 'Language targets students associated with Friday prayer.',
+                    'evidence' => ['after Friday prayer', "don't belong here"],
+                    'confidence' => 'moderate',
+                ],
+            ],
+            'classification' => [
+                'label' => 'potential_hate',
+                'confidence' => 'moderate',
+            ],
+            'uncertainty' => [
+                'level' => 'moderate',
+                'explanation' => 'Tone is hostile, but intent could also be interpreted as political grievance without further context.',
+            ],
+            'alternative_interpretation' => 'Could be hyperbolic political speech rather than actionable hate.',
+            'recommended_action' => [
+                'type' => 'human_review',
+                'reason' => 'Human review recommended before any determination.',
+            ],
+        ]);
+
+        $discordOpen = Incident::query()->firstOrCreate(
             [
                 'organization_id' => $alpha->id,
                 'reported_by' => $member->id,
@@ -211,13 +249,132 @@ class DemoCommunitySeeder extends Seeder
                 'original_item_content' => 'Anyone know which dorm the MSA officers live in?',
                 'original_item_author' => 'guest_user_demo',
                 'observed_at' => now()->subHours(18),
-                'surrounding_context' => 'Posted in a general campus Discord server after a heated politics channel discussion.',
+                'surrounding_context' => 'Posted in a general campus Discord server after a heated politics channel discussion. Preceding replies are incomplete.',
                 'language' => 'en',
                 'reporter_notes' => 'Channel moderators later deleted the message, but members still saw it.',
                 'safety_classification' => Incident::CLASSIFICATION_UNCLASSIFIED,
-                'status' => Incident::STATUS_OPEN,
+                'status' => Incident::STATUS_REVIEWING,
+                'review_outcome' => Incident::OUTCOME_UNCERTAIN,
+                'current_reviewer_id' => $reviewer->id,
+                'review_started_at' => now()->subHours(2),
+                'review_notes' => 'The original post is concerning, but the surrounding conversation is incomplete.',
+                'escalated' => false,
+                'review_lock_version' => 2,
             ]
         );
+
+        $this->seedCompletedAnalysis($discordOpen, $admin, [
+            'signals' => [
+                [
+                    'name' => 'location_seeking',
+                    'description' => 'Asks for dorm location of MSA officers.',
+                    'evidence' => ['which dorm the MSA officers live in'],
+                    'confidence' => 'moderate',
+                ],
+            ],
+            'classification' => [
+                'label' => 'unclear',
+                'confidence' => 'low',
+            ],
+            'uncertainty' => [
+                'level' => 'high',
+                'explanation' => 'Could be curiosity, doxxing preparation, or unrelated housing talk without preceding replies.',
+            ],
+            'alternative_interpretation' => 'May be a clumsy housing question with no harmful intent.',
+            'recommended_action' => [
+                'type' => 'request_more_context',
+                'reason' => 'Need preceding replies before making a determination.',
+            ],
+        ]);
+
+        if ($discordOpen->reviews()->count() === 0) {
+            $discordOpen->reviews()->create([
+                'reviewer_id' => $reviewer->id,
+                'outcome' => IncidentReview::OUTCOME_UNCERTAIN,
+                'notes' => 'Need preceding replies before classification.',
+                'is_current' => true,
+            ]);
+        }
+
+        if ($discordOpen->reviewActions()->count() === 0) {
+            $discordOpen->reviewActions()->createMany([
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_STARTED,
+                    'notes' => 'Started review',
+                    'created_at' => now()->subHours(2),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_MARKED_UNCERTAIN,
+                    'notes' => 'Need preceding replies before classification.',
+                    'created_at' => now()->subHour(),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_CONTEXT_REQUESTED,
+                    'notes' => 'Need the two replies immediately preceding the reported comment.',
+                    'created_at' => now()->subMinutes(50),
+                ],
+            ]);
+        }
+
+        if ($discordOpen->contextRequests()->count() === 0) {
+            $discordOpen->contextRequests()->create([
+                'requested_by' => $reviewer->id,
+                'reason' => 'Need the two replies immediately preceding the reported comment.',
+                'status' => IncidentContextRequest::STATUS_OPEN,
+                'requested_at' => now()->subMinutes(50),
+            ]);
+        }
+
+        $escalatedReport = Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $multiUser->id,
+                'platform' => Incident::PLATFORM_TELEGRAM,
+                'content_type' => Incident::CONTENT_TYPE_MESSAGE,
+            ],
+            [
+                'visibility' => Incident::VISIBILITY_PRIVATE,
+                'description' => 'Escalated Alpha demo report requiring specialized human review.',
+                'original_item_content' => 'We know who your leaders are. This will not stay online forever.',
+                'original_item_author' => 'telegram_guest_demo',
+                'observed_at' => now()->subHours(8),
+                'surrounding_context' => 'Received in a private Telegram chat after a public flyer was shared.',
+                'language' => 'en',
+                'reporter_notes' => 'Feels more serious than the usual harassment reports.',
+                'safety_classification' => Incident::CLASSIFICATION_THREAT,
+                'classified_by' => $reviewer->id,
+                'classified_at' => now()->subHours(3),
+                'status' => Incident::STATUS_REVIEWING,
+                'review_outcome' => null,
+                'escalated' => true,
+                'escalation_reason' => 'Possible targeted threat language requiring higher-level human review.',
+                'escalated_by' => $reviewer->id,
+                'escalated_at' => now()->subHours(3),
+                'current_reviewer_id' => $reviewer->id,
+                'review_started_at' => now()->subHours(4),
+                'review_lock_version' => 3,
+            ]
+        );
+
+        if ($escalatedReport->reviewActions()->count() === 0) {
+            $escalatedReport->reviewActions()->createMany([
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_STARTED,
+                    'notes' => 'Started review',
+                    'created_at' => now()->subHours(4),
+                ],
+                [
+                    'actor_id' => $reviewer->id,
+                    'action' => IncidentReviewAction::ACTION_ESCALATED,
+                    'notes' => 'Possible targeted threat language requiring higher-level human review.',
+                    'created_at' => now()->subHours(3),
+                ],
+            ]);
+        }
 
         Incident::query()->firstOrCreate(
             [
@@ -229,12 +386,18 @@ class DemoCommunitySeeder extends Seeder
             [
                 'visibility' => Incident::VISIBILITY_PUBLIC,
                 'source_url' => 'https://reddit.com/r/example/comments/alpha-demo',
-                'description' => 'Resolved Alpha demo thread that was reviewed by organization admins.',
+                'description' => 'Resolved Alpha demo thread confirmed by a Community Safety Reviewer.',
                 'language' => 'en',
-                'safety_classification' => Incident::CLASSIFICATION_OTHER,
-                'classified_by' => $admin->id,
+                'safety_classification' => Incident::CLASSIFICATION_HATE,
+                'classified_by' => $reviewer->id,
                 'classified_at' => now()->subDays(4),
                 'status' => Incident::STATUS_RESOLVED,
+                'review_outcome' => Incident::OUTCOME_CONFIRMED,
+                'review_notes' => 'Context and related copies support the classification.',
+                'current_reviewer_id' => $reviewer->id,
+                'review_started_at' => now()->subDays(4)->subHour(),
+                'escalated' => false,
+                'review_lock_version' => 4,
             ]
         );
     }
@@ -423,5 +586,25 @@ class DemoCommunitySeeder extends Seeder
                 'status' => Incident::STATUS_RESOLVED,
             ]
         );
+    }
+
+    /**
+     * @param  array<string, mixed>  $analysis
+     */
+    private function seedCompletedAnalysis(Incident $incident, User $requester, array $analysis): void
+    {
+        if ($incident->aiAnalyses()->exists()) {
+            return;
+        }
+
+        $incident->aiAnalyses()->create([
+            'provider' => 'fake',
+            'model' => 'fake-model',
+            'prompt_version' => CommunityShieldContextAnalysisV1::VERSION,
+            'status' => IncidentAiAnalysis::STATUS_COMPLETED,
+            'analysis' => $analysis,
+            'error_message' => null,
+            'requested_by' => $requester->id,
+        ]);
     }
 }

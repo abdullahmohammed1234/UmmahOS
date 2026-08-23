@@ -21,6 +21,10 @@ final class Permissions
 
     public const INCIDENTS_VIEW = 'incidents.view';
     public const INCIDENTS_MANAGE = 'incidents.manage';
+    public const INCIDENTS_REVIEW = 'incidents.review';
+    public const INCIDENTS_REQUEST_CONTEXT = 'incidents.request_context';
+    public const INCIDENTS_ESCALATE = 'incidents.escalate';
+    public const INCIDENTS_CLASSIFY = 'incidents.classify';
 
     public const REPORTS_VIEW = 'reports.view';
     public const REPORTS_MANAGE = 'reports.manage';
@@ -43,8 +47,29 @@ final class Permissions
             ['name' => 'Manage content', 'slug' => self::CONTENT_MANAGE],
             ['name' => 'View incidents', 'slug' => self::INCIDENTS_VIEW],
             ['name' => 'Manage incidents', 'slug' => self::INCIDENTS_MANAGE],
+            ['name' => 'Review incidents', 'slug' => self::INCIDENTS_REVIEW],
+            ['name' => 'Request incident context', 'slug' => self::INCIDENTS_REQUEST_CONTEXT],
+            ['name' => 'Escalate incidents', 'slug' => self::INCIDENTS_ESCALATE],
+            ['name' => 'Classify incidents', 'slug' => self::INCIDENTS_CLASSIFY],
             ['name' => 'View reports', 'slug' => self::REPORTS_VIEW],
             ['name' => 'Manage reports', 'slug' => self::REPORTS_MANAGE],
+        ];
+    }
+
+    /**
+     * Permissions granted to the Community Safety Reviewer role.
+     *
+     * @return list<string>
+     */
+    public static function communitySafetyReviewerSlugs(): array
+    {
+        return [
+            self::ORGANIZATION_VIEW,
+            self::INCIDENTS_VIEW,
+            self::INCIDENTS_REVIEW,
+            self::INCIDENTS_REQUEST_CONTEXT,
+            self::INCIDENTS_ESCALATE,
+            self::INCIDENTS_CLASSIFY,
         ];
     }
 

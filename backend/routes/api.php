@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\FutureModuleIsolationController;
 use App\Http\Controllers\Api\V1\IncidentAiAnalysisController;
 use App\Http\Controllers\Api\V1\IncidentController;
+use App\Http\Controllers\Api\V1\IncidentReviewController;
 use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\OrganizationContextController;
 use App\Http\Controllers\Api\V1\OrganizationController;
@@ -137,36 +138,64 @@ Route::prefix('v1')->group(function () {
                 Route::post('/incidents', [IncidentController::class, 'store'])
                     ->name('api.organizations.incidents.store');
                 Route::get('/incidents', [IncidentController::class, 'index'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.index');
                 Route::get('/incidents/{incident}', [IncidentController::class, 'show'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.show');
                 Route::patch('/incidents/{incident}', [IncidentController::class, 'update'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.classify')
                     ->name('api.organizations.incidents.update');
                 Route::post('/incidents/{incident}/replies', [IncidentController::class, 'storeReply'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.replies.store');
                 Route::delete('/incidents/{incident}/replies/{reply}', [IncidentController::class, 'destroyReply'])
                     ->middleware('organization.permission:incidents.manage')
                     ->name('api.organizations.incidents.replies.destroy');
                 Route::post('/incidents/{incident}/related-items', [IncidentController::class, 'storeRelatedItem'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.related-items.store');
                 Route::delete('/incidents/{incident}/related-items/{relatedItem}', [IncidentController::class, 'destroyRelatedItem'])
                     ->middleware('organization.permission:incidents.manage')
                     ->name('api.organizations.incidents.related-items.destroy');
 
                 Route::post('/incidents/{incident}/ai-analysis', [IncidentAiAnalysisController::class, 'store'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.ai-analysis.store');
                 Route::get('/incidents/{incident}/ai-analyses', [IncidentAiAnalysisController::class, 'index'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.ai-analyses.index');
                 Route::get('/incidents/{incident}/ai-analyses/{analysis}', [IncidentAiAnalysisController::class, 'show'])
-                    ->middleware('organization.permission:incidents.manage')
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
                     ->name('api.organizations.incidents.ai-analyses.show');
+
+                Route::get('/community-shield/review-queue', [IncidentReviewController::class, 'queue'])
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.review-queue');
+                Route::get('/community-shield/reports/{report}/review', [IncidentReviewController::class, 'show'])
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.reports.review');
+                Route::post('/community-shield/reports/{report}/review/start', [IncidentReviewController::class, 'start'])
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.reports.review.start');
+                Route::post('/community-shield/reports/{report}/review/confirm', [IncidentReviewController::class, 'confirm'])
+                    ->middleware('organization.permission:incidents.manage|incidents.classify')
+                    ->name('api.organizations.community-shield.reports.review.confirm');
+                Route::post('/community-shield/reports/{report}/review/uncertain', [IncidentReviewController::class, 'uncertain'])
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.reports.review.uncertain');
+                Route::post('/community-shield/reports/{report}/review/close', [IncidentReviewController::class, 'close'])
+                    ->middleware('organization.permission:incidents.manage|incidents.review')
+                    ->name('api.organizations.community-shield.reports.review.close');
+                Route::post('/community-shield/reports/{report}/review/escalate', [IncidentReviewController::class, 'escalate'])
+                    ->middleware('organization.permission:incidents.manage|incidents.escalate')
+                    ->name('api.organizations.community-shield.reports.review.escalate');
+                Route::post('/community-shield/reports/{report}/context-requests', [IncidentReviewController::class, 'storeContextRequest'])
+                    ->middleware('organization.permission:incidents.manage|incidents.request_context')
+                    ->name('api.organizations.community-shield.reports.context-requests.store');
+                Route::patch('/community-shield/reports/{report}/context-requests/{contextRequest}', [IncidentReviewController::class, 'updateContextRequest'])
+                    ->middleware('organization.permission:incidents.manage|incidents.request_context')
+                    ->name('api.organizations.community-shield.reports.context-requests.update');
 
                 Route::prefix('{module}')
                     ->whereIn('module', ['content', 'reports'])

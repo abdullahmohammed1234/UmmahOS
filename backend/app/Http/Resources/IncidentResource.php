@@ -38,6 +38,15 @@ class IncidentResource extends JsonResource
                 : null),
             'classified_at' => $this->classified_at?->toIso8601String(),
             'status' => $this->status,
+            'review_outcome' => $this->review_outcome,
+            'escalated' => (bool) $this->escalated,
+            'escalation_reason' => $this->escalation_reason,
+            'current_reviewer' => $this->whenLoaded('currentReviewer', fn () => $this->currentReviewer
+                ? new UserSummaryResource($this->currentReviewer)
+                : null),
+            'review_started_at' => $this->review_started_at?->toIso8601String(),
+            'review_notes' => $this->review_notes,
+            'review_lock_version' => (int) ($this->review_lock_version ?? 1),
             'replies' => IncidentReplyResource::collection($this->whenLoaded('replies')),
             'related_items' => IncidentRelatedItemResource::collection($this->whenLoaded('relatedItems')),
             'reported_by' => $this->whenLoaded('reporter', fn () => new UserSummaryResource($this->reporter)),

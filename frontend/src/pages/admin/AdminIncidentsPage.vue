@@ -5,7 +5,7 @@
       <p class="muted">Review reports submitted in the current organization only.</p>
     </div>
 
-    <p v-if="!organization.canManageIncidents" class="error" data-testid="admin-denied">
+    <p v-if="!organization.canReviewIncidents" class="error" data-testid="admin-denied">
       You cannot review Community Shield reports in this organization.
     </p>
 
@@ -89,7 +89,7 @@ const statusFilter = ref<CommunityShieldStatus | ''>('');
 const counts = ref({ open: 0, reviewing: 0, resolved: 0 });
 
 const { isLoading, error } = useOrganizationQuery(async (organizationId) => {
-  if (!organization.canManageIncidents) {
+  if (!organization.canReviewIncidents) {
     items.value = [];
     counts.value = { open: 0, reviewing: 0, resolved: 0 };
     return;
@@ -107,7 +107,7 @@ const { isLoading, error } = useOrganizationQuery(async (organizationId) => {
 watch(statusFilter, async (status) => {
   const organizationId = organization.currentOrganization?.id;
 
-  if (!organizationId || !organization.canManageIncidents) {
+  if (!organizationId || !organization.canReviewIncidents) {
     return;
   }
 

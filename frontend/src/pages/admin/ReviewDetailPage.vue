@@ -1,0 +1,728 @@
+<template>
+  <section class="panel content stack review" data-testid="review-detail-page">
+    <RouterLink to="/community-shield/review-queue">Back to review queue</RouterLink>
+
+    <p v-if="!organization.canReviewIncidents" class="error" data-testid="review-denied">
+      You cannot review Community Shield reports in this organization.
+    </p>
+    <p v-else-if="error" class="error" data-testid="review-error">{{ error }}</p>
+    <p v-else-if="isLoading || !pkg" class="muted">Loading review package…</p>
+
+    <template v-else>
+      <header class="header">
+        <p class="eyebrow">Community Safety Review</p>
+        <h1>Report #{{ pkg.incident.id }}</h1>
+        <p class="muted">
+          {{ platformLabel(pkg.incident.platform) }} · {{ contentTypeLabel(pkg.incident.content_type) }} ·
+          {{ visibilityLabel(pkg.incident.visibility) }} · {{ statusLabel(pkg.incident.status) }}
+          <template v-if="pkg.incident.review_outcome">
+            · {{ reviewOutcomeLabel(pkg.incident.review_outcome) }}
+          </template>
+          <template v-if="pkg.incident.escalated"> · Escalated</template>
+        </p>
+      </header>
+
+      <section class="block" data-testid="incident-block">
+        <h2>Incident</h2>
+        <dl class="details">
+          <div>
+            <dt>Platform</dt>
+            <dd>{{ platformLabel(pkg.incident.platform) }}</dd>
+          </div>
+          <div>
+            <dt>Content type</dt>
+            <dd>{{ contentTypeLabel(pkg.incident.content_type) }}</dd>
+          </div>
+          <div>
+            <dt>Visibility</dt>
+            <dd>{{ visibilityLabel(pkg.incident.visibility) }}</dd>
+          </div>
+          <div>
+            <dt>Submitted</dt>
+            <dd>{{ formatDateTime(pkg.incident.created_at) }}</dd>
+          </div>
+        </dl>
+        <h3>Description</h3>
+        <p class="body">{{ pkg.incident.description }}</p>
+      </section>
+
+      <section class="block" data-testid="original-item-block">
+        <h2>Original item</h2>
+        <template v-if="hasOriginalItem">
+          <p v-if="pkg.incident.original_item_title" class="title-line">{{ pkg.incident.original_item_title }}</p>
+          <p v-if="pkg.incident.original_item_content" class="body">{{ pkg.incident.original_item_content }}</p>
+          <dl class="details">
+            <div>
+              <dt>Author</dt>
+              <dd>{{ pkg.incident.original_item_author || 'Not provided' }}</dd>
+            </div>
+            <div>
+              <dt>Posted</dt>
+              <dd>{{ formatDateTime(pkg.incident.original_item_posted_at) }}</dd>
+            </div>
+            <div>
+              <dt>Reference</dt>
+              <dd>
+                <a
+                  v-if="pkg.incident.source_url"
+                  :href="pkg.incident.source_url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ pkg.incident.source_url }}
+                </a>
+                <span v-else class="muted">Not provided</span>
+              </dd>
+            </div>
+          </dl>
+        </template>
+        <p v-else class="muted">No original item details were provided.</p>
+      </section>
+
+      <section class="block" data-testid="surrounding-context-block">
+        <h2>Surrounding context</h2>
+        <p v-if="pkg.incident.surrounding_context" class="body">{{ pkg.incident.surrounding_context }}</p>
+        <p v-else class="muted">No surrounding context provided.</p>
+      </section>
+
+      <section class="block" data-testid="replies-block">
+        <h2>Replies</h2>
+        <ol v-if="(pkg.incident.replies?.length ?? 0) > 0" class="evidence-list">
+          <li v-for="reply in pkg.incident.replies" :key="reply.id ?? reply.position">
+            <p class="meta">
+              {{ reply.author || 'Unknown author' }}
+              <span v-if="reply.posted_at"> · {{ formatDateTime(reply.posted_at) }}</span>
+            </p>
+            <p class="body">{{ reply.content }}</p>
+          </li>
+        </ol>
+        <p v-else class="muted">No replies recorded.</p>
+      </section>
+
+      <section class="block" data-testid="related-items-block">
+        <h2>Related items</h2>
+        <ul v-if="(pkg.incident.related_items?.length ?? 0) > 0" class="evidence-list plain">
+          <li v-for="related in pkg.incident.related_items" :key="related.id">
+            <p class="meta">
+              {{ platformLabel(related.platform) }} · {{ contentTypeLabel(related.content_type) }}
+              <span v-if="related.observed_at"> · {{ formatDateTime(related.observed_at) }}</span>
+            </p>
+            <p v-if="related.description" class="body">{{ related.description }}</p>
+            <a
+              v-if="related.reference_url"
+              :href="related.reference_url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ related.reference_url }}
+            </a>
+          </li>
+        </ul>
+        <p v-else class="muted">No related items recorded.</p>
+      </section>
+
+      <section class="block">
+        <h2>Language</h2>
+        <p>{{ languageLabel(pkg.incident.language) }}</p>
+      </section>
+
+      <section class="block" data-testid="reporter-notes-block">
+        <h2>Reporter notes</h2>
+        <p v-if="pkg.incident.reporter_notes" class="body">{{ pkg.incident.reporter_notes }}</p>
+        <p v-else class="muted">No reporter notes provided.</p>
+      </section>
+
+      <section class="block ai-block" data-testid="ai-context-analysis">
+        <h2>AI Context Analysis</h2>
+        <p class="muted disclaimer">{{ pkg.ai_assisted_triage.advisory_disclaimer }}</p>
+
+        <div
+          v-if="latestAnalysis?.analysis?.uncertainty?.level === 'high'"
+          class="uncertainty-banner"
+          data-testid="high-uncertainty-banner"
+        >
+          <strong>High uncertainty</strong>
+          <p>
+            {{ latestAnalysis.analysis.uncertainty.explanation }}
+            Additional context may be useful before making a determination.
+          </p>
+        </div>
+
+        <template v-if="latestAnalysis?.status === 'completed' && latestAnalysis.analysis">
+          <p class="meta">
+            {{ latestAnalysis.provider }} · {{ latestAnalysis.prompt_version }} · Completed
+          </p>
+          <h3>Potential signals</h3>
+          <ul class="evidence-list plain">
+            <li v-for="signal in latestAnalysis.analysis.signals" :key="signal.name">
+              <p class="meta">
+                {{ aiSignalLabel(signal.name) }} ·
+                {{ aiConfidenceLabel(signal.confidence) }} confidence
+              </p>
+              <p class="body">{{ signal.description }}</p>
+            </li>
+          </ul>
+          <dl class="details">
+            <div>
+              <dt>Potential classification</dt>
+              <dd>{{ aiClassificationLabel(latestAnalysis.analysis.classification.label) }}</dd>
+            </div>
+            <div>
+              <dt>Confidence</dt>
+              <dd>{{ aiConfidenceLabel(latestAnalysis.analysis.classification.confidence) }}</dd>
+            </div>
+            <div>
+              <dt>Uncertainty</dt>
+              <dd>{{ aiConfidenceLabel(latestAnalysis.analysis.uncertainty.level) }}</dd>
+            </div>
+            <div>
+              <dt>Recommended action</dt>
+              <dd>
+                {{ aiRecommendedActionLabel(latestAnalysis.analysis.recommended_action.type) }}
+              </dd>
+            </div>
+          </dl>
+          <p v-if="latestAnalysis.analysis.alternative_interpretation" class="body">
+            <strong>Alternative interpretation:</strong>
+            {{ latestAnalysis.analysis.alternative_interpretation }}
+          </p>
+        </template>
+        <p v-else-if="latestAnalysis?.status === 'failed'" class="muted">
+          {{ latestAnalysis.error_message || 'AI analysis unavailable.' }}
+        </p>
+        <p v-else class="muted">No AI Context Analysis is available yet.</p>
+
+        <div
+          v-if="pkg.ai_assisted_triage.history.length > 1"
+          class="history-block"
+          data-testid="ai-analysis-history"
+        >
+          <h3>AI analysis history</h3>
+          <ul class="history">
+            <li v-for="entry in pkg.ai_assisted_triage.history" :key="entry.id">
+              {{ formatDateTime(entry.created_at) }} · {{ entry.provider }} ·
+              {{ entry.prompt_version }} · {{ entry.status }}
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block human-block" data-testid="human-review-block">
+        <h2>Human Review</h2>
+        <p class="muted">What is your determination? The reviewer decides independently of AI.</p>
+
+        <dl class="details">
+          <div>
+            <dt>Outcome</dt>
+            <dd>{{ reviewOutcomeLabel(pkg.human_review.outcome) }}</dd>
+          </div>
+          <div>
+            <dt>Reviewer notes</dt>
+            <dd data-testid="reviewer-notes">{{ pkg.human_review.notes || 'None yet' }}</dd>
+          </div>
+          <div>
+            <dt>Human classification</dt>
+            <dd>{{ safetyClassificationLabel(pkg.incident.safety_classification) }}</dd>
+          </div>
+          <div>
+            <dt>Escalation</dt>
+            <dd>
+              <template v-if="pkg.human_review.escalated">
+                Escalated — {{ pkg.human_review.escalation_reason }}
+              </template>
+              <template v-else>Not escalated</template>
+            </dd>
+          </div>
+          <div>
+            <dt>Current reviewer</dt>
+            <dd>{{ pkg.incident.current_reviewer?.name || 'Unassigned' }}</dd>
+          </div>
+        </dl>
+
+        <div
+          v-if="pkg.human_review.context_requests.length > 0"
+          class="context-requests"
+          data-testid="context-requests"
+        >
+          <h3>Context requests</h3>
+          <ul class="history">
+            <li v-for="request in pkg.human_review.context_requests" :key="request.id">
+              <strong>{{ request.status }}</strong>
+              — {{ request.reason }}
+              <span class="muted"> · {{ formatDateTime(request.requested_at) }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="actions-panel" data-testid="review-actions">
+          <button
+            v-if="can('start')"
+            class="button"
+            type="button"
+            data-testid="start-review"
+            :disabled="busy"
+            @click="onStart"
+          >
+            Start Review
+          </button>
+
+          <button
+            v-if="can('confirm')"
+            class="button"
+            type="button"
+            data-testid="open-confirm"
+            @click="activeDialog = 'confirm'"
+          >
+            Confirm
+          </button>
+          <button
+            v-if="can('uncertain')"
+            class="button secondary"
+            type="button"
+            data-testid="open-uncertain"
+            @click="activeDialog = 'uncertain'"
+          >
+            Mark Uncertain
+          </button>
+          <button
+            v-if="can('request_context')"
+            class="button secondary"
+            type="button"
+            data-testid="open-request-context"
+            @click="activeDialog = 'context'"
+          >
+            Request More Context
+          </button>
+          <button
+            v-if="can('escalate')"
+            class="button secondary"
+            type="button"
+            data-testid="open-escalate"
+            @click="activeDialog = 'escalate'"
+          >
+            Escalate
+          </button>
+          <button
+            v-if="can('close')"
+            class="button secondary"
+            type="button"
+            data-testid="open-close"
+            @click="activeDialog = 'close'"
+          >
+            Close
+          </button>
+        </div>
+
+        <p v-if="actionError" class="error" data-testid="action-error">{{ actionError }}</p>
+
+        <div v-if="activeDialog === 'confirm'" class="dialog" data-testid="confirm-dialog">
+          <h3>Human determination</h3>
+          <label class="field">
+            <span>Classification</span>
+            <select v-model="confirmForm.classification" data-testid="confirm-classification">
+              <option disabled value="">Select classification</option>
+              <option
+                v-for="option in HUMAN_CLASSIFICATION_OPTIONS"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Reviewer notes</span>
+            <textarea v-model="confirmForm.notes" rows="4" data-testid="confirm-notes" />
+          </label>
+          <div class="actions">
+            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+            <button class="button" type="button" data-testid="submit-confirm" :disabled="busy" @click="onConfirm">
+              Confirm
+            </button>
+          </div>
+        </div>
+
+        <div v-if="activeDialog === 'uncertain'" class="dialog" data-testid="uncertain-dialog">
+          <h3>Mark uncertain</h3>
+          <label class="field">
+            <span>Reviewer notes</span>
+            <textarea v-model="uncertainNotes" rows="4" data-testid="uncertain-notes" />
+          </label>
+          <div class="actions">
+            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+            <button class="button" type="button" data-testid="submit-uncertain" :disabled="busy" @click="onUncertain">
+              Mark Uncertain
+            </button>
+          </div>
+        </div>
+
+        <div v-if="activeDialog === 'context'" class="dialog" data-testid="context-dialog">
+          <h3>Request more context</h3>
+          <label class="field">
+            <span>What context is needed?</span>
+            <textarea v-model="contextReason" rows="4" data-testid="context-reason" />
+          </label>
+          <div class="actions">
+            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+            <button class="button" type="button" data-testid="submit-context" :disabled="busy" @click="onRequestContext">
+              Request Context
+            </button>
+          </div>
+        </div>
+
+        <div v-if="activeDialog === 'escalate'" class="dialog" data-testid="escalate-dialog">
+          <h3>Escalate</h3>
+          <label class="field">
+            <span>Why are you escalating?</span>
+            <textarea v-model="escalateReason" rows="4" data-testid="escalate-reason" />
+          </label>
+          <div class="actions">
+            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+            <button class="button" type="button" data-testid="submit-escalate" :disabled="busy" @click="onEscalate">
+              Escalate
+            </button>
+          </div>
+        </div>
+
+        <div v-if="activeDialog === 'close'" class="dialog" data-testid="close-dialog">
+          <h3>Close review</h3>
+          <label class="field">
+            <span>Reason (optional)</span>
+            <textarea v-model="closeNotes" rows="4" data-testid="close-notes" />
+          </label>
+          <div class="actions">
+            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+            <button class="button" type="button" data-testid="submit-close" :disabled="busy" @click="onClose">
+              Close
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" data-testid="review-history">
+        <h2>Review History</h2>
+        <ul v-if="pkg.human_review.history.length > 0" class="history">
+          <li v-for="entry in pkg.human_review.history" :key="entry.id">
+            <strong>{{ formatDateTime(entry.created_at) }}</strong>
+            · {{ entry.actor?.name ?? 'Unknown reviewer' }}
+            · {{ reviewActionLabel(entry.action) }}
+            <p v-if="entry.notes" class="muted">{{ entry.notes }}</p>
+          </li>
+        </ul>
+        <p v-else class="muted">No review actions yet.</p>
+      </section>
+    </template>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+import { communityApi } from '@/services/community';
+import { useOrganizationStore } from '@/stores/organization';
+import type {
+  CommunityShieldSafetyClassification,
+  IncidentReviewPackage,
+  ReviewAllowedAction,
+} from '@/types';
+import {
+  HUMAN_CLASSIFICATION_OPTIONS,
+  aiClassificationLabel,
+  aiConfidenceLabel,
+  aiRecommendedActionLabel,
+  aiSignalLabel,
+  contentTypeLabel,
+  languageLabel,
+  platformLabel,
+  reviewActionLabel,
+  reviewOutcomeLabel,
+  safetyClassificationLabel,
+  statusLabel,
+  visibilityLabel,
+} from '@/utils/communityShield';
+import { formatDateTime } from '@/utils/date';
+
+const organization = useOrganizationStore();
+const route = useRoute();
+
+const pkg = ref<IncidentReviewPackage | null>(null);
+const isLoading = ref(false);
+const error = ref<string | null>(null);
+const actionError = ref<string | null>(null);
+const busy = ref(false);
+const activeDialog = ref<'confirm' | 'uncertain' | 'context' | 'escalate' | 'close' | null>(null);
+
+const confirmForm = ref({
+  classification: '' as CommunityShieldSafetyClassification | '',
+  notes: '',
+});
+const uncertainNotes = ref('');
+const contextReason = ref('');
+const escalateReason = ref('');
+const closeNotes = ref('');
+
+const latestAnalysis = computed(() => pkg.value?.ai_assisted_triage.latest ?? null);
+const hasOriginalItem = computed(() => {
+  const item = pkg.value?.incident;
+  if (!item) {
+    return false;
+  }
+
+  return !!(
+    item.original_item_title
+    || item.original_item_content
+    || item.original_item_author
+    || item.original_item_posted_at
+    || item.source_url
+  );
+});
+
+function can(action: ReviewAllowedAction): boolean {
+  return pkg.value?.human_review.allowed_actions.includes(action) ?? false;
+}
+
+function lockVersion(): number | undefined {
+  return pkg.value?.incident.review_lock_version;
+}
+
+async function loadPackage(): Promise<void> {
+  if (!organization.currentOrganization || !organization.canReviewIncidents) {
+    pkg.value = null;
+    return;
+  }
+
+  isLoading.value = true;
+  error.value = null;
+
+  try {
+    pkg.value = await communityApi.reviewPackage(
+      organization.currentOrganization.id,
+      String(route.params.id),
+    );
+  } catch {
+    error.value = 'Unable to load this review package.';
+    pkg.value = null;
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function runAction(action: () => Promise<IncidentReviewPackage | unknown>): Promise<void> {
+  busy.value = true;
+  actionError.value = null;
+
+  try {
+    const result = await action();
+    if (result && typeof result === 'object' && 'incident' in (result as object)) {
+      pkg.value = result as IncidentReviewPackage;
+    } else if (organization.currentOrganization) {
+      pkg.value = await communityApi.reviewPackage(
+        organization.currentOrganization.id,
+        String(route.params.id),
+      );
+    }
+    activeDialog.value = null;
+  } catch (err: unknown) {
+    const message =
+      (err as { response?: { data?: { message?: string }; status?: number } })?.response?.data
+        ?.message
+      ?? ((err as { response?: { status?: number } })?.response?.status === 409
+        ? 'This review was updated by another reviewer. Reload and try again.'
+        : 'Unable to complete that review action.');
+    actionError.value = message;
+  } finally {
+    busy.value = false;
+  }
+}
+
+async function onStart(): Promise<void> {
+  if (!organization.currentOrganization) return;
+  await runAction(() =>
+    communityApi.startReview(organization.currentOrganization!.id, String(route.params.id), {
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+async function onConfirm(): Promise<void> {
+  if (!organization.currentOrganization || !confirmForm.value.classification) {
+    actionError.value = 'Select a classification and provide notes.';
+    return;
+  }
+
+  await runAction(() =>
+    communityApi.confirmReview(organization.currentOrganization!.id, String(route.params.id), {
+      notes: confirmForm.value.notes,
+      safety_classification: confirmForm.value.classification as CommunityShieldSafetyClassification,
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+async function onUncertain(): Promise<void> {
+  if (!organization.currentOrganization) return;
+  await runAction(() =>
+    communityApi.markUncertain(organization.currentOrganization!.id, String(route.params.id), {
+      notes: uncertainNotes.value,
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+async function onRequestContext(): Promise<void> {
+  if (!organization.currentOrganization) return;
+  await runAction(() =>
+    communityApi.requestContext(organization.currentOrganization!.id, String(route.params.id), {
+      reason: contextReason.value,
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+async function onEscalate(): Promise<void> {
+  if (!organization.currentOrganization) return;
+  await runAction(() =>
+    communityApi.escalateReview(organization.currentOrganization!.id, String(route.params.id), {
+      reason: escalateReason.value,
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+async function onClose(): Promise<void> {
+  if (!organization.currentOrganization) return;
+  await runAction(() =>
+    communityApi.closeReview(organization.currentOrganization!.id, String(route.params.id), {
+      notes: closeNotes.value || undefined,
+      review_lock_version: lockVersion(),
+    }),
+  );
+}
+
+watch(
+  () => [organization.currentOrganization?.id, organization.canReviewIncidents, route.params.id],
+  () => {
+    void loadPackage();
+  },
+  { immediate: true },
+);
+</script>
+
+<style scoped>
+.content {
+  padding: 1.25rem 1.4rem;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.block {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.block h2 {
+  margin-bottom: 0.45rem;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.details dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.details dd {
+  margin: 0.15rem 0 0;
+}
+
+.body {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.1rem;
+}
+
+.evidence-list.plain {
+  list-style: none;
+  padding-left: 0;
+}
+
+.meta {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.ai-block {
+  background: rgba(31, 107, 74, 0.04);
+  padding: 1rem;
+  border-radius: 12px;
+  border-top: 0;
+}
+
+.human-block {
+  background: rgba(255, 253, 248, 0.9);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.disclaimer {
+  font-style: italic;
+}
+
+.uncertainty-banner {
+  margin: 0.75rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid #8a5a00;
+  background: rgba(138, 90, 0, 0.08);
+}
+
+.actions-panel,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+}
+
+.dialog {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.history li {
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.title-line {
+  font-weight: 600;
+}
+</style>
