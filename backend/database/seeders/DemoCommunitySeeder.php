@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\AcademyLesson;
+use App\Models\AcademyScenario;
 use App\Models\Announcement;
 use App\Models\Course;
 use App\Models\Event;
@@ -13,6 +15,8 @@ use App\Models\IncidentExternalReportStatusHistory;
 use App\Models\IncidentReportAppeal;
 use App\Models\IncidentReview;
 use App\Models\IncidentReviewAction;
+use App\Models\LearningPattern;
+use App\Models\LearningRecommendation;
 use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
@@ -519,6 +523,188 @@ class DemoCommunitySeeder extends Seeder
         }
 
         $this->seedOutcomeTracking($alpha, $admin, $member, $reviewer, $confirmedPackage, $discordOpen);
+        $this->seedPhase9Education($alpha, $admin, $reviewer, $confirmedPackage);
+    }
+
+    /**
+     * Phase 9 — sanitized Community Safety Academy path (not raw incident content).
+     */
+    private function seedPhase9Education(
+        Organization $alpha,
+        User $admin,
+        User $reviewer,
+        Incident $confirmedPackage
+    ): void {
+        $course = Course::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'title' => 'Community Safety',
+            ],
+            [
+                'description' => 'Organization-scoped lessons that turn validated community patterns into privacy-preserving education.',
+                'status' => Course::STATUS_PUBLISHED,
+                'created_by' => $admin->id,
+            ]
+        );
+
+        $lesson = AcademyLesson::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'course_id' => $course->id,
+                'title' => 'Understanding Context Before Responding',
+            ],
+            [
+                'learning_objective' => 'Recognize how surrounding context can change interpretation before responding or reporting.',
+                'category' => AcademyLesson::CATEGORY_COMMUNITY_SAFETY,
+                'status' => AcademyLesson::STATUS_PUBLISHED,
+                'is_demo' => true,
+                'created_by' => $admin->id,
+                'sections' => [
+                    ['heading' => 'Why context matters', 'body' => 'A message that looks harmful in isolation may read differently with surrounding conversation. Context does not excuse harm, but it changes what evidence is useful.'],
+                    ['heading' => 'Recognizing repeated patterns', 'body' => 'Repeated targeting across messages is often more informative than a single cropped screenshot.'],
+                    ['heading' => 'Avoiding premature conclusions', 'body' => 'Rushing to label a person can escalate conflict. Document carefully and seek appropriate guidance.'],
+                    ['heading' => 'When to document', 'body' => 'Preserve surrounding messages, timing, and where the content appeared through approved channels.'],
+                    ['heading' => 'When to seek help', 'body' => 'If you feel unsafe or unsure, contact your MSA Community Safety Reviewer or another trusted support channel.'],
+                    ['heading' => 'Safe reporting practices', 'body' => 'Use approved reporting pathways. Avoid spreading harmful material more widely than necessary.'],
+                ],
+            ]
+        );
+
+        $scenarios = [
+            [
+                'title' => 'Context preservation',
+                'prompt' => 'Demo / educational scenario: A message appears insulting, but the surrounding conversation changes its meaning. What should you do first?',
+                'context' => 'Sanitized educational scenario. Not based on exposing a real incident transcript.',
+                'options' => [
+                    'Preserve the surrounding conversation context before deciding how to respond or report',
+                    'Reply immediately to call out the author',
+                    'Delete your own account so you do not see it again',
+                    'Assume the isolated message proves intent and share it widely',
+                ],
+                'expected_reasoning_signals' => ['context', 'surrounding', 'preserve'],
+                'misconception_tags' => ['CSAFE-M001'],
+                'difficulty' => 2,
+                'adapt_challenge_id' => 'CSAFE-CTX-001',
+                'adapt_concept_id' => 'csafety_context_preservation',
+                'sort_order' => 1,
+            ],
+            [
+                'title' => 'Pattern recognition',
+                'prompt' => 'Demo / educational scenario: You encounter repeated comments targeting a religious identity. Which information is most useful to preserve?',
+                'context' => 'Demo / educational scenario focused on transferable evidence skills.',
+                'options' => [
+                    'A sequence of related messages that shows the repeated pattern over time',
+                    'Only the funniest reply in the thread',
+                    'Your private opinion about the author\'s character',
+                    'Unrelated posts from other groups',
+                ],
+                'expected_reasoning_signals' => ['repeated', 'pattern', 'sequence'],
+                'misconception_tags' => ['CSAFE-M002'],
+                'difficulty' => 2,
+                'adapt_challenge_id' => 'CSAFE-CTX-002',
+                'adapt_concept_id' => 'csafety_pattern_recognition',
+                'sort_order' => 2,
+            ],
+            [
+                'title' => 'Evidence quality',
+                'prompt' => 'Demo / educational scenario: A report contains an isolated screenshot but lacks context. What additional information would make the report more useful?',
+                'context' => 'Demo / educational scenario about evidence quality.',
+                'options' => [
+                    'Surrounding messages, timing, and where the content appeared',
+                    'A guess about the author\'s private beliefs',
+                    'A demand that the platform ban everyone involved immediately',
+                    'A rewritten version of the message in stronger language',
+                ],
+                'expected_reasoning_signals' => ['surrounding', 'timing', 'context'],
+                'misconception_tags' => ['CSAFE-M002'],
+                'difficulty' => 3,
+                'adapt_challenge_id' => 'CSAFE-CTX-003',
+                'adapt_concept_id' => 'csafety_evidence_quality',
+                'sort_order' => 3,
+            ],
+            [
+                'title' => 'Uncertainty',
+                'prompt' => 'Demo / educational scenario: You are unsure whether a comment is coded targeting or ordinary disagreement. What is the most careful next step?',
+                'context' => 'Demo / educational scenario about uncertainty.',
+                'options' => [
+                    'Document what you see carefully and seek guidance without publicly escalating',
+                    'Publicly accuse the person of hate based on one comment',
+                    'Ignore everything and tell no one',
+                    'Invent missing details so the report looks stronger',
+                ],
+                'expected_reasoning_signals' => ['uncertain', 'document', 'guidance'],
+                'misconception_tags' => ['CSAFE-M003'],
+                'difficulty' => 3,
+                'adapt_challenge_id' => 'CSAFE-CTX-004',
+                'adapt_concept_id' => 'csafety_uncertainty',
+                'sort_order' => 4,
+            ],
+            [
+                'title' => 'Safe reporting',
+                'prompt' => 'Demo / educational scenario: You want to report potentially harmful content. Which practice best supports safe reporting?',
+                'context' => 'Demo / educational scenario about safe reporting.',
+                'options' => [
+                    'Preserve relevant context privately and use approved reporting channels',
+                    'Repost the harmful content publicly so more people can see it',
+                    'Confront the author with personal accusations in the same thread',
+                    'Share reporter contact details in the group chat',
+                ],
+                'expected_reasoning_signals' => ['preserve', 'private', 'approved'],
+                'misconception_tags' => ['CSAFE-M001'],
+                'difficulty' => 3,
+                'adapt_challenge_id' => 'CSAFE-CTX-005',
+                'adapt_concept_id' => 'csafety_safe_reporting',
+                'sort_order' => 5,
+            ],
+        ];
+
+        foreach ($scenarios as $scenario) {
+            AcademyScenario::query()->firstOrCreate(
+                [
+                    'organization_id' => $alpha->id,
+                    'academy_lesson_id' => $lesson->id,
+                    'adapt_challenge_id' => $scenario['adapt_challenge_id'],
+                ],
+                array_merge($scenario, [
+                    'adapt_topic_id' => 'csafety-context',
+                    'adapt_domain' => 'community-safety',
+                    'is_demo' => true,
+                ])
+            );
+        }
+
+        $pattern = LearningPattern::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'source_incident_id' => $confirmedPackage->id,
+            ],
+            [
+                'pattern_type' => 'contextual_hate',
+                'title' => 'Contextual Religious Targeting',
+                'summary' => 'A community member encounters language that appears more discriminatory when viewed alongside surrounding conversation and repeated replies.',
+                'learning_objective' => 'Identify when context changes the interpretation of seemingly isolated language and what evidence to preserve.',
+                'domain' => 'community-safety',
+                'severity_context' => 'moderate',
+                'status' => LearningPattern::STATUS_APPROVED,
+                'created_by' => $reviewer->id,
+                'approved_by' => $admin->id,
+                'approved_at' => now()->subDay(),
+            ]
+        );
+
+        LearningRecommendation::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'learning_pattern_id' => $pattern->id,
+                'academy_lesson_id' => $lesson->id,
+            ],
+            [
+                'academy_course_id' => $course->id,
+                'reason' => 'This lesson teaches learners how surrounding context can change meaning and what to preserve before responding or reporting.',
+                'status' => LearningRecommendation::STATUS_PUBLISHED,
+                'created_by' => $admin->id,
+            ]
+        );
     }
 
     /**
@@ -554,9 +740,8 @@ class DemoCommunitySeeder extends Seeder
                 'updated_by' => $reviewer->id,
             ]);
 
-            IncidentExternalReportStatusHistory::query()->createMany([
+            $demoA->statusHistory()->createMany([
                 [
-                    'incident_external_report_id' => $demoA->id,
                     'previous_status' => null,
                     'new_status' => IncidentExternalReport::STATUS_REPORTED,
                     'changed_by' => $reviewer->id,
@@ -564,7 +749,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(3),
                 ],
                 [
-                    'incident_external_report_id' => $demoA->id,
                     'previous_status' => IncidentExternalReport::STATUS_REPORTED,
                     'new_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
                     'changed_by' => $reviewer->id,
@@ -572,7 +756,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(2),
                 ],
                 [
-                    'incident_external_report_id' => $demoA->id,
                     'previous_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
                     'new_status' => IncidentExternalReport::STATUS_DECISION,
                     'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
@@ -581,7 +764,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(1)->subHours(12),
                 ],
                 [
-                    'incident_external_report_id' => $demoA->id,
                     'previous_status' => IncidentExternalReport::STATUS_DECISION,
                     'new_status' => IncidentExternalReport::STATUS_OUTCOME,
                     'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
@@ -609,9 +791,8 @@ class DemoCommunitySeeder extends Seeder
                 'updated_by' => $reviewer->id,
             ]);
 
-            IncidentExternalReportStatusHistory::query()->createMany([
+            $demoB->statusHistory()->createMany([
                 [
-                    'incident_external_report_id' => $demoB->id,
                     'previous_status' => null,
                     'new_status' => IncidentExternalReport::STATUS_REPORTED,
                     'changed_by' => $reviewer->id,
@@ -619,7 +800,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(2),
                 ],
                 [
-                    'incident_external_report_id' => $demoB->id,
                     'previous_status' => IncidentExternalReport::STATUS_REPORTED,
                     'new_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
                     'changed_by' => $reviewer->id,
@@ -669,9 +849,8 @@ class DemoCommunitySeeder extends Seeder
                 'updated_by' => $reviewer->id,
             ]);
 
-            IncidentExternalReportStatusHistory::query()->createMany([
+            $demoC->statusHistory()->createMany([
                 [
-                    'incident_external_report_id' => $demoC->id,
                     'previous_status' => null,
                     'new_status' => IncidentExternalReport::STATUS_REPORTED,
                     'changed_by' => $reviewer->id,
@@ -679,7 +858,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(4),
                 ],
                 [
-                    'incident_external_report_id' => $demoC->id,
                     'previous_status' => IncidentExternalReport::STATUS_REPORTED,
                     'new_status' => IncidentExternalReport::STATUS_DECISION,
                     'decision' => IncidentExternalReport::DECISION_NO_ACTION,
@@ -688,7 +866,6 @@ class DemoCommunitySeeder extends Seeder
                     'changed_at' => now()->subDays(3),
                 ],
                 [
-                    'incident_external_report_id' => $demoC->id,
                     'previous_status' => IncidentExternalReport::STATUS_DECISION,
                     'new_status' => IncidentExternalReport::STATUS_OUTCOME,
                     'decision' => IncidentExternalReport::DECISION_NO_ACTION,
@@ -844,6 +1021,36 @@ class DemoCommunitySeeder extends Seeder
                 'description' => 'Unpublished Beta workshop outline.',
                 'status' => Course::STATUS_DRAFT,
                 'created_by' => $admin->id,
+            ]
+        );
+
+        $betaSafetyCourse = Course::query()->firstOrCreate(
+            [
+                'organization_id' => $beta->id,
+                'title' => 'Beta Community Safety',
+            ],
+            [
+                'description' => 'Beta-only community safety education. Alpha members must never see this.',
+                'status' => Course::STATUS_PUBLISHED,
+                'created_by' => $admin->id,
+            ]
+        );
+
+        AcademyLesson::query()->firstOrCreate(
+            [
+                'organization_id' => $beta->id,
+                'course_id' => $betaSafetyCourse->id,
+                'title' => 'Beta Safe Documentation Basics',
+            ],
+            [
+                'learning_objective' => 'Practice documenting potentially harmful content without escalating publicly.',
+                'category' => AcademyLesson::CATEGORY_COMMUNITY_SAFETY,
+                'status' => AcademyLesson::STATUS_PUBLISHED,
+                'is_demo' => true,
+                'created_by' => $admin->id,
+                'sections' => [
+                    ['heading' => 'Document carefully', 'body' => 'Demo / educational scenario guidance for Beta members only.'],
+                ],
             ]
         );
 

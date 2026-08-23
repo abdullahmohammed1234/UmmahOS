@@ -172,6 +172,6 @@ Empty state: `"reports": []`. Phase 7 fields unchanged. PDF section 8: OUTCOME T
 
 ## What Phase 8 Does NOT Include
 
-Phase 9 was **not started**: advanced analytics, cross-MSA intelligence, automated integrations, predictive models, public dashboards.
+Phase 9 education integration is documented separately in `PHASE_9.md`. The following remain **out of scope** (Phase 10+): advanced analytics, cross-MSA intelligence, automated integrations, predictive models, public dashboards.
 
 `MSA Platform/` was **not modified**.

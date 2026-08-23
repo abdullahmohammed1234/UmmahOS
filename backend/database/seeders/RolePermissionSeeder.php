@@ -45,7 +45,10 @@ class RolePermissionSeeder extends Seeder
         $admin->permissions()->sync(Permission::query()->pluck('id'));
         $member->permissions()->sync(
             Permission::query()->whereIn('slug', array_merge(
-                Permissions::viewSlugs(),
+                array_values(array_filter(
+                    Permissions::viewSlugs(),
+                    fn (string $slug) => $slug !== Permissions::EDUCATION_PATTERNS_VIEW
+                )),
                 [Permissions::INCIDENTS_OUTCOMES_APPEAL]
             ))->pluck('id')
         );

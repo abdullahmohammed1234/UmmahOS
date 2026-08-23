@@ -100,4 +100,42 @@ describe('organization store', () => {
       'You are not a member of that organization.',
     );
   });
+
+  it('exposes education permission computeds from organization context', async () => {
+    contextMock.mockResolvedValueOnce(
+      contextFor(alpha, 'community_safety_reviewer', [
+        'organization.view',
+        'education.patterns.view',
+        'education.patterns.create',
+      ]),
+    );
+    membersMock.mockResolvedValue([]);
+
+    const store = useOrganizationStore();
+    store.persistCurrentOrganization(alpha.id);
+    await store.loadContext();
+
+    expect(store.canViewEducationPatterns).toBe(true);
+    expect(store.canCreateEducationPatterns).toBe(true);
+    expect(store.canManageEducationPatterns).toBe(false);
+    expect(store.canManageLearningRecommendations).toBe(false);
+
+    contextMock.mockResolvedValueOnce(
+      contextFor(beta, 'admin', [
+        'organization.view',
+        'organization.manage',
+        'education.patterns.view',
+        'education.patterns.create',
+        'education.patterns.manage',
+        'education.recommendations.manage',
+      ]),
+    );
+
+    await store.switchOrganization(beta.id);
+
+    expect(store.canViewEducationPatterns).toBe(true);
+    expect(store.canCreateEducationPatterns).toBe(true);
+    expect(store.canManageEducationPatterns).toBe(true);
+    expect(store.canManageLearningRecommendations).toBe(true);
+  });
 });

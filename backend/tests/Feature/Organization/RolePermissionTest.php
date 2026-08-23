@@ -50,9 +50,17 @@ class RolePermissionTest extends TestCase
         $member = $this->createMember($organization, $this->memberRole);
 
         foreach (Permissions::viewSlugs() as $permission) {
+            if ($permission === Permissions::EDUCATION_PATTERNS_VIEW) {
+                $this->assertFalse($member->hasPermissionIn($organization, $permission), $permission);
+                continue;
+            }
+
             $this->assertTrue($member->hasPermissionIn($organization, $permission), $permission);
         }
 
+        $this->assertFalse($member->hasPermissionIn($organization, Permissions::EDUCATION_PATTERNS_CREATE));
+        $this->assertFalse($member->hasPermissionIn($organization, Permissions::EDUCATION_PATTERNS_MANAGE));
+        $this->assertFalse($member->hasPermissionIn($organization, Permissions::EDUCATION_RECOMMENDATIONS_MANAGE));
         $this->assertFalse($member->hasPermissionIn($organization, Permissions::ORGANIZATION_MANAGE));
         $this->assertFalse($member->hasPermissionIn($organization, Permissions::MEMBERS_MANAGE));
         $this->assertFalse($member->hasPermissionIn($organization, Permissions::INCIDENTS_MANAGE));

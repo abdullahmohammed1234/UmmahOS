@@ -36,6 +36,11 @@ final class Permissions
     public const REPORTS_VIEW = 'reports.view';
     public const REPORTS_MANAGE = 'reports.manage';
 
+    public const EDUCATION_PATTERNS_VIEW = 'education.patterns.view';
+    public const EDUCATION_PATTERNS_CREATE = 'education.patterns.create';
+    public const EDUCATION_PATTERNS_MANAGE = 'education.patterns.manage';
+    public const EDUCATION_RECOMMENDATIONS_MANAGE = 'education.recommendations.manage';
+
     /**
      * @return list<array{name: string, slug: string}>
      */
@@ -64,6 +69,10 @@ final class Permissions
             ['name' => 'Submit incident outcome appeals', 'slug' => self::INCIDENTS_OUTCOMES_APPEAL],
             ['name' => 'View reports', 'slug' => self::REPORTS_VIEW],
             ['name' => 'Manage reports', 'slug' => self::REPORTS_MANAGE],
+            ['name' => 'View education learning patterns', 'slug' => self::EDUCATION_PATTERNS_VIEW],
+            ['name' => 'Create education learning patterns', 'slug' => self::EDUCATION_PATTERNS_CREATE],
+            ['name' => 'Manage education learning patterns', 'slug' => self::EDUCATION_PATTERNS_MANAGE],
+            ['name' => 'Manage education learning recommendations', 'slug' => self::EDUCATION_RECOMMENDATIONS_MANAGE],
         ];
     }
 
@@ -85,6 +94,8 @@ final class Permissions
             self::INCIDENTS_OUTCOMES_VIEW,
             self::INCIDENTS_OUTCOMES_MANAGE,
             self::INCIDENTS_OUTCOMES_APPEAL,
+            self::EDUCATION_PATTERNS_VIEW,
+            self::EDUCATION_PATTERNS_CREATE,
         ];
     }
 
