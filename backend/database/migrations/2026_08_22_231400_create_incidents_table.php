@@ -12,13 +12,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
             $table->foreignId('reported_by')->constrained('users')->cascadeOnDelete();
-            $table->string('category');
+            $table->string('platform');
+            $table->string('content_type');
+            $table->string('visibility');
+            $table->string('source_url', 2048)->nullable();
             $table->text('description');
             $table->string('status')->default('open');
             $table->timestamps();
 
             $table->index(['organization_id', 'status']);
             $table->index(['organization_id', 'reported_by']);
+            $table->index(['organization_id', 'platform']);
         });
     }
 

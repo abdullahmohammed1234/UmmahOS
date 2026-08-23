@@ -17,7 +17,10 @@ class IncidentFactory extends Factory
         return [
             'organization_id' => Organization::factory(),
             'reported_by' => User::factory(),
-            'category' => fake()->randomElement(Incident::categories()),
+            'platform' => fake()->randomElement(Incident::platforms()),
+            'content_type' => fake()->randomElement(Incident::contentTypes()),
+            'visibility' => fake()->randomElement(Incident::visibilities()),
+            'source_url' => null,
             'description' => fake()->paragraph(),
             'status' => Incident::STATUS_OPEN,
         ];

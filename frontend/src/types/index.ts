@@ -1,3 +1,26 @@
+export type CommunityShieldPlatform =
+  | 'x'
+  | 'youtube'
+  | 'tiktok'
+  | 'reddit'
+  | 'discord'
+  | 'telegram'
+  | 'whatsapp'
+  | 'other';
+
+export type CommunityShieldContentType =
+  | 'post'
+  | 'comment'
+  | 'video'
+  | 'image'
+  | 'message'
+  | 'profile'
+  | 'thread';
+
+export type CommunityShieldVisibility = 'public' | 'group' | 'private' | 'unknown';
+
+export type CommunityShieldStatus = 'open' | 'reviewing' | 'resolved';
+
 export interface Organization {
   id: number;
   name: string;
@@ -100,12 +123,25 @@ export interface Course {
 export interface Incident {
   id: number;
   organization_id: number;
-  category: string;
+  platform: CommunityShieldPlatform;
+  content_type: CommunityShieldContentType;
+  visibility: CommunityShieldVisibility;
+  source_url: string | null;
   description: string;
-  status: 'open' | 'reviewing' | 'resolved';
+  status: CommunityShieldStatus;
   reported_by?: UserSummary | null;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface CommunityShieldOverview {
+  can_report: boolean;
+  can_review: boolean;
+  counts?: {
+    open: number;
+    reviewing: number;
+    resolved: number;
+  };
 }
 
 export interface MemberDashboard {
@@ -133,5 +169,7 @@ export interface AdminDashboard {
     published_announcements: number;
     published_courses: number;
     open_incidents: number;
+    reviewing_incidents: number;
+    resolved_incidents: number;
   };
 }

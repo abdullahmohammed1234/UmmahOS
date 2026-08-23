@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Incident;
 use App\Support\OrganizationContext;
 
 class DashboardService
 {
+    public function __construct(private readonly IncidentService $incidents) {}
+
     /**
      * @return array<string, mixed>
      */
@@ -55,6 +56,7 @@ class DashboardService
     public function adminDashboard(OrganizationContext $context): array
     {
         $organization = $context->organization;
+        $incidentCounts = $this->incidents->counts($organization);
 
         return [
             'organization' => $organization,
@@ -64,9 +66,9 @@ class DashboardService
                 'upcoming_events' => $organization->events()->upcoming()->count(),
                 'published_announcements' => $organization->announcements()->published()->count(),
                 'published_courses' => $organization->courses()->published()->count(),
-                'open_incidents' => $organization->incidents()
-                    ->where('status', Incident::STATUS_OPEN)
-                    ->count(),
+                'open_incidents' => $incidentCounts['open'],
+                'reviewing_incidents' => $incidentCounts['reviewing'],
+                'resolved_incidents' => $incidentCounts['resolved'],
             ],
         ];
     }

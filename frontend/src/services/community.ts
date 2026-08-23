@@ -5,6 +5,8 @@ import type {
   AdminDashboard,
   Announcement,
   CommunityEvent,
+  CommunityShieldOverview,
+  CommunityShieldStatus,
   Course,
   Incident,
   MemberDashboard,
@@ -161,8 +163,13 @@ export const communityApi = {
     await api.delete(organizationPath(organizationId, `/courses/${id}`));
   },
 
-  incidents(organizationId: number | string): Promise<Incident[]> {
-    return scoped(organizationId, '/incidents');
+  incidents(organizationId: number | string, status?: CommunityShieldStatus | ''): Promise<Incident[]> {
+    const query = status ? `?status=${encodeURIComponent(status)}` : '';
+    return scoped(organizationId, `/incidents${query}`);
+  },
+
+  communityShieldOverview(organizationId: number | string): Promise<CommunityShieldOverview> {
+    return scoped(organizationId, '/community-shield');
   },
 
   incident(organizationId: number | string, id: number | string): Promise<Incident> {
@@ -171,7 +178,9 @@ export const communityApi = {
 
   async reportIncident(
     organizationId: number | string,
-    payload: Pick<Incident, 'category' | 'description'>,
+    payload: Pick<Incident, 'platform' | 'content_type' | 'visibility' | 'description'> & {
+      source_url?: string | null;
+    },
   ): Promise<{ incident: Incident; message: string }> {
     const { data } = await api.post<{ data: Incident; message?: string } | Incident>(
       organizationPath(organizationId, '/incidents'),

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Incident\ListIncidentsRequest;
 use App\Http\Requests\Incident\StoreIncidentRequest;
 use App\Http\Requests\Incident\UpdateIncidentRequest;
 use App\Http\Resources\IncidentResource;
 use App\Models\Organization;
 use App\Services\IncidentService;
+use App\Support\CommunityVisibility;
+use App\Support\Permissions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -15,10 +18,32 @@ class IncidentController extends Controller
 {
     public function __construct(private readonly IncidentService $incidents) {}
 
-    public function index(Organization $organization): AnonymousResourceCollection
+    public function overview(Organization $organization): JsonResponse
     {
+        $canReview = CommunityVisibility::canManage(Permissions::INCIDENTS_MANAGE);
+
+        $payload = [
+            'can_report' => true,
+            'can_review' => $canReview,
+        ];
+
+        if ($canReview) {
+            $payload['counts'] = $this->incidents->counts($organization);
+        }
+
+        return response()->json([
+            'data' => $payload,
+        ]);
+    }
+
+    public function index(
+        ListIncidentsRequest $request,
+        Organization $organization
+    ): AnonymousResourceCollection {
+        $status = $request->validated('status');
+
         return IncidentResource::collection(
-            $this->incidents->list($organization)
+            $this->incidents->list($organization, $status)
         );
     }
 
@@ -34,7 +59,7 @@ class IncidentController extends Controller
 
         return (new IncidentResource($incident))
             ->additional([
-                'message' => 'Your report was received. An organization administrator can review it.',
+                'message' => 'Your report has been received by your MSA\'s Community Shield team.',
             ])
             ->response()
             ->setStatusCode(201);

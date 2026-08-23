@@ -70,7 +70,8 @@
         <article class="panel content">
           <h2>Community Shield</h2>
           <p class="muted">
-            Report a safety or community concern privately to this organization's administrators.
+            Report a concern about harmful or concerning online content to this organization's
+            authorized team.
           </p>
           <RouterLink class="button" to="/community-shield">Report a concern</RouterLink>
         </article>

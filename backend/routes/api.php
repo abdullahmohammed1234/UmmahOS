@@ -131,6 +131,8 @@ Route::prefix('v1')->group(function () {
                     ->middleware('organization.permission:courses.manage')
                     ->name('api.organizations.courses.destroy');
 
+                Route::get('/community-shield', [IncidentController::class, 'overview'])
+                    ->name('api.organizations.community-shield.overview');
                 Route::post('/incidents', [IncidentController::class, 'store'])
                     ->name('api.organizations.incidents.store');
                 Route::get('/incidents', [IncidentController::class, 'index'])

@@ -19,7 +19,10 @@ class IncidentResource extends JsonResource
         return [
             'id' => $this->id,
             'organization_id' => $this->organization_id,
-            'category' => $this->category,
+            'platform' => $this->platform,
+            'content_type' => $this->content_type,
+            'visibility' => $this->visibility,
+            'source_url' => $this->source_url,
             'description' => $this->description,
             'status' => $this->status,
             'reported_by' => $this->whenLoaded('reporter', fn () => new UserSummaryResource($this->reporter)),
