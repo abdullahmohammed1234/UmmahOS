@@ -13,9 +13,11 @@ import type {
   IncidentAiAnalysis,
   IncidentContextRequest,
   IncidentEvidencePackage,
+  IncidentExternalReportRecord,
   IncidentRelatedItem,
   IncidentReply,
   IncidentReviewPackage,
+  MemberReportSummary,
   MemberDashboard,
   ResourceItem,
   ReviewQueueItem,
@@ -455,5 +457,70 @@ export const communityApi = {
       { responseType: 'blob', timeout: 60000 },
     );
     return data as Blob;
+  },
+
+  externalReports(
+    organizationId: number | string,
+    reportId: number | string,
+  ): Promise<IncidentExternalReportRecord[]> {
+    return scoped(organizationId, `/community-shield/reports/${reportId}/external-reports`);
+  },
+
+  async createExternalReport(
+    organizationId: number | string,
+    reportId: number | string,
+    payload: {
+      platform: string;
+      reporting_channel: string;
+      external_reference?: string;
+      reported_at: string;
+      note?: string;
+      internal_notes?: string;
+      reporter_visible_summary?: string;
+    },
+  ): Promise<IncidentExternalReportRecord> {
+    const { data } = await api.post(
+      organizationPath(organizationId, `/community-shield/reports/${reportId}/external-reports`),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async updateExternalReport(
+    organizationId: number | string,
+    reportId: number | string,
+    externalReportId: number | string,
+    payload: Record<string, unknown>,
+  ): Promise<IncidentExternalReportRecord> {
+    const { data } = await api.patch(
+      organizationPath(
+        organizationId,
+        `/community-shield/reports/${reportId}/external-reports/${externalReportId}`,
+      ),
+      payload,
+    );
+    return unwrapData(data);
+  },
+
+  async submitExternalReportAppeal(
+    organizationId: number | string,
+    reportId: number | string,
+    externalReportId: number | string,
+    payload: { reason: string; additional_evidence?: string; reference?: string; notes?: string },
+    memberRoute = false,
+  ): Promise<unknown> {
+    const suffix = memberRoute
+      ? `/community-shield/my-reports/${reportId}/external-reports/${externalReportId}/appeals`
+      : `/community-shield/reports/${reportId}/external-reports/${externalReportId}/appeals`;
+    const { data } = await api.post(organizationPath(organizationId, suffix), payload);
+    return unwrapData(data);
+  },
+
+  myReports(organizationId: number | string): Promise<MemberReportSummary[]> {
+    return scoped(organizationId, '/community-shield/my-reports');
+  },
+
+  myReport(organizationId: number | string, reportId: number | string): Promise<MemberReportSummary> {
+    return scoped(organizationId, `/community-shield/my-reports/${reportId}`);
   },
 };

@@ -8,6 +8,9 @@ use App\Models\Event;
 use App\Models\Incident;
 use App\Models\IncidentAiAnalysis;
 use App\Models\IncidentContextRequest;
+use App\Models\IncidentExternalReport;
+use App\Models\IncidentExternalReportStatusHistory;
+use App\Models\IncidentReportAppeal;
 use App\Models\IncidentReview;
 use App\Models\IncidentReviewAction;
 use App\Models\Organization;
@@ -512,6 +515,244 @@ class DemoCommunitySeeder extends Seeder
                 'requested_at' => now()->subDays(4)->subMinutes(40),
                 'resolved_by' => $reviewer->id,
                 'resolved_at' => now()->subDays(4)->subMinutes(20),
+            ]);
+        }
+
+        $this->seedOutcomeTracking($alpha, $admin, $member, $reviewer, $confirmedPackage, $discordOpen);
+    }
+
+    /**
+     * Phase 8 demo outcome tracking records — not real external platform reports.
+     */
+    private function seedOutcomeTracking(
+        Organization $alpha,
+        User $admin,
+        User $member,
+        User $reviewer,
+        Incident $confirmedPackage,
+        Incident $discordOpen
+    ): void {
+        // Demo A — Completed outcome (Reddit)
+        if ($confirmedPackage->externalReports()->count() === 0) {
+            $demoA = IncidentExternalReport::query()->create([
+                'incident_id' => $confirmedPackage->id,
+                'organization_id' => $alpha->id,
+                'platform' => Incident::PLATFORM_REDDIT,
+                'reporting_channel' => 'In-app report',
+                'external_reference' => 'RDT-4821',
+                'reported_at' => now()->subDays(3),
+                'status' => IncidentExternalReport::STATUS_OUTCOME,
+                'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+                'decision_note' => 'Platform response indicated action on the reported content.',
+                'outcome' => IncidentExternalReport::OUTCOME_CONTENT_REMOVED,
+                'outcome_source' => IncidentExternalReport::SOURCE_PLATFORM_RESPONSE,
+                'outcome_summary' => 'Reported content was removed according to information received from the platform.',
+                'reporter_visible_summary' => 'The reported content was removed.',
+                'verification_status' => IncidentExternalReport::VERIFICATION_VERIFIED_BY_REVIEWER,
+                'internal_notes' => 'Demo seed — reviewer recorded platform response.',
+                'created_by' => $reviewer->id,
+                'updated_by' => $reviewer->id,
+            ]);
+
+            IncidentExternalReportStatusHistory::query()->createMany([
+                [
+                    'incident_external_report_id' => $demoA->id,
+                    'previous_status' => null,
+                    'new_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'External report recorded.',
+                    'changed_at' => now()->subDays(3),
+                ],
+                [
+                    'incident_external_report_id' => $demoA->id,
+                    'previous_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'new_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'Platform acknowledged receipt.',
+                    'changed_at' => now()->subDays(2),
+                ],
+                [
+                    'incident_external_report_id' => $demoA->id,
+                    'previous_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
+                    'new_status' => IncidentExternalReport::STATUS_DECISION,
+                    'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'Decision recorded: action taken.',
+                    'changed_at' => now()->subDays(1)->subHours(12),
+                ],
+                [
+                    'incident_external_report_id' => $demoA->id,
+                    'previous_status' => IncidentExternalReport::STATUS_DECISION,
+                    'new_status' => IncidentExternalReport::STATUS_OUTCOME,
+                    'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+                    'outcome' => IncidentExternalReport::OUTCOME_CONTENT_REMOVED,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'Outcome recorded: content removed.',
+                    'changed_at' => now()->subDays(1),
+                ],
+            ]);
+        }
+
+        // Demo B — Under review (Discord)
+        if ($discordOpen->externalReports()->count() === 0) {
+            $demoB = IncidentExternalReport::query()->create([
+                'incident_id' => $discordOpen->id,
+                'organization_id' => $alpha->id,
+                'platform' => Incident::PLATFORM_DISCORD,
+                'reporting_channel' => 'Trust & Safety report',
+                'external_reference' => 'DSC-9912',
+                'reported_at' => now()->subDays(2),
+                'status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
+                'verification_status' => IncidentExternalReport::VERIFICATION_UNVERIFIED,
+                'reporter_visible_summary' => 'Your report was recorded and is being reviewed.',
+                'created_by' => $reviewer->id,
+                'updated_by' => $reviewer->id,
+            ]);
+
+            IncidentExternalReportStatusHistory::query()->createMany([
+                [
+                    'incident_external_report_id' => $demoB->id,
+                    'previous_status' => null,
+                    'new_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'External report recorded.',
+                    'changed_at' => now()->subDays(2),
+                ],
+                [
+                    'incident_external_report_id' => $demoB->id,
+                    'previous_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'new_status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'External destination acknowledged the report.',
+                    'changed_at' => now()->subDay(),
+                ],
+            ]);
+        }
+
+        // Demo C — No action + appeal (X) — member-reported
+        $xAppealIncident = Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $member->id,
+                'platform' => Incident::PLATFORM_X,
+                'source_url' => 'https://x.com/example/status/alpha-appeal-demo',
+            ],
+            [
+                'content_type' => Incident::CONTENT_TYPE_POST,
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'description' => 'Phase 8 demo — X post with no action outcome and appeal submitted.',
+                'original_item_content' => 'Demo hostile post for outcome tracking appeal workflow.',
+                'status' => Incident::STATUS_RESOLVED,
+                'review_outcome' => Incident::OUTCOME_CONFIRMED,
+                'safety_classification' => Incident::CLASSIFICATION_HARASSMENT,
+                'review_notes' => 'Demo seed for Phase 8 appeal workflow.',
+            ]
+        );
+
+        if ($xAppealIncident->externalReports()->count() === 0) {
+            $demoC = IncidentExternalReport::query()->create([
+                'incident_id' => $xAppealIncident->id,
+                'organization_id' => $alpha->id,
+                'platform' => Incident::PLATFORM_X,
+                'reporting_channel' => 'In-app report',
+                'external_reference' => 'X-7731',
+                'reported_at' => now()->subDays(4),
+                'status' => IncidentExternalReport::STATUS_OUTCOME,
+                'decision' => IncidentExternalReport::DECISION_NO_ACTION,
+                'decision_note' => 'Platform indicated no action would be taken.',
+                'outcome' => IncidentExternalReport::OUTCOME_NO_ACTION,
+                'outcome_source' => IncidentExternalReport::SOURCE_PLATFORM_RESPONSE,
+                'outcome_summary' => 'No action recorded per platform response.',
+                'reporter_visible_summary' => 'No action was recorded for this report.',
+                'verification_status' => IncidentExternalReport::VERIFICATION_UNVERIFIED,
+                'created_by' => $reviewer->id,
+                'updated_by' => $reviewer->id,
+            ]);
+
+            IncidentExternalReportStatusHistory::query()->createMany([
+                [
+                    'incident_external_report_id' => $demoC->id,
+                    'previous_status' => null,
+                    'new_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'External report recorded.',
+                    'changed_at' => now()->subDays(4),
+                ],
+                [
+                    'incident_external_report_id' => $demoC->id,
+                    'previous_status' => IncidentExternalReport::STATUS_REPORTED,
+                    'new_status' => IncidentExternalReport::STATUS_DECISION,
+                    'decision' => IncidentExternalReport::DECISION_NO_ACTION,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'Decision recorded: no action.',
+                    'changed_at' => now()->subDays(3),
+                ],
+                [
+                    'incident_external_report_id' => $demoC->id,
+                    'previous_status' => IncidentExternalReport::STATUS_DECISION,
+                    'new_status' => IncidentExternalReport::STATUS_OUTCOME,
+                    'decision' => IncidentExternalReport::DECISION_NO_ACTION,
+                    'outcome' => IncidentExternalReport::OUTCOME_NO_ACTION,
+                    'changed_by' => $reviewer->id,
+                    'note' => 'Outcome recorded: no action.',
+                    'changed_at' => now()->subDays(2),
+                ],
+            ]);
+
+            IncidentReportAppeal::query()->create([
+                'incident_external_report_id' => $demoC->id,
+                'submitted_at' => now()->subDay(),
+                'submitted_by' => $member->id,
+                'reason' => 'Additional contextual evidence was not considered.',
+                'status' => IncidentReportAppeal::STATUS_UNDER_REVIEW,
+            ]);
+        }
+
+        // Demo D — Unverified reporter observation (Other)
+        $otherObservationIncident = Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $member->id,
+                'platform' => Incident::PLATFORM_OTHER,
+                'source_url' => 'https://example.org/campus-board/demo-post',
+            ],
+            [
+                'content_type' => Incident::CONTENT_TYPE_POST,
+                'visibility' => Incident::VISIBILITY_PUBLIC,
+                'description' => 'Phase 8 demo — unverified reporter observation outcome.',
+                'original_item_content' => 'Demo post that appears unavailable to the reporter.',
+                'status' => Incident::STATUS_RESOLVED,
+                'review_outcome' => Incident::OUTCOME_CONFIRMED,
+            ]
+        );
+
+        if ($otherObservationIncident->externalReports()->count() === 0) {
+            $demoD = IncidentExternalReport::query()->create([
+                'incident_id' => $otherObservationIncident->id,
+                'organization_id' => $alpha->id,
+                'platform' => Incident::PLATFORM_OTHER,
+                'reporting_channel' => 'Organization safety office',
+                'reported_at' => now()->subDays(5),
+                'status' => IncidentExternalReport::STATUS_OUTCOME,
+                'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+                'outcome' => IncidentExternalReport::OUTCOME_OTHER,
+                'outcome_source' => IncidentExternalReport::SOURCE_REPORTER_OBSERVATION,
+                'outcome_summary' => 'Content appears unavailable — reporter observation, not independently verified.',
+                'reporter_visible_summary' => 'Content appears unavailable when you check the link.',
+                'verification_status' => IncidentExternalReport::VERIFICATION_UNVERIFIED,
+                'created_by' => $reviewer->id,
+                'updated_by' => $reviewer->id,
+            ]);
+
+            IncidentExternalReportStatusHistory::query()->create([
+                'incident_external_report_id' => $demoD->id,
+                'previous_status' => null,
+                'new_status' => IncidentExternalReport::STATUS_OUTCOME,
+                'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+                'outcome' => IncidentExternalReport::OUTCOME_OTHER,
+                'changed_by' => $reviewer->id,
+                'note' => 'Outcome recorded from reporter observation.',
+                'changed_at' => now()->subDays(3),
             ]);
         }
     }

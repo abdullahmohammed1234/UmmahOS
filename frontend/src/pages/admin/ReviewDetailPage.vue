@@ -412,6 +412,13 @@
         <p v-else class="muted">No review actions yet.</p>
       </section>
 
+      <OutcomeTrackingPanel
+        v-if="organization.canViewOutcomes && organization.currentOrganization && pkg"
+        :organization-id="organization.currentOrganization.id"
+        :report-id="pkg.incident.id"
+        :can-manage="organization.canManageOutcomes"
+      />
+
       <section
         v-if="organization.canExportIncidents"
         class="block export-block"
@@ -554,6 +561,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import OutcomeTrackingPanel from '@/components/OutcomeTrackingPanel.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type {

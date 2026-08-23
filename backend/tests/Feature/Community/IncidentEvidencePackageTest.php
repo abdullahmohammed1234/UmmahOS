@@ -6,6 +6,8 @@ use App\Models\Incident;
 use App\Models\IncidentAiAnalysis;
 use App\Models\IncidentContextRequest;
 use App\Models\IncidentEvidenceExport;
+use App\Models\IncidentExternalReport;
+use App\Models\IncidentReportAppeal;
 use App\Models\IncidentRelatedItem;
 use App\Models\IncidentReply;
 use App\Models\IncidentReview;
@@ -547,5 +549,90 @@ class IncidentEvidencePackageTest extends TestCase
         ]);
 
         return $incident->fresh();
+    }
+
+    public function test_package_includes_empty_outcome_tracking_when_no_reports(): void
+    {
+        $organization = $this->createOrganization();
+        $reviewer = $this->createMember($organization, $this->reviewerRole);
+        $incident = Incident::factory()->create(['organization_id' => $organization->id]);
+
+        $data = $this->actingAsApi($reviewer)
+            ->getJson($this->orgUrl($organization, '/community-shield/reports/'.$incident->id.'/evidence-package'))
+            ->assertOk()
+            ->json('data');
+
+        $this->assertArrayHasKey('outcome_tracking', $data);
+        $this->assertSame([], $data['outcome_tracking']['reports']);
+    }
+
+    public function test_package_includes_outcome_tracking_with_reports_and_appeals(): void
+    {
+        $organization = $this->createOrganization();
+        $reviewer = $this->createMember($organization, $this->reviewerRole);
+        $incident = $this->makeRichIncident($organization, $reviewer);
+
+        $report = IncidentExternalReport::query()->create([
+            'incident_id' => $incident->id,
+            'organization_id' => $organization->id,
+            'platform' => Incident::PLATFORM_REDDIT,
+            'reporting_channel' => 'In-app report',
+            'external_reference' => 'RDT-9999',
+            'reported_at' => now()->subDays(2),
+            'status' => IncidentExternalReport::STATUS_OUTCOME,
+            'decision' => IncidentExternalReport::DECISION_ACTION_TAKEN,
+            'outcome' => IncidentExternalReport::OUTCOME_CONTENT_REMOVED,
+            'outcome_source' => IncidentExternalReport::SOURCE_REPORTER_OBSERVATION,
+            'verification_status' => IncidentExternalReport::VERIFICATION_UNVERIFIED,
+            'created_by' => $reviewer->id,
+            'updated_by' => $reviewer->id,
+        ]);
+
+        IncidentReportAppeal::query()->create([
+            'incident_external_report_id' => $report->id,
+            'submitted_at' => now()->subDay(),
+            'submitted_by' => $reviewer->id,
+            'reason' => 'Appeal demo',
+            'status' => IncidentReportAppeal::STATUS_SUBMITTED,
+        ]);
+
+        $data = $this->actingAsApi($reviewer)
+            ->getJson($this->orgUrl($organization, '/community-shield/reports/'.$incident->id.'/evidence-package'))
+            ->assertOk()
+            ->json('data');
+
+        $this->assertCount(1, $data['outcome_tracking']['reports']);
+        $this->assertSame('reddit', $data['outcome_tracking']['reports'][0]['platform']);
+        $this->assertSame('unverified', $data['outcome_tracking']['reports'][0]['verification_status']);
+        $this->assertCount(1, $data['outcome_tracking']['reports'][0]['appeals']);
+    }
+
+    public function test_pdf_export_includes_outcome_tracking_data_without_error(): void
+    {
+        $organization = $this->createOrganization();
+        $reviewer = $this->createMember($organization, $this->reviewerRole);
+        $incident = Incident::factory()->create(['organization_id' => $organization->id]);
+
+        IncidentExternalReport::query()->create([
+            'incident_id' => $incident->id,
+            'organization_id' => $organization->id,
+            'platform' => Incident::PLATFORM_REDDIT,
+            'reporting_channel' => 'In-app report',
+            'reported_at' => now()->subDay(),
+            'status' => IncidentExternalReport::STATUS_UNDER_REVIEW,
+            'verification_status' => IncidentExternalReport::VERIFICATION_UNVERIFIED,
+            'created_by' => $reviewer->id,
+            'updated_by' => $reviewer->id,
+        ]);
+
+        $response = $this->actingAsApi($reviewer)
+            ->get($this->orgUrl($organization, '/community-shield/reports/'.$incident->id.'/evidence-package.pdf'));
+
+        $response->assertOk()
+            ->assertHeader('content-type', 'application/pdf');
+
+        $pdf = $response->getContent();
+        $this->assertStringStartsWith('%PDF', $pdf);
+        $this->assertGreaterThan(1000, strlen($pdf));
     }
 }

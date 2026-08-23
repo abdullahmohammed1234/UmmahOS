@@ -27,6 +27,12 @@ final class Permissions
     public const INCIDENTS_CLASSIFY = 'incidents.classify';
     public const INCIDENTS_EXPORT = 'incidents.export';
 
+    public const INCIDENTS_OUTCOMES_VIEW = 'incidents.outcomes.view';
+
+    public const INCIDENTS_OUTCOMES_MANAGE = 'incidents.outcomes.manage';
+
+    public const INCIDENTS_OUTCOMES_APPEAL = 'incidents.outcomes.appeal';
+
     public const REPORTS_VIEW = 'reports.view';
     public const REPORTS_MANAGE = 'reports.manage';
 
@@ -53,6 +59,9 @@ final class Permissions
             ['name' => 'Escalate incidents', 'slug' => self::INCIDENTS_ESCALATE],
             ['name' => 'Classify incidents', 'slug' => self::INCIDENTS_CLASSIFY],
             ['name' => 'Export incident evidence packages', 'slug' => self::INCIDENTS_EXPORT],
+            ['name' => 'View incident outcome tracking', 'slug' => self::INCIDENTS_OUTCOMES_VIEW],
+            ['name' => 'Manage incident outcome tracking', 'slug' => self::INCIDENTS_OUTCOMES_MANAGE],
+            ['name' => 'Submit incident outcome appeals', 'slug' => self::INCIDENTS_OUTCOMES_APPEAL],
             ['name' => 'View reports', 'slug' => self::REPORTS_VIEW],
             ['name' => 'Manage reports', 'slug' => self::REPORTS_MANAGE],
         ];
@@ -73,6 +82,9 @@ final class Permissions
             self::INCIDENTS_ESCALATE,
             self::INCIDENTS_CLASSIFY,
             self::INCIDENTS_EXPORT,
+            self::INCIDENTS_OUTCOMES_VIEW,
+            self::INCIDENTS_OUTCOMES_MANAGE,
+            self::INCIDENTS_OUTCOMES_APPEAL,
         ];
     }
 

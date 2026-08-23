@@ -262,3 +262,102 @@ export function fromDatetimeLocalValue(value: string): string | null {
 
   return date.toISOString();
 }
+
+export const DESTINATION_PLATFORM_OPTIONS = [
+  ...PLATFORM_OPTIONS,
+  { value: 'campus_administration', label: 'Campus administration' },
+  { value: 'university_office', label: 'University office' },
+  { value: 'community_organization', label: 'Community organization' },
+];
+
+export const EXTERNAL_REPORT_STATUS_OPTIONS = [
+  { value: 'reported', label: 'Reported' },
+  { value: 'under_review', label: 'Under Review' },
+  { value: 'decision', label: 'Decision Recorded' },
+  { value: 'outcome', label: 'Outcome Recorded' },
+] as const;
+
+export const EXTERNAL_REPORT_DECISION_OPTIONS = [
+  { value: 'action_taken', label: 'Action Taken' },
+  { value: 'no_action', label: 'No Action' },
+  { value: 'content_does_not_violate_policy', label: 'Content Does Not Violate Policy' },
+  { value: 'insufficient_information', label: 'Insufficient Information' },
+  { value: 'other', label: 'Other' },
+] as const;
+
+export const EXTERNAL_REPORT_OUTCOME_OPTIONS = [
+  { value: 'content_removed', label: 'Content Removed' },
+  { value: 'content_restricted', label: 'Content Restricted' },
+  { value: 'account_action', label: 'Account Action' },
+  { value: 'no_action', label: 'No Action' },
+  { value: 'warning', label: 'Warning' },
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'unable_to_determine', label: 'Unable to Determine' },
+  { value: 'other', label: 'Other' },
+] as const;
+
+export const EXTERNAL_REPORT_SOURCE_OPTIONS = [
+  { value: 'platform_response', label: 'Platform response' },
+  { value: 'reporter_observation', label: 'Reporter observation' },
+  { value: 'reviewer_observation', label: 'Reviewer observation' },
+  { value: 'other', label: 'Other' },
+] as const;
+
+export const EXTERNAL_REPORT_VERIFICATION_OPTIONS = [
+  { value: 'unverified', label: 'Unverified' },
+  { value: 'reported_by_user', label: 'Reported by user' },
+  { value: 'verified_by_reviewer', label: 'Verified by reviewer' },
+] as const;
+
+export function destinationPlatformLabel(value: string): string {
+  return DESTINATION_PLATFORM_OPTIONS.find((option) => option.value === value)?.label ?? platformLabel(value);
+}
+
+export function externalReportStatusLabel(value: string): string {
+  return EXTERNAL_REPORT_STATUS_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function externalReportDecisionLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Not yet recorded';
+  }
+
+  return EXTERNAL_REPORT_DECISION_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function externalReportOutcomeLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Not yet recorded';
+  }
+
+  return EXTERNAL_REPORT_OUTCOME_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function externalReportSourceLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Not provided';
+  }
+
+  return EXTERNAL_REPORT_SOURCE_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function externalReportVerificationLabel(value: string | null | undefined): string {
+  if (!value) {
+    return 'Unverified';
+  }
+
+  return EXTERNAL_REPORT_VERIFICATION_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
+
+export function appealStatusLabel(value: string): string {
+  const known: Record<string, string> = {
+    submitted: 'Submitted',
+    under_review: 'Under Review',
+    accepted: 'Accepted',
+    rejected: 'Rejected',
+    withdrawn: 'Withdrawn',
+    resolved: 'Resolved',
+  };
+
+  return known[value] ?? value;
+}

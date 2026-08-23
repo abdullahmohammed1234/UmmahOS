@@ -322,4 +322,9 @@ class Incident extends Model
     {
         return $this->hasMany(IncidentEvidenceExport::class)->orderByDesc('id');
     }
+
+    public function externalReports(): HasMany
+    {
+        return $this->hasMany(IncidentExternalReport::class)->orderBy('reported_at')->orderBy('id');
+    }
 }

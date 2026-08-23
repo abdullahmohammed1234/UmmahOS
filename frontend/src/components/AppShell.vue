@@ -22,6 +22,9 @@
         <RouterLink to="/events" active-class="active">Events</RouterLink>
         <RouterLink to="/academy" active-class="active">Academy</RouterLink>
         <RouterLink to="/community-shield" active-class="active">Community Shield</RouterLink>
+        <RouterLink to="/community-shield/my-reports" active-class="active" data-testid="nav-my-reports">
+          My Reports
+        </RouterLink>
 
         <template v-if="organization.canReviewIncidents">
           <p class="nav-label">Community Shield Review</p>

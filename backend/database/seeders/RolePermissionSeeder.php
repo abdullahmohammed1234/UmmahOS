@@ -44,7 +44,10 @@ class RolePermissionSeeder extends Seeder
 
         $admin->permissions()->sync(Permission::query()->pluck('id'));
         $member->permissions()->sync(
-            Permission::query()->whereIn('slug', Permissions::viewSlugs())->pluck('id')
+            Permission::query()->whereIn('slug', array_merge(
+                Permissions::viewSlugs(),
+                [Permissions::INCIDENTS_OUTCOMES_APPEAL]
+            ))->pluck('id')
         );
         $reviewer->permissions()->sync(
             Permission::query()->whereIn('slug', Permissions::communitySafetyReviewerSlugs())->pluck('id')

@@ -77,6 +77,16 @@ const router = createRouter({
           component: () => import('@/pages/admin/ReviewDetailPage.vue'),
         },
         {
+          path: 'community-shield/my-reports',
+          name: 'community-shield-my-reports',
+          component: () => import('@/pages/MyReportsPage.vue'),
+        },
+        {
+          path: 'community-shield/my-reports/:id',
+          name: 'community-shield-my-report-detail',
+          component: () => import('@/pages/MyReportDetailPage.vue'),
+        },
+        {
           path: 'members',
           name: 'members',
           component: () => import('@/pages/MembersPage.vue'),

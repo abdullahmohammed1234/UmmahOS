@@ -5,12 +5,14 @@ namespace App\Services\Evidence;
 use App\Models\Incident;
 use App\Models\IncidentAiAnalysis;
 use App\Models\IncidentContextRequest;
+use App\Models\IncidentExternalReport;
 use App\Models\IncidentRelatedItem;
 use App\Models\IncidentReply;
 use App\Models\IncidentReview;
 use App\Models\IncidentReviewAction;
 use App\Models\Organization;
 use App\Models\User;
+use App\Services\Outcome\IncidentOutcomeService;
 use Illuminate\Support\Carbon;
 
 /**
@@ -22,6 +24,7 @@ class IncidentEvidencePackageService
     public function __construct(
         private readonly ReportingRouteService $reportingRoutes,
         private readonly SafetyPrivacyGuidanceService $safetyGuidance,
+        private readonly IncidentOutcomeService $outcomes,
     ) {}
 
     public function build(Organization $organization, int $incidentId, User $generatedBy): IncidentEvidencePackage
@@ -104,6 +107,13 @@ class IncidentEvidencePackageService
                 'ai' => $this->safetyGuidance->aiDisclaimer(),
                 'human_review' => $this->safetyGuidance->humanReviewDisclaimer(),
                 'reporting' => $this->safetyGuidance->reportingDisclaimer(),
+                'outcome_tracking' => 'Outcome tracking records externally reported information as entered by authorized users. '
+                    .'UmmahOS does not automatically submit reports or verify external platform decisions unless explicitly recorded.',
+            ],
+            'outcome_tracking' => [
+                'label' => 'OUTCOME TRACKING',
+                'disclaimer' => 'Recorded external reporting outcomes — not automatically verified by UmmahOS.',
+                'reports' => $this->outcomes->serializeForPackage($incident),
             ],
         ];
 
@@ -125,6 +135,7 @@ class IncidentEvidencePackageService
                 'reviews' => fn ($q) => $q->with('reviewer')->orderByDesc('id'),
                 'reviewActions' => fn ($q) => $q->with('actor')->orderBy('id'),
                 'contextRequests' => fn ($q) => $q->with(['requester', 'resolver'])->orderBy('id'),
+                'externalReports' => fn ($q) => $q->with(['statusHistory', 'appeals'])->orderBy('reported_at')->orderBy('id'),
             ])
             ->findOrFail($incidentId);
     }
@@ -142,6 +153,7 @@ class IncidentEvidencePackageService
             $incident->reviews->max(fn (IncidentReview $review) => optional($review->updated_at)?->getTimestamp()),
             $incident->reviewActions->max(fn (IncidentReviewAction $action) => optional($action->created_at)?->getTimestamp()),
             $incident->contextRequests->max(fn (IncidentContextRequest $request) => optional($request->updated_at)?->getTimestamp()),
+            $incident->externalReports->max(fn (IncidentExternalReport $report) => optional($report->updated_at)?->getTimestamp()),
         ])->filter()->values();
 
         if ($timestamps->isEmpty()) {

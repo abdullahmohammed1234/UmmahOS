@@ -44,6 +44,7 @@ class EvidencePackagePdfRenderer
         $reporting = $data['reporting_route'] ?? [];
         $safety = $data['safety_privacy_notes'] ?? [];
         $disclaimers = $data['disclaimers'] ?? [];
+        $outcomeTracking = $data['outcome_tracking'] ?? [];
         $meta = $data['package'] ?? [];
         $original = $evidence['original_item'] ?? [];
         $currentAi = $ai['current'] ?? [];
@@ -238,7 +239,47 @@ class EvidencePackagePdfRenderer
                 .'<br><span class="muted">'.$this->e($this->display($ref['note'] ?? null)).'</span></p>';
         }
 
-        $sections[] = '<h3 class="guidance">8. RECOMMENDED REPORTING ROUTE</h3>';
+        $sections[] = '<h3 class="guidance">8. OUTCOME TRACKING</h3>';
+        $sections[] = '<p class="disclaimer">'.$this->e($disclaimers['outcome_tracking'] ?? ($outcomeTracking['disclaimer'] ?? '')).'</p>';
+        $outcomeReports = $outcomeTracking['reports'] ?? [];
+        if ($outcomeReports === []) {
+            $sections[] = '<p class="muted">No external reporting activity has been recorded yet.</p>';
+        } else {
+            foreach ($outcomeReports as $index => $outcomeReport) {
+                $sections[] = '<h4>External Report '.($index + 1).'</h4>';
+                $sections[] = $this->kv([
+                    'Platform' => $this->display($outcomeReport['platform'] ?? null),
+                    'Reporting channel' => $this->display($outcomeReport['reporting_channel'] ?? null),
+                    'Reported' => $this->display($outcomeReport['reported_at'] ?? null),
+                    'Status' => $this->display($outcomeReport['status'] ?? null),
+                    'External reference' => $this->display($outcomeReport['external_reference'] ?? null),
+                    'Decision' => $this->display($outcomeReport['decision'] ?? null) === 'Not provided'
+                        ? 'Not yet recorded'
+                        : $this->display($outcomeReport['decision'] ?? null),
+                    'Outcome' => $this->display($outcomeReport['outcome'] ?? null) === 'Not provided'
+                        ? 'Not yet recorded'
+                        : $this->display($outcomeReport['outcome'] ?? null),
+                    'Outcome source' => $this->display($outcomeReport['outcome_source'] ?? null),
+                    'Verification' => $this->displayLabel($outcomeReport['verification_status'] ?? 'unverified'),
+                ]);
+                if (! empty($outcomeReport['outcome_summary'])) {
+                    $sections[] = '<p><strong>Outcome summary</strong></p>'.$this->para($outcomeReport['outcome_summary']);
+                }
+                $appeals = $outcomeReport['appeals'] ?? [];
+                if ($appeals !== []) {
+                    $sections[] = '<p><strong>Appeals</strong></p><ul>';
+                    foreach ($appeals as $appeal) {
+                        $sections[] = '<li>'.$this->e($this->display($appeal['submitted_at'] ?? null))
+                            .' — Appeal '.$this->e($this->display($appeal['status'] ?? null))
+                            .(! empty($appeal['reason']) ? ': '.$this->e((string) $appeal['reason']) : '')
+                            .'</li>';
+                    }
+                    $sections[] = '</ul>';
+                }
+            }
+        }
+
+        $sections[] = '<h3 class="guidance">9. RECOMMENDED REPORTING ROUTE</h3>';
         $sections[] = '<p class="disclaimer">'.$this->e($disclaimers['reporting'] ?? ($reporting['disclaimer'] ?? '')).'</p>';
         $sections[] = $this->kv([
             'Platform' => $this->display($reporting['platform_label'] ?? $reporting['platform'] ?? null),
@@ -249,7 +290,7 @@ class EvidencePackagePdfRenderer
             'Automatic submission' => 'No — Phase 7 prepares evidence only',
         ]);
 
-        $sections[] = '<h3 class="safety">9. SAFETY &amp; PRIVACY NOTES</h3>';
+        $sections[] = '<h3 class="safety">10. SAFETY &amp; PRIVACY NOTES</h3>';
         $notes = $safety['notes'] ?? [];
         if ($notes === []) {
             $sections[] = '<p class="muted">No notes configured.</p>';
@@ -331,6 +372,18 @@ HTML;
         $string = trim((string) $value);
 
         return $string === '' ? 'Not provided' : $string;
+    }
+
+    private function displayLabel(mixed $value): string
+    {
+        $string = $this->display($value);
+
+        return match ($string) {
+            'unverified' => 'Unverified',
+            'reported_by_user' => 'Reported by user',
+            'verified_by_reviewer' => 'Verified by reviewer',
+            default => $string,
+        };
     }
 
     private function e(string $value): string
