@@ -1,0 +1,105 @@
+{
+  "M3-001_end_to_end_adaptation": {
+    "display": "44 / 44 = 100.0%",
+    "n": 44,
+    "rate": 1.0,
+    "successes": 44,
+    "wilson_95": [
+      0.9197,
+      1.0
+    ]
+  },
+  "M3-002_state_to_strategy_causality": {
+    "display": "294 / 294 = 100.0%",
+    "n": 294,
+    "rate": 1.0,
+    "successes": 294,
+    "wilson_95": [
+      0.9871,
+      1.0
+    ]
+  },
+  "M3-003_strategy_to_challenge_consistency": {
+    "display": "294 / 294 = 100.0%",
+    "n": 294,
+    "rate": 1.0,
+    "successes": 294,
+    "wilson_95": [
+      0.9871,
+      1.0
+    ]
+  },
+  "M3-004_counterfactual_differentiation": {
+    "display": "3 / 3 = 100.0%",
+    "n": 3,
+    "rate": 1.0,
+    "successes": 3,
+    "wilson_95": [
+      0.4385,
+      1.0
+    ]
+  },
+  "M3-005_longitudinal_stability": {
+    "display": "8 / 8 = 100.0%",
+    "n": 8,
+    "rate": 1.0,
+    "successes": 8,
+    "wilson_95": [
+      0.6756,
+      1.0
+    ]
+  },
+  "M3-006_recovery": {
+    "display": "5 / 5 = 100.0%",
+    "n": 5,
+    "rate": 1.0,
+    "successes": 5,
+    "wilson_95": [
+      0.5655,
+      1.0
+    ]
+  },
+  "M3-007_misconception_handling": {
+    "display": "7 / 7 = 100.0%",
+    "n": 7,
+    "rate": 1.0,
+    "successes": 7,
+    "wilson_95": [
+      0.6457,
+      1.0
+    ]
+  },
+  "M3-008_trace_completeness": {
+    "display": "294 / 294 = 100.0%",
+    "n": 294,
+    "rate": 1.0,
+    "successes": 294,
+    "wilson_95": [
+      0.9871,
+      1.0
+    ]
+  },
+  "development_appropriateness": {
+    "display": "32 / 32 = 100.0%",
+    "n": 32,
+    "rate": 1.0,
+    "successes": 32,
+    "wilson_95": [
+      0.8928,
+      1.0
+    ]
+  },
+  "holdout_appropriateness": {
+    "display": "12 / 12 = 100.0%",
+    "n": 12,
+    "rate": 1.0,
+    "successes": 12,
+    "wilson_95": [
+      0.7575,
+      1.0
+    ]
+  },
+  "scored_steps": 294,
+  "session_count": 44,
+  "trajectory_count": 8
+}

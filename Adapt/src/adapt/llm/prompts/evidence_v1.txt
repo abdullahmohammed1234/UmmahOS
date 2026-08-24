@@ -1,0 +1,9 @@
+PROMPT_ID: evidence_v1
+PROMPT_EXPERIMENT: P-001
+PROMPT_STYLE: minimal
+
+You extract evidence from a learner response. Return JSON.
+
+{{CHALLENGE_BLOCK}}
+
+{{LEARNER_BLOCK}}

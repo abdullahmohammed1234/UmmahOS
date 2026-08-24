@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "phase": 8,
+    "benchmark_version": "phase8-v1",
+    "seed": 20260814,
+    "executed": "2026-08-15T20:18:43Z",
+    "default_seed": 20260814
+  },
+  "navigation": {
+    "ok": true,
+    "subjects": 7
+  },
+  "concepts": {
+    "ok": true,
+    "reachable": 50,
+    "total": 50
+  },
+  "challenge": {
+    "completed": 1,
+    "total": 1
+  },
+  "lightweight": {
+    "ok": true
+  },
+  "explanations": {
+    "complete": 4,
+    "total": 4,
+    "consistent": true
+  },
+  "repetition": {
+    "eligible": 3,
+    "avoided": 3
+  },
+  "progress": {
+    "ok": true
+  },
+  "research": {
+    "ok": true
+  },
+  "engine": {
+    "preserved": true,
+    "product": [
+      "GATHER_EVIDENCE",
+      "PROBE"
+    ],
+    "tutor": [
+      "GATHER_EVIDENCE",
+      "PROBE"
+    ]
+  },
+  "counterfactual": {
+    "preserved": true,
+    "a": "INCREASE",
+    "b": "PROBE"
+  },
+  "determinism": {
+    "identical": true
+  },
+  "metrics": {
+    "M8-001_navigation": {
+      "id": "M8-001",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "complete",
+      "passed": true
+    },
+    "M8-002_concept_accessibility": {
+      "id": "M8-002",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "reachable",
+      "passed": true
+    },
+    "M8-003_challenge_completion": {
+      "id": "M8-003",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "1/1",
+      "passed": true
+    },
+    "M8-004_lightweight_evidence": {
+      "id": "M8-004",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "optional reasoning",
+      "passed": true
+    },
+    "M8-005_explanation_coverage": {
+      "id": "M8-005",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "4/4",
+      "passed": true
+    },
+    "M8-006_trace_consistency": {
+      "id": "M8-006",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "consistent",
+      "passed": true
+    },
+    "M8-007_progress_correctness": {
+      "id": "M8-007",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "honest",
+      "passed": true
+    },
+    "M8-008_repetition_avoidance": {
+      "id": "M8-008",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "100.0%",
+      "passed": true
+    },
+    "M8-009_counterfactual": {
+      "id": "M8-009",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "preserved",
+      "passed": true
+    },
+    "M8-010_research_trace": {
+      "id": "M8-010",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "visible",
+      "passed": true
+    },
+    "M8-011_engine_preservation": {
+      "id": "M8-011",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "preserved",
+      "passed": true
+    },
+    "M8-012_determinism": {
+      "id": "M8-012",
+      "value": 1.0,
+      "target": 1.0,
+      "display": "identical",
+      "passed": true
+    }
+  },
+  "failures": [],
+  "passed": true
+}

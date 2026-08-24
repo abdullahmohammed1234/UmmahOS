@@ -1,0 +1,5 @@
+python -m pytest
+514 passed, 0 failed, 0 skipped
+
+Baseline before Phase 10: 492 passed
+Phase 10 added 22 tests in tests/phase10/

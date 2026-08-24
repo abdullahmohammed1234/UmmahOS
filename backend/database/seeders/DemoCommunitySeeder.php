@@ -547,18 +547,49 @@ class DemoCommunitySeeder extends Seeder
             ]
         );
 
-        $lesson = AcademyLesson::query()->firstOrCreate(
+        $xAppealIncident = Incident::query()->where('organization_id', $alpha->id)
+            ->where('platform', Incident::PLATFORM_X)
+            ->where('review_outcome', Incident::OUTCOME_CONFIRMED)
+            ->whereKeyNot($confirmedPackage->id)
+            ->first();
+
+        $harassmentIncident = $this->seedEducationDemoIncident(
+            $alpha,
+            $admin,
+            $reviewer,
+            Incident::PLATFORM_DISCORD,
+            Incident::CONTENT_TYPE_MESSAGE,
+            'education-demo-harassment-thread',
+            'Repeated Discord messages targeting a member\'s name and faith across several days.',
+            'repeated_harassment',
+        );
+
+        $reportingIncident = $this->seedEducationDemoIncident(
+            $alpha,
+            $admin,
+            $reviewer,
+            Incident::PLATFORM_WHATSAPP,
+            Incident::CONTENT_TYPE_MESSAGE,
+            'education-demo-reporting-channel',
+            'Member seeks guidance on reporting harmful content through the correct organization channel.',
+            'reporting_safety',
+        );
+
+        $privacyIncident = $this->seedEducationDemoIncident(
+            $alpha,
+            $admin,
+            $reviewer,
+            Incident::PLATFORM_TELEGRAM,
+            Incident::CONTENT_TYPE_MESSAGE,
+            'education-demo-reporter-privacy',
+            'Community members ask publicly who filed a safety report, creating pressure to disclose reporter identity.',
+            'reporting_safety',
+        );
+
+        $lessons = [
             [
-                'organization_id' => $alpha->id,
-                'course_id' => $course->id,
                 'title' => 'Understanding Context Before Responding',
-            ],
-            [
                 'learning_objective' => 'Recognize how surrounding context can change interpretation before responding or reporting.',
-                'category' => AcademyLesson::CATEGORY_COMMUNITY_SAFETY,
-                'status' => AcademyLesson::STATUS_PUBLISHED,
-                'is_demo' => true,
-                'created_by' => $admin->id,
                 'sections' => [
                     ['heading' => 'Why context matters', 'body' => 'A message that looks harmful in isolation may read differently with surrounding conversation. Context does not excuse harm, but it changes what evidence is useful.'],
                     ['heading' => 'Recognizing repeated patterns', 'body' => 'Repeated targeting across messages is often more informative than a single cropped screenshot.'],
@@ -567,98 +598,481 @@ class DemoCommunitySeeder extends Seeder
                     ['heading' => 'When to seek help', 'body' => 'If you feel unsafe or unsure, contact your MSA Community Safety Reviewer or another trusted support channel.'],
                     ['heading' => 'Safe reporting practices', 'body' => 'Use approved reporting pathways. Avoid spreading harmful material more widely than necessary.'],
                 ],
-            ]
-        );
-
-        $scenarios = [
-            [
-                'title' => 'Context preservation',
-                'prompt' => 'Demo / educational scenario: A message appears insulting, but the surrounding conversation changes its meaning. What should you do first?',
-                'context' => 'Sanitized educational scenario. Not based on exposing a real incident transcript.',
-                'options' => [
-                    'Preserve the surrounding conversation context before deciding how to respond or report',
-                    'Reply immediately to call out the author',
-                    'Delete your own account so you do not see it again',
-                    'Assume the isolated message proves intent and share it widely',
+                'adapt_topic_id' => 'csafety-context',
+                'pattern' => [
+                    'source_incident' => $confirmedPackage,
+                    'pattern_type' => 'contextual_hate',
+                    'title' => 'Contextual Religious Targeting',
+                    'summary' => 'A community member encounters language that appears more discriminatory when viewed alongside surrounding conversation and repeated replies.',
+                    'learning_objective' => 'Identify when context changes the interpretation of seemingly isolated language and what evidence to preserve.',
+                    'recommendation_reason' => 'This lesson teaches learners how surrounding context can change meaning and what to preserve before responding or reporting.',
                 ],
-                'expected_reasoning_signals' => ['context', 'surrounding', 'preserve'],
-                'misconception_tags' => ['CSAFE-M001'],
-                'difficulty' => 2,
-                'adapt_challenge_id' => 'CSAFE-CTX-001',
-                'adapt_concept_id' => 'csafety_context_preservation',
-                'sort_order' => 1,
+                'scenarios' => [
+                    [
+                        'title' => 'Context preservation',
+                        'prompt' => 'Demo / educational scenario: A message appears insulting, but the surrounding conversation changes its meaning. What should you do first?',
+                        'context' => 'Sanitized educational scenario. Not based on exposing a real incident transcript.',
+                        'options' => [
+                            'Preserve the surrounding conversation context before deciding how to respond or report',
+                            'Reply immediately to call out the author',
+                            'Delete your own account so you do not see it again',
+                            'Assume the isolated message proves intent and share it widely',
+                        ],
+                        'expected_reasoning_signals' => ['context', 'surrounding', 'preserve'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-CTX-001',
+                        'adapt_concept_id' => 'csafety_context_preservation',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'title' => 'Pattern recognition',
+                        'prompt' => 'Demo / educational scenario: You encounter repeated comments targeting a religious identity. Which information is most useful to preserve?',
+                        'context' => 'Demo / educational scenario focused on transferable evidence skills.',
+                        'options' => [
+                            'A sequence of related messages that shows the repeated pattern over time',
+                            'Only the funniest reply in the thread',
+                            'Your private opinion about the author\'s character',
+                            'Unrelated posts from other groups',
+                        ],
+                        'expected_reasoning_signals' => ['repeated', 'pattern', 'sequence'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-CTX-002',
+                        'adapt_concept_id' => 'csafety_pattern_recognition',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'Evidence quality',
+                        'prompt' => 'Demo / educational scenario: A report contains an isolated screenshot but lacks context. What additional information would make the report more useful?',
+                        'context' => 'Demo / educational scenario about evidence quality.',
+                        'options' => [
+                            'Surrounding messages, timing, and where the content appeared',
+                            'A guess about the author\'s private beliefs',
+                            'A demand that the platform ban everyone involved immediately',
+                            'A rewritten version of the message in stronger language',
+                        ],
+                        'expected_reasoning_signals' => ['surrounding', 'timing', 'context'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-CTX-003',
+                        'adapt_concept_id' => 'csafety_evidence_quality',
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'Uncertainty',
+                        'prompt' => 'Demo / educational scenario: You are unsure whether a comment is coded targeting or ordinary disagreement. What is the most careful next step?',
+                        'context' => 'Demo / educational scenario about uncertainty.',
+                        'options' => [
+                            'Document what you see carefully and seek guidance without publicly escalating',
+                            'Publicly accuse the person of hate based on one comment',
+                            'Ignore everything and tell no one',
+                            'Invent missing details so the report looks stronger',
+                        ],
+                        'expected_reasoning_signals' => ['uncertain', 'document', 'guidance'],
+                        'misconception_tags' => ['CSAFE-M003'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-CTX-004',
+                        'adapt_concept_id' => 'csafety_uncertainty',
+                        'sort_order' => 4,
+                    ],
+                    [
+                        'title' => 'Safe reporting',
+                        'prompt' => 'Demo / educational scenario: You want to report potentially harmful content. Which practice best supports safe reporting?',
+                        'context' => 'Demo / educational scenario about safe reporting.',
+                        'options' => [
+                            'Preserve relevant context privately and use approved reporting channels',
+                            'Repost the harmful content publicly so more people can see it',
+                            'Confront the author with personal accusations in the same thread',
+                            'Share reporter contact details in the group chat',
+                        ],
+                        'expected_reasoning_signals' => ['preserve', 'private', 'approved'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-CTX-005',
+                        'adapt_concept_id' => 'csafety_safe_reporting',
+                        'sort_order' => 5,
+                    ],
+                ],
             ],
             [
-                'title' => 'Pattern recognition',
-                'prompt' => 'Demo / educational scenario: You encounter repeated comments targeting a religious identity. Which information is most useful to preserve?',
-                'context' => 'Demo / educational scenario focused on transferable evidence skills.',
-                'options' => [
-                    'A sequence of related messages that shows the repeated pattern over time',
-                    'Only the funniest reply in the thread',
-                    'Your private opinion about the author\'s character',
-                    'Unrelated posts from other groups',
+                'title' => 'Recognizing Coded Language',
+                'learning_objective' => 'Identify when ordinary-seeming language may carry targeted meaning in community contexts.',
+                'sections' => [
+                    ['heading' => 'What coded language is', 'body' => 'Some harmful messages use indirect references that look neutral to outsiders but signal hostility to insiders.'],
+                    ['heading' => 'Dog whistles and inside jokes', 'body' => 'Memes and shared references can function as dog whistles when they repeatedly target a protected group.'],
+                    ['heading' => 'Tone is not enough', 'body' => 'Polite or joking tone does not by itself prove a message is harmless. Look at content, pattern, and who is targeted.'],
+                    ['heading' => 'Assessing coded comments', 'body' => 'Use community context, surrounding messages, and repetition—not the isolated line alone.'],
                 ],
-                'expected_reasoning_signals' => ['repeated', 'pattern', 'sequence'],
-                'misconception_tags' => ['CSAFE-M002'],
-                'difficulty' => 2,
-                'adapt_challenge_id' => 'CSAFE-CTX-002',
-                'adapt_concept_id' => 'csafety_pattern_recognition',
-                'sort_order' => 2,
+                'adapt_topic_id' => 'csafety-coded',
+                'pattern' => [
+                    'source_incident' => $xAppealIncident ?? $confirmedPackage,
+                    'pattern_type' => 'coded_language',
+                    'title' => 'Coded Language in Public Posts',
+                    'summary' => 'A post uses phrasing that appears neutral on the surface but community members recognize as targeting a religious or ethnic group.',
+                    'learning_objective' => 'Recognize when indirect language may carry coded meaning and what context helps reviewers assess it.',
+                    'recommendation_reason' => 'This lesson helps learners spot coded targeting and avoid dismissing harmful language because it looks polite or humorous.',
+                ],
+                'scenarios' => [
+                    [
+                        'title' => 'Coded language recognition',
+                        'prompt' => 'Demo / educational scenario: A comment uses an ordinary phrase that members of your community recognize as targeting a religious group. What is the best initial read?',
+                        'context' => 'Sanitized educational scenario about indirect targeting.',
+                        'options' => [
+                            'The phrase may carry coded meaning even if it looks neutral to outsiders',
+                            'If you do not understand it, it cannot be harmful',
+                            'Any confusing message should be treated as a joke',
+                            'Only explicit slurs count as harmful content',
+                        ],
+                        'expected_reasoning_signals' => ['coded', 'indirect', 'community'],
+                        'misconception_tags' => ['CSAFE-M004'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-COD-001',
+                        'adapt_concept_id' => 'csafety_coded_recognition',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'title' => 'Dog whistles',
+                        'prompt' => 'Demo / educational scenario: Someone posts a meme reference that insiders treat as an inside joke about a minority group. What should you prioritize?',
+                        'context' => 'Demo / educational scenario about dog whistles.',
+                        'options' => [
+                            'How the reference is used in context and whether it signals hostility to a protected group',
+                            'Whether the image made you laugh',
+                            'Whether the author apologized after being asked',
+                            'Whether the post got many likes',
+                        ],
+                        'expected_reasoning_signals' => ['dog whistle', 'inside joke', 'context'],
+                        'misconception_tags' => ['CSAFE-M004'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-COD-002',
+                        'adapt_concept_id' => 'csafety_dog_whistles',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'Neutral tone masking',
+                        'prompt' => 'Demo / educational scenario: A student says, "They were just being polite, so it cannot be harassment." What is wrong with that reasoning?',
+                        'context' => 'Demo / educational scenario about tone and impact.',
+                        'options' => [
+                            'Polite or joking tone does not rule out harmful intent or impact',
+                            'Politeness always means respect',
+                            'Jokes cannot target protected groups',
+                            'Only angry messages can be reported',
+                        ],
+                        'expected_reasoning_signals' => ['tone', 'polite', 'impact'],
+                        'misconception_tags' => ['CSAFE-M004'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-COD-003',
+                        'adapt_concept_id' => 'csafety_neutral_tone',
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'Assessing coded comments',
+                        'prompt' => 'When reviewing a potentially coded comment, which combination of factors is most useful?',
+                        'context' => 'Demo / educational scenario about assessment habits.',
+                        'options' => [
+                            'Community context, surrounding messages, and whether the same phrasing targets a group repeatedly',
+                            'Only the dictionary definition of each word',
+                            'Whether you personally find the comment offensive',
+                            'How many followers the author has',
+                        ],
+                        'expected_reasoning_signals' => ['context', 'surrounding', 'repeated'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-COD-004',
+                        'adapt_concept_id' => 'csafety_coded_recognition',
+                        'sort_order' => 4,
+                    ],
+                ],
             ],
             [
-                'title' => 'Evidence quality',
-                'prompt' => 'Demo / educational scenario: A report contains an isolated screenshot but lacks context. What additional information would make the report more useful?',
-                'context' => 'Demo / educational scenario about evidence quality.',
-                'options' => [
-                    'Surrounding messages, timing, and where the content appeared',
-                    'A guess about the author\'s private beliefs',
-                    'A demand that the platform ban everyone involved immediately',
-                    'A rewritten version of the message in stronger language',
+                'title' => 'Repeated Harassment Patterns',
+                'learning_objective' => 'Distinguish isolated disagreement from sustained targeting across messages or spaces.',
+                'sections' => [
+                    ['heading' => 'Repeated targeting', 'body' => 'A series of comments aimed at the same identity or person is a stronger signal than one ambiguous post.'],
+                    ['heading' => 'Escalation signs', 'body' => 'Harassment often intensifies from teasing to slurs to pile-on behavior across time.'],
+                    ['heading' => 'Bystander responsibility', 'body' => 'Witnesses can document and report without publicly amplifying harm or demanding the target respond.'],
+                    ['heading' => 'Evidence for reviewers', 'body' => 'Reviewers need ordered messages with authors and timing—not a single out-of-context line.'],
                 ],
-                'expected_reasoning_signals' => ['surrounding', 'timing', 'context'],
-                'misconception_tags' => ['CSAFE-M002'],
-                'difficulty' => 3,
-                'adapt_challenge_id' => 'CSAFE-CTX-003',
-                'adapt_concept_id' => 'csafety_evidence_quality',
-                'sort_order' => 3,
+                'adapt_topic_id' => 'csafety-harassment',
+                'pattern' => [
+                    'source_incident' => $harassmentIncident,
+                    'pattern_type' => 'repeated_harassment',
+                    'title' => 'Repeated Identity-Based Targeting',
+                    'summary' => 'Comments mocking a member\'s name and faith recur across several days in the same group, suggesting a pattern rather than a one-off disagreement.',
+                    'learning_objective' => 'Recognize repeated targeting over time and preserve evidence that shows escalation.',
+                    'recommendation_reason' => 'This lesson helps learners distinguish a single heated reply from a sustained harassment pattern.',
+                ],
+                'scenarios' => [
+                    [
+                        'title' => 'Repeated targeting',
+                        'prompt' => 'Demo / educational scenario: One person receives several comments mocking their name and faith across two days in the same group. What pattern is most relevant?',
+                        'context' => 'Sanitized educational scenario about repeated harassment.',
+                        'options' => [
+                            'Repeated comments aimed at the same person and identity over time',
+                            'Whether the group usually has lively debates',
+                            'Whether the target replied sarcastically once',
+                            'How long the group chat has existed',
+                        ],
+                        'expected_reasoning_signals' => ['repeated', 'same person', 'over time'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-HAR-001',
+                        'adapt_concept_id' => 'csafety_repeated_targeting',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'title' => 'Escalation signs',
+                        'prompt' => 'Demo / educational scenario: Comments begin as mild teasing, then move to slurs, then encourage others to pile on. What does this suggest?',
+                        'context' => 'Demo / educational scenario about escalation.',
+                        'options' => [
+                            'The behavior may be escalating and warrants documentation and review',
+                            'Escalation always means the target provoked it',
+                            'Once teasing starts, no review is needed',
+                            'Only the final slur matters; earlier messages can be ignored',
+                        ],
+                        'expected_reasoning_signals' => ['escalat', 'slur', 'pile on'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-HAR-002',
+                        'adapt_concept_id' => 'csafety_escalation_signs',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'Bystander role',
+                        'prompt' => 'Demo / educational scenario: You witness repeated targeting but are not the direct target. What is a constructive bystander action?',
+                        'context' => 'Demo / educational scenario about bystander responsibility.',
+                        'options' => [
+                            'Document the pattern privately and use approved reporting channels',
+                            'Join the thread to argue with the harasser for entertainment',
+                            'Share screenshots in a public story to shame everyone involved',
+                            'Message the target demanding they respond publicly',
+                        ],
+                        'expected_reasoning_signals' => ['bystander', 'document', 'report'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-HAR-003',
+                        'adapt_concept_id' => 'csafety_bystander_role',
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'Evidence package for review',
+                        'prompt' => 'Demo / educational scenario: A moderator asks what to preserve from a harassment thread. Which package is most useful for human review?',
+                        'context' => 'Demo / educational scenario about documentation for reviewers.',
+                        'options' => [
+                            'Ordered messages showing who said what, when, and how the tone changed',
+                            'Only the target\'s emotional reaction',
+                            'A summary written from memory a week later',
+                            'Screenshots with usernames cropped out',
+                        ],
+                        'expected_reasoning_signals' => ['ordered', 'who', 'when'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-HAR-004',
+                        'adapt_concept_id' => 'csafety_repeated_targeting',
+                        'sort_order' => 4,
+                    ],
+                ],
             ],
             [
-                'title' => 'Uncertainty',
-                'prompt' => 'Demo / educational scenario: You are unsure whether a comment is coded targeting or ordinary disagreement. What is the most careful next step?',
-                'context' => 'Demo / educational scenario about uncertainty.',
-                'options' => [
-                    'Document what you see carefully and seek guidance without publicly escalating',
-                    'Publicly accuse the person of hate based on one comment',
-                    'Ignore everything and tell no one',
-                    'Invent missing details so the report looks stronger',
+                'title' => 'Safe Reporting & Escalation',
+                'learning_objective' => 'Use approved channels and preserve useful context without spreading harm further.',
+                'sections' => [
+                    ['heading' => 'Approved channels', 'body' => 'Organizations provide designated safety or incident reporting paths. Use them instead of public call-outs.'],
+                    ['heading' => 'Useful documentation', 'body' => 'Include links or screenshots with timestamps, location in the app, and surrounding context.'],
+                    ['heading' => 'Urgent threats', 'body' => 'Immediate safety threats warrant urgent reporting while preserving what you safely can.'],
+                    ['heading' => 'Avoid amplifying harm', 'body' => 'Reposting harmful content to raise awareness often spreads it further and can retraumatize targets.'],
                 ],
-                'expected_reasoning_signals' => ['uncertain', 'document', 'guidance'],
-                'misconception_tags' => ['CSAFE-M003'],
-                'difficulty' => 3,
-                'adapt_challenge_id' => 'CSAFE-CTX-004',
-                'adapt_concept_id' => 'csafety_uncertainty',
-                'sort_order' => 4,
+                'adapt_topic_id' => 'csafety-reporting',
+                'pattern' => [
+                    'source_incident' => $reportingIncident,
+                    'pattern_type' => 'reporting_safety',
+                    'title' => 'Safe Reporting After Witnessing Harm',
+                    'summary' => 'Members want to help after seeing harmful content but need guidance on using approved channels without spreading the material more widely.',
+                    'learning_objective' => 'Choose appropriate reporting channels and include actionable documentation.',
+                    'recommendation_reason' => 'This lesson teaches practical reporting habits that help reviewers act without amplifying harm.',
+                ],
+                'scenarios' => [
+                    [
+                        'title' => 'Approved reporting channels',
+                        'prompt' => 'Demo / educational scenario: You notice harmful content in your organization\'s community space. Where should you report it first?',
+                        'context' => 'Sanitized educational scenario about reporting pathways.',
+                        'options' => [
+                            'The organization\'s approved safety or incident reporting channel',
+                            'A public post tagging every admin at once',
+                            'A unrelated social media platform with no connection to the organization',
+                            'A private group chat of friends to gossip about it',
+                        ],
+                        'expected_reasoning_signals' => ['approved', 'incident', 'channel'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-REP-001',
+                        'adapt_concept_id' => 'csafety_report_channels',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'title' => 'Documentation habits',
+                        'prompt' => 'Demo / educational scenario: You are preparing a safety report. Which details help reviewers most?',
+                        'context' => 'Demo / educational scenario about report quality.',
+                        'options' => [
+                            'Links or screenshots with timestamps, location in the app, and surrounding context',
+                            'Your guess about what punishment the author deserves',
+                            'A list of everyone you dislike in the community',
+                            'A meme summarizing your frustration',
+                        ],
+                        'expected_reasoning_signals' => ['timestamp', 'location', 'context'],
+                        'misconception_tags' => ['CSAFE-M002'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-REP-002',
+                        'adapt_concept_id' => 'csafety_documentation',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'When to escalate urgently',
+                        'prompt' => 'Demo / educational scenario: Content includes an immediate safety threat. What is the priority compared with ordinary harmful speech?',
+                        'context' => 'Demo / educational scenario about urgent escalation.',
+                        'options' => [
+                            'Report immediately through urgent channels and preserve what you safely can',
+                            'Wait until you collect ten similar examples',
+                            'Debate the theology of the insult first',
+                            'Only report if the target asks you to',
+                        ],
+                        'expected_reasoning_signals' => ['immediate', 'urgent', 'threat'],
+                        'misconception_tags' => ['CSAFE-M001'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-REP-003',
+                        'adapt_concept_id' => 'csafety_escalation_timing',
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'Avoid amplifying harm',
+                        'prompt' => 'Demo / educational scenario: Someone reposts harmful content to "raise awareness" in a large public channel. What is the main problem?',
+                        'context' => 'Demo / educational scenario about public reposting.',
+                        'options' => [
+                            'It can spread the harmful content further and retraumatize targets',
+                            'Public awareness always reduces harm',
+                            'If the content is already online, sharing it again does not matter',
+                            'Only the original author is responsible for copies',
+                        ],
+                        'expected_reasoning_signals' => ['spread', 'amplify', 'retraumat'],
+                        'misconception_tags' => ['CSAFE-M005'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-REP-004',
+                        'adapt_concept_id' => 'csafety_safe_reporting',
+                        'sort_order' => 4,
+                    ],
+                ],
             ],
             [
-                'title' => 'Safe reporting',
-                'prompt' => 'Demo / educational scenario: You want to report potentially harmful content. Which practice best supports safe reporting?',
-                'context' => 'Demo / educational scenario about safe reporting.',
-                'options' => [
-                    'Preserve relevant context privately and use approved reporting channels',
-                    'Repost the harmful content publicly so more people can see it',
-                    'Confront the author with personal accusations in the same thread',
-                    'Share reporter contact details in the group chat',
+                'title' => 'Privacy & Boundaries in Safety Work',
+                'learning_objective' => 'Protect reporter identity and avoid turning safety work into public spectacle.',
+                'sections' => [
+                    ['heading' => 'Reporter privacy', 'body' => 'Sharing who reported an incident can put people at risk and discourage future reports.'],
+                    ['heading' => 'Need-to-know sharing', 'body' => 'Detailed evidence should reach designated reviewers and trusted staff—not the whole community chat.'],
+                    ['heading' => 'Supporting friends privately', 'body' => 'Check in with someone who reported harassment without discussing their report in group spaces.'],
                 ],
-                'expected_reasoning_signals' => ['preserve', 'private', 'approved'],
-                'misconception_tags' => ['CSAFE-M001'],
-                'difficulty' => 3,
-                'adapt_challenge_id' => 'CSAFE-CTX-005',
-                'adapt_concept_id' => 'csafety_safe_reporting',
-                'sort_order' => 5,
+                'adapt_topic_id' => 'csafety-privacy',
+                'pattern' => [
+                    'source_incident' => $privacyIncident,
+                    'pattern_type' => 'reporting_safety',
+                    'title' => 'Protecting Reporter Privacy',
+                    'summary' => 'After a safety report is filed, community curiosity can pressure members to disclose reporter identity in public channels.',
+                    'learning_objective' => 'Protect reporter privacy and share incident details only with people who need to know.',
+                    'recommendation_reason' => 'This lesson helps learners support safety work without exposing reporters to retaliation.',
+                ],
+                'scenarios' => [
+                    [
+                        'title' => 'Reporter privacy',
+                        'prompt' => 'Demo / educational scenario: After a report is filed, a member asks who reported the incident in the public chat. What is the best response?',
+                        'context' => 'Sanitized educational scenario about reporter confidentiality.',
+                        'options' => [
+                            'Do not share reporter identity; refer questions to designated staff through private channels',
+                            'Name the reporter so the community can thank them',
+                            'Hint strongly so people can guess who reported',
+                            'Post the report text with the reporter\'s phone number',
+                        ],
+                        'expected_reasoning_signals' => ['reporter', 'privacy', 'private'],
+                        'misconception_tags' => ['CSAFE-M005'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-PRV-001',
+                        'adapt_concept_id' => 'csafety_reporter_privacy',
+                        'sort_order' => 1,
+                    ],
+                    [
+                        'title' => 'Need-to-know sharing',
+                        'prompt' => 'Who should typically receive detailed incident evidence during an active review?',
+                        'context' => 'Demo / educational scenario about evidence boundaries.',
+                        'options' => [
+                            'Designated reviewers and staff with a need to know',
+                            'Every member of the organization immediately',
+                            'Anyone who asks in a public forum',
+                            'External accounts with no role in the organization',
+                        ],
+                        'expected_reasoning_signals' => ['reviewer', 'need to know', 'staff'],
+                        'misconception_tags' => ['CSAFE-M005'],
+                        'difficulty' => 2,
+                        'adapt_challenge_id' => 'CSAFE-PRV-002',
+                        'adapt_concept_id' => 'csafety_need_to_know',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'Supporting a friend privately',
+                        'prompt' => 'Demo / educational scenario: You want to support a friend who reported harassment. What respects their privacy?',
+                        'context' => 'Demo / educational scenario about private support.',
+                        'options' => [
+                            'Check in privately and avoid discussing their report in group chats',
+                            'Announce in the group that they did the right thing by reporting',
+                            'Forward their report to unrelated contacts for opinions',
+                            'Ask them to repost the harmful content so others understand',
+                        ],
+                        'expected_reasoning_signals' => ['private', 'support', 'avoid'],
+                        'misconception_tags' => ['CSAFE-M005'],
+                        'difficulty' => 3,
+                        'adapt_challenge_id' => 'CSAFE-PRV-003',
+                        'adapt_concept_id' => 'csafety_reporter_privacy',
+                        'sort_order' => 3,
+                    ],
+                ],
             ],
         ];
 
-        foreach ($scenarios as $scenario) {
+        foreach ($lessons as $lessonDefinition) {
+            $this->seedAcademyLessonBundle(
+                $alpha,
+                $course,
+                $admin,
+                $reviewer,
+                $lessonDefinition
+            );
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>  $definition
+     */
+    private function seedAcademyLessonBundle(
+        Organization $alpha,
+        Course $course,
+        User $admin,
+        User $reviewer,
+        array $definition
+    ): void {
+        $lesson = AcademyLesson::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'course_id' => $course->id,
+                'title' => $definition['title'],
+            ],
+            [
+                'learning_objective' => $definition['learning_objective'],
+                'category' => AcademyLesson::CATEGORY_COMMUNITY_SAFETY,
+                'status' => AcademyLesson::STATUS_PUBLISHED,
+                'is_demo' => true,
+                'created_by' => $admin->id,
+                'sections' => $definition['sections'],
+            ]
+        );
+
+        foreach ($definition['scenarios'] as $scenario) {
             AcademyScenario::query()->firstOrCreate(
                 [
                     'organization_id' => $alpha->id,
@@ -666,23 +1080,27 @@ class DemoCommunitySeeder extends Seeder
                     'adapt_challenge_id' => $scenario['adapt_challenge_id'],
                 ],
                 array_merge($scenario, [
-                    'adapt_topic_id' => 'csafety-context',
+                    'adapt_topic_id' => $definition['adapt_topic_id'],
                     'adapt_domain' => 'community-safety',
                     'is_demo' => true,
                 ])
             );
         }
 
+        $patternDefinition = $definition['pattern'];
+        /** @var Incident $sourceIncident */
+        $sourceIncident = $patternDefinition['source_incident'];
+
         $pattern = LearningPattern::query()->firstOrCreate(
             [
                 'organization_id' => $alpha->id,
-                'source_incident_id' => $confirmedPackage->id,
+                'source_incident_id' => $sourceIncident->id,
             ],
             [
-                'pattern_type' => 'contextual_hate',
-                'title' => 'Contextual Religious Targeting',
-                'summary' => 'A community member encounters language that appears more discriminatory when viewed alongside surrounding conversation and repeated replies.',
-                'learning_objective' => 'Identify when context changes the interpretation of seemingly isolated language and what evidence to preserve.',
+                'pattern_type' => $patternDefinition['pattern_type'],
+                'title' => $patternDefinition['title'],
+                'summary' => $patternDefinition['summary'],
+                'learning_objective' => $patternDefinition['learning_objective'],
                 'domain' => 'community-safety',
                 'severity_context' => 'moderate',
                 'status' => LearningPattern::STATUS_APPROVED,
@@ -700,9 +1118,49 @@ class DemoCommunitySeeder extends Seeder
             ],
             [
                 'academy_course_id' => $course->id,
-                'reason' => 'This lesson teaches learners how surrounding context can change meaning and what to preserve before responding or reporting.',
+                'reason' => $patternDefinition['recommendation_reason'],
                 'status' => LearningRecommendation::STATUS_PUBLISHED,
                 'created_by' => $admin->id,
+            ]
+        );
+    }
+
+    private function seedEducationDemoIncident(
+        Organization $alpha,
+        User $admin,
+        User $reviewer,
+        string $platform,
+        string $contentType,
+        string $descriptionKey,
+        string $description,
+        string $patternType,
+    ): Incident {
+        return Incident::query()->firstOrCreate(
+            [
+                'organization_id' => $alpha->id,
+                'reported_by' => $admin->id,
+                'platform' => $platform,
+                'description' => $descriptionKey,
+            ],
+            [
+                'content_type' => $contentType,
+                'visibility' => Incident::VISIBILITY_GROUP,
+                'source_url' => null,
+                'original_item_content' => 'Demo / educational scenario seed content. Not a live incident transcript.',
+                'observed_at' => now()->subDays(2),
+                'surrounding_context' => 'Sanitized educational abstraction for Academy demo content.',
+                'language' => 'en',
+                'reporter_notes' => 'Seeded for Community Safety Academy lesson: '.$patternType,
+                'safety_classification' => Incident::CLASSIFICATION_HARASSMENT,
+                'classified_by' => $reviewer->id,
+                'classified_at' => now()->subDays(2),
+                'status' => Incident::STATUS_RESOLVED,
+                'review_outcome' => Incident::OUTCOME_CONFIRMED,
+                'review_notes' => $description,
+                'current_reviewer_id' => $reviewer->id,
+                'review_started_at' => now()->subDays(2)->subHour(),
+                'escalated' => false,
+                'review_lock_version' => 1,
             ]
         );
     }

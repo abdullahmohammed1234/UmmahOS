@@ -1,0 +1,244 @@
+{
+  "M-001_decision_appropriateness": {
+    "denominator": 60,
+    "display": "56 / 60 = 93.3%",
+    "numerator": 56,
+    "rate": 0.9333333333333333,
+    "wilson_95": [
+      0.8407,
+      0.9738
+    ]
+  },
+  "M-001_development": {
+    "denominator": 42,
+    "display": "39 / 42 = 92.9%",
+    "numerator": 39,
+    "rate": 0.9285714285714286,
+    "wilson_95": [
+      0.8099,
+      0.9754
+    ]
+  },
+  "M-001_holdout": {
+    "denominator": 18,
+    "display": "17 / 18 = 94.4%",
+    "numerator": 17,
+    "rate": 0.9444444444444444,
+    "wilson_95": [
+      0.7424,
+      0.9901
+    ]
+  },
+  "M-002_evidence_sensitivity": {
+    "denominator": 20,
+    "display": "20 / 20 = 100.0%",
+    "numerator": 20,
+    "rate": 1.0,
+    "wilson_95": [
+      0.8389,
+      1.0
+    ]
+  },
+  "M-003_uncertainty_handling": {
+    "denominator": 20,
+    "display": "20 / 20 = 100.0%",
+    "numerator": 20,
+    "rate": 1.0,
+    "wilson_95": [
+      0.8389,
+      1.0
+    ]
+  },
+  "M-004_misconception_response": {
+    "denominator": 12,
+    "display": "10 / 12 = 83.3%",
+    "numerator": 10,
+    "rate": 0.8333333333333334,
+    "wilson_95": [
+      0.552,
+      0.953
+    ]
+  },
+  "M-005_noise_stability": {
+    "denominator": 4,
+    "display": "4 / 4 = 100.0%",
+    "numerator": 4,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5101,
+      1.0
+    ]
+  },
+  "M-006_recovery": {
+    "denominator": 4,
+    "display": "4 / 4 = 100.0%",
+    "numerator": 4,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5101,
+      1.0
+    ]
+  },
+  "M-007_state_stability": {
+    "denominator": 5,
+    "display": "5 / 5 = 100.0%",
+    "numerator": 5,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5655,
+      1.0
+    ]
+  },
+  "M-008_decision_traceability": {
+    "denominator": 60,
+    "display": "60 / 60 = 100.0%",
+    "numerator": 60,
+    "rate": 1.0,
+    "wilson_95": [
+      0.9398,
+      1.0
+    ]
+  },
+  "M-009_generalization_rate": {
+    "denominator": 18,
+    "display": "17 / 18 = 94.4%",
+    "numerator": 17,
+    "rate": 0.9444444444444444,
+    "wilson_95": [
+      0.7424,
+      0.9901
+    ]
+  },
+  "M-010_development_holdout_gap": -0.015873015873015817,
+  "M-011_state_recovery_rate": {
+    "denominator": 4,
+    "display": "4 / 4 = 100.0%",
+    "numerator": 4,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5101,
+      1.0
+    ]
+  },
+  "M-012_misconception_persistence_rate": {
+    "denominator": 7,
+    "display": "0 / 7 = 0.0%",
+    "numerator": 0,
+    "rate": 0.0,
+    "wilson_95": [
+      0.0,
+      0.3543
+    ]
+  },
+  "M-013_overreaction_rate": {
+    "denominator": 60,
+    "display": "0 / 60 = 0.0%",
+    "numerator": 0,
+    "rate": 0.0,
+    "wilson_95": [
+      0.0,
+      0.0602
+    ]
+  },
+  "M-014_underreaction_rate": {
+    "denominator": 60,
+    "display": "3 / 60 = 5.0%",
+    "numerator": 3,
+    "rate": 0.05,
+    "wilson_95": [
+      0.0171,
+      0.137
+    ]
+  },
+  "M-015_state_coherence": {
+    "denominator": 5,
+    "display": "5 / 5 = 100.0%",
+    "numerator": 5,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5655,
+      1.0
+    ]
+  },
+  "adversarial": {
+    "denominator": 6,
+    "display": "6 / 6 = 100.0%",
+    "numerator": 6,
+    "rate": 1.0,
+    "wilson_95": [
+      0.6097,
+      1.0
+    ]
+  },
+  "counts": {
+    "adversarial": 6,
+    "all": 60,
+    "development": 42,
+    "holdout": 18,
+    "longitudinal": 5,
+    "metamorphic": 5,
+    "multi_dimension": 43,
+    "novel": 60
+  },
+  "meta": {
+    "benchmark_version": "phase1f-v1",
+    "git_commit": "unavailable",
+    "holdout_count": 18,
+    "holdout_ids": [
+      "G-001-D",
+      "G-002-D",
+      "G-003-D",
+      "G-004-D",
+      "G-005-C",
+      "G-005-D",
+      "G-006-D",
+      "G-007-C",
+      "G-007-D",
+      "G-008-D",
+      "G-009-D",
+      "G-010-D",
+      "G-011-D",
+      "G-012-C",
+      "G-012-D",
+      "G-013-D",
+      "G-014-D",
+      "G-015-D"
+    ],
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.8",
+    "random_seed": 20260813,
+    "scenario_count": 60,
+    "timestamp": "2026-08-14T04:59:48Z"
+  },
+  "metamorphic": {
+    "denominator": 5,
+    "display": "5 / 5 = 100.0%",
+    "numerator": 5,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5655,
+      1.0
+    ]
+  },
+  "multi_dimension_appropriateness": {
+    "denominator": 43,
+    "display": "40 / 43 = 93.0%",
+    "numerator": 40,
+    "rate": 0.9302325581395349,
+    "wilson_95": [
+      0.8139,
+      0.976
+    ]
+  },
+  "novel_appropriateness": {
+    "denominator": 60,
+    "display": "56 / 60 = 93.3%",
+    "numerator": 56,
+    "rate": 0.9333333333333333,
+    "wilson_95": [
+      0.8407,
+      0.9738
+    ]
+  },
+  "outcome_band": "ROBUST"
+}

@@ -1,0 +1,448 @@
+{
+  "all_passed": true,
+  "cases": [
+    {
+      "expected_delta": 0.1,
+      "id": "SYN-A",
+      "label": "ADAPT gain 0.20, baseline gain 0.10",
+      "observed_delta": 0.1,
+      "passed": true,
+      "source": "synthetic"
+    },
+    {
+      "expected_delta": -0.1,
+      "id": "SYN-B",
+      "label": "ADAPT gain 0.10, baseline gain 0.20",
+      "observed_delta": -0.1,
+      "passed": true,
+      "source": "synthetic"
+    },
+    {
+      "expected_delta": 0.0,
+      "id": "SYN-C",
+      "label": "equal gain 0.15",
+      "observed_delta": 0.0,
+      "passed": true,
+      "source": "synthetic"
+    }
+  ],
+  "metrics": {
+    "M5-001_learning_gain": {
+      "adapt": {
+        "mean": 0.15,
+        "median": 0.15,
+        "n": 3,
+        "stdev": 0.05,
+        "values": [
+          0.2,
+          0.1,
+          0.15
+        ]
+      },
+      "baseline": {
+        "mean": 0.15,
+        "median": 0.15,
+        "n": 3,
+        "stdev": 0.05,
+        "values": [
+          0.1,
+          0.2,
+          0.15
+        ]
+      },
+      "delta": {
+        "bootstrap_ci_95": [
+          -0.10000000000000002,
+          0.10000000000000002
+        ],
+        "cohen_dz": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "n": 3,
+        "stdev": 0.1,
+        "values": [
+          0.1,
+          -0.1,
+          0.0
+        ],
+        "wilcoxon": {
+          "W": 1.5,
+          "W_negative": 1.5,
+          "W_positive": 1.5,
+          "confirmatory": false,
+          "n": 2,
+          "note": "Exploratory evidence only."
+        }
+      }
+    },
+    "M5-002_misconception_recovery": {
+      "adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      }
+    },
+    "M5-003_post_test_accuracy": {
+      "adapt": {
+        "mean": 0.65,
+        "median": 0.65,
+        "n": 3,
+        "stdev": 0.04999999999999999,
+        "values": [
+          0.7,
+          0.6,
+          0.65
+        ]
+      },
+      "baseline": {
+        "mean": 0.65,
+        "median": 0.65,
+        "n": 3,
+        "stdev": 0.04999999999999999,
+        "values": [
+          0.6,
+          0.7,
+          0.65
+        ]
+      }
+    },
+    "M5-004_delayed_retention": {
+      "adapt": null,
+      "baseline": null,
+      "status": "NOT COLLECTED"
+    },
+    "M5-005_perceived_adaptiveness": {
+      "adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      }
+    },
+    "M5-006_challenge_appropriateness": {
+      "adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      }
+    },
+    "M5-007_explanation_clarity": {
+      "adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      }
+    },
+    "M5-008_strategy_transition_quality": {
+      "adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "note": "Operationalized as Q3 (understood why the next challenge was given)."
+    },
+    "M5-009_session_completion": {
+      "adapt": 3,
+      "baseline": 3,
+      "n": 3
+    },
+    "M5-010_engagement_dropout": {
+      "adapt": 0,
+      "baseline": 0,
+      "n": 3
+    },
+    "analysis": {
+      "delta": {
+        "bootstrap_ci_95": [
+          -0.10000000000000002,
+          0.10000000000000002
+        ],
+        "cohen_dz": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "n": 3,
+        "stdev": 0.1,
+        "values": [
+          0.1,
+          -0.1,
+          0.0
+        ],
+        "wilcoxon": {
+          "W": 1.5,
+          "W_negative": 1.5,
+          "W_positive": 1.5,
+          "confirmatory": false,
+          "n": 2,
+          "note": "Exploratory evidence only."
+        }
+      },
+      "dropout_adapt": 0,
+      "dropout_baseline": 0,
+      "gain_adapt": {
+        "mean": 0.15,
+        "median": 0.15,
+        "n": 3,
+        "stdev": 0.05,
+        "values": [
+          0.2,
+          0.1,
+          0.15
+        ]
+      },
+      "gain_baseline": {
+        "mean": 0.15,
+        "median": 0.15,
+        "n": 3,
+        "stdev": 0.05,
+        "values": [
+          0.1,
+          0.2,
+          0.15
+        ]
+      },
+      "interpretation": {
+        "exploratory": true,
+        "h1": "INCONCLUSIVE",
+        "reason": "The exploratory sample does not show a consistent paired direction. Exploratory evidence only."
+      },
+      "method": {
+        "design": "within_subject",
+        "effect_size": "Cohen dz for paired deltas when n>=2 and sd>0",
+        "inferential": "Wilcoxon signed-rank + bootstrap CI on mean delta only if n>=6",
+        "primary_metric": "paired delta = gain_ADAPT - gain_BASELINE",
+        "small_sample": "Exploratory evidence only."
+      },
+      "misconception_recovery_adapt": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "misconception_recovery_baseline": {
+        "mean": null,
+        "median": null,
+        "n": 0,
+        "stdev": null,
+        "values": []
+      },
+      "n": 3,
+      "post_test_adapt": {
+        "mean": 0.65,
+        "median": 0.65,
+        "n": 3,
+        "stdev": 0.04999999999999999,
+        "values": [
+          0.7,
+          0.6,
+          0.65
+        ]
+      },
+      "post_test_baseline": {
+        "mean": 0.65,
+        "median": 0.65,
+        "n": 3,
+        "stdev": 0.04999999999999999,
+        "values": [
+          0.6,
+          0.7,
+          0.65
+        ]
+      },
+      "pre_test": {
+        "mean": 0.5,
+        "median": 0.5,
+        "n": 3,
+        "stdev": 0.0,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "session_completion_adapt": 3,
+      "session_completion_baseline": 3,
+      "survey_adapt": {
+        "challenge_appropriateness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "explanation_clarity": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "learning_helpfulness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "perceived_adaptiveness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "would_use_again": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      },
+      "survey_baseline": {
+        "challenge_appropriateness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "explanation_clarity": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "learning_helpfulness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "perceived_adaptiveness": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "would_use_again": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      }
+    },
+    "interpretation": {
+      "exploratory": true,
+      "h1": "INCONCLUSIVE",
+      "reason": "The exploratory sample does not show a consistent paired direction. Exploratory evidence only."
+    },
+    "label": "synthetic",
+    "method": {
+      "design": "within_subject",
+      "effect_size": "Cohen dz for paired deltas when n>=2 and sd>0",
+      "inferential": "Wilcoxon signed-rank + bootstrap CI on mean delta only if n>=6",
+      "primary_metric": "paired delta = gain_ADAPT - gain_BASELINE",
+      "small_sample": "Exploratory evidence only."
+    },
+    "n": 3,
+    "pre_test": {
+      "mean": 0.5,
+      "median": 0.5,
+      "n": 3,
+      "stdev": 0.0,
+      "values": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "table": [
+    {
+      "adapt": 0.5,
+      "baseline": 0.5,
+      "difference": 0.0,
+      "metric": "Pre-test"
+    },
+    {
+      "adapt": 0.65,
+      "baseline": 0.65,
+      "difference": 0.0,
+      "metric": "Post-test"
+    },
+    {
+      "adapt": 0.15,
+      "baseline": 0.15,
+      "difference": 0.0,
+      "metric": "Learning gain"
+    },
+    {
+      "adapt": null,
+      "baseline": null,
+      "difference": null,
+      "metric": "Misconception recovery"
+    },
+    {
+      "adapt": null,
+      "baseline": null,
+      "difference": null,
+      "metric": "Perceived adaptiveness"
+    },
+    {
+      "adapt": null,
+      "baseline": null,
+      "difference": null,
+      "metric": "Challenge appropriateness"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220">
+<rect width="100%" height="100%" fill="#f7f7f4"/>
+<text x="16" y="24" font-family="sans-serif" font-size="14">Synthetic paired deltas</text>
+<text x="16" y="208" font-family="sans-serif" font-size="10" fill="#666">SYNTHETIC VALIDATION — NOT HUMAN DATA</text>
+<rect x="40" y="70" width="113" height="90" fill="#2a6"/>
+<text x="40" y="176" font-family="sans-serif" font-size="10">SYN-A</text>
+<rect x="173" y="160" width="113" height="90" fill="#c44"/>
+<text x="173" y="176" font-family="sans-serif" font-size="10">SYN-B</text>
+<rect x="306" y="160" width="113" height="1" fill="#2a6"/>
+<text x="306" y="176" font-family="sans-serif" font-size="10">SYN-C</text>
+</svg>
