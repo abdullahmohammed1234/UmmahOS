@@ -1,45 +1,50 @@
 <template>
-  <section class="stack">
-    <article class="panel content">
-      <p class="muted">Organization dashboard</p>
-      <h1>{{ organization.currentOrganization?.name ?? 'Organization' }}</h1>
-      <p class="muted">Simple counts for the current organization only. This is not analytics.</p>
-    </article>
+  <section class="admin-dashboard stack">
+    <PageHeader
+      eyebrow="Organization"
+      :title="organization.currentOrganization?.name ?? 'Organization'"
+      description="Concise metrics for the current organization. Demo data is seeded — not production analytics."
+    />
 
     <p v-if="!organization.isOrganizationAdmin" class="error">
       You do not have permission to manage this organization.
     </p>
+    <LoadingState v-else-if="isLoading" skeleton :lines="3" />
     <p v-else-if="error" class="error">{{ error }}</p>
-    <p v-else-if="isLoading" class="muted">Loading organization overview…</p>
 
-    <div v-else-if="dashboard" class="grid">
-      <RouterLink class="panel content card-link" to="/members">
-        <p class="muted">Members</p>
-        <h2>{{ dashboard.counts.members }}</h2>
+    <div v-else-if="dashboard" class="stat-grid">
+      <RouterLink class="panel stat-card card-link" to="/members">
+        <p class="stat-label">Members</p>
+        <p class="stat-value">{{ dashboard.counts.members }}</p>
       </RouterLink>
-      <RouterLink class="panel content card-link" to="/admin/announcements">
-        <p class="muted">Published announcements</p>
-        <h2>{{ dashboard.counts.published_announcements }}</h2>
+      <RouterLink class="panel stat-card card-link" to="/admin/announcements">
+        <p class="stat-label">Published announcements</p>
+        <p class="stat-value">{{ dashboard.counts.published_announcements }}</p>
       </RouterLink>
-      <RouterLink class="panel content card-link" to="/admin/events">
-        <p class="muted">Upcoming events</p>
-        <h2>{{ dashboard.counts.upcoming_events }}</h2>
+      <RouterLink class="panel stat-card card-link" to="/admin/events">
+        <p class="stat-label">Upcoming events</p>
+        <p class="stat-value">{{ dashboard.counts.upcoming_events }}</p>
       </RouterLink>
-      <RouterLink class="panel content card-link" to="/admin/resources">
-        <p class="muted">Resources</p>
-        <h2>Manage</h2>
+      <RouterLink class="panel stat-card card-link" to="/admin/academy">
+        <p class="stat-label">Published courses</p>
+        <p class="stat-value">{{ dashboard.counts.published_courses }}</p>
       </RouterLink>
-      <RouterLink class="panel content card-link" to="/admin/academy">
-        <p class="muted">Published courses</p>
-        <h2>{{ dashboard.counts.published_courses }}</h2>
-      </RouterLink>
-      <RouterLink class="panel content card-link" to="/admin/community-shield">
-        <p class="muted">Community Shield</p>
-        <h2>{{ dashboard.counts.open_incidents }} open</h2>
-        <p class="muted">
-          {{ dashboard.counts.reviewing_incidents }} reviewing ·
+      <RouterLink class="panel stat-card card-link shield-stat" to="/admin/community-shield">
+        <p class="stat-label">Open Community Shield reports</p>
+        <p class="stat-value">{{ dashboard.counts.open_incidents }}</p>
+        <p class="muted stat-sub">
+          {{ dashboard.counts.reviewing_incidents }} under review ·
           {{ dashboard.counts.resolved_incidents }} resolved
         </p>
+      </RouterLink>
+      <RouterLink
+        v-if="organization.canReviewIncidents"
+        class="panel stat-card card-link"
+        to="/community-shield/review-queue"
+      >
+        <p class="stat-label">Review queue</p>
+        <p class="stat-value">{{ dashboard.counts.reviewing_incidents }}</p>
+        <p class="muted stat-sub">Reports awaiting human review</p>
       </RouterLink>
     </div>
   </section>
@@ -48,6 +53,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import PageHeader from '@/components/ui/PageHeader.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationQuery } from '@/composables/useOrganizationQuery';
 import type { AdminDashboard } from '@/types';
@@ -64,21 +71,16 @@ const { organization, isLoading, error } = useOrganizationQuery(async (organizat
 </script>
 
 <style scoped>
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+.admin-dashboard {
+  max-width: var(--content-max);
 }
 
-h1,
-h2,
-p {
-  margin-top: 0;
+.shield-stat {
+  border-left: 3px solid var(--primary);
 }
 
-@media (max-width: 720px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+.stat-sub {
+  font-size: var(--text-xs);
+  margin: var(--space-2) 0 0;
 }
 </style>

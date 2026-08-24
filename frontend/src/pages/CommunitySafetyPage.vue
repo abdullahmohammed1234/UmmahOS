@@ -1,34 +1,55 @@
 <template>
-  <section class="panel content stack" data-testid="community-safety-page">
-    <div>
+  <div class="academy-workspace" data-testid="community-safety-page">
+    <header class="academy-hero">
+      <p class="eyebrow">Community Safety Education</p>
       <h1>Community Safety</h1>
-      <p class="muted">
-        Lessons that help members recognize harmful patterns and document context carefully.
+      <p>
+        Lessons that help members recognize harmful patterns and document context carefully —
+        bridging confirmed Community Shield reviews to practical learning.
+      </p>
+    </header>
+
+    <div class="academy-bridge">
+      <span aria-hidden="true">◆</span>
+      <p>
+        <strong>From concern to learning.</strong> Validated patterns from human-reviewed incidents
+        become Academy lessons. ADAPT adapts practice based on your responses — not a fixed quiz.
       </p>
     </div>
+
     <AcademySubNav />
+
     <p v-if="error" class="error">{{ error }}</p>
-    <p v-else-if="isLoading" class="muted">Loading community safety lessons…</p>
-    <p v-else-if="items.length === 0" class="muted">No community safety lessons published yet.</p>
-    <div v-else class="list">
+    <LoadingState v-else-if="isLoading" message="Loading community safety lessons…" />
+    <EmptyState
+      v-else-if="items.length === 0"
+      title="No community safety lessons yet"
+      description="Published lessons will appear here once available."
+      icon="🛡"
+    />
+    <div v-else class="academy-grid">
       <RouterLink
         v-for="item in items"
         :key="item.id"
-        class="panel card-link"
+        class="academy-card"
         :to="{ name: 'academy-lesson-detail', params: { lessonId: item.id } }"
         data-testid="community-safety-lesson"
       >
-        <strong>{{ item.title }}</strong>
-        <p v-if="item.learning_objective" class="muted">{{ item.learning_objective }}</p>
+        <span class="academy-card-meta">Lesson</span>
+        <h2 class="academy-card-title">{{ item.title }}</h2>
+        <p v-if="item.learning_objective" class="academy-card-desc">{{ item.learning_objective }}</p>
+        <span class="academy-card-arrow">Open lesson →</span>
       </RouterLink>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import AcademySubNav from '@/components/AcademySubNav.vue';
+import EmptyState from '@/components/ui/EmptyState.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationQuery } from '@/composables/useOrganizationQuery';
 import type { AcademyLesson } from '@/types';

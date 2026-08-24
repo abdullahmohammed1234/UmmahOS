@@ -1,35 +1,41 @@
 <template>
-  <section class="block outcome-block" data-testid="outcome-tracking-section">
-    <h2>{{ memberView ? 'What happened next?' : 'Outcome Tracking' }}</h2>
-    <p v-if="!memberView" class="muted">
-      Record externally reported outcomes. "Reported" means a submission was recorded — not that UmmahOS
-      submitted anything automatically.
-    </p>
+  <section class="case-file-section outcome-panel" data-testid="outcome-tracking-section">
+    <div class="outcome-panel-header">
+      <div>
+        <h2>{{ memberView ? 'What happened next?' : 'Outcome Tracking' }}</h2>
+        <p v-if="!memberView" class="muted">
+          Record externally reported outcomes. "Reported" means a submission was recorded — not that UmmahOS
+          submitted anything automatically.
+        </p>
+      </div>
+    </div>
 
     <p v-if="loadError" class="error" data-testid="outcome-error">{{ loadError }}</p>
     <p v-else-if="isLoading" class="muted" data-testid="outcome-loading">Loading outcome tracking…</p>
 
     <template v-else>
       <p v-if="reports.length === 0" class="muted" data-testid="outcome-empty">
-        {{ memberView
-          ? 'No outcome updates are available yet.'
-          : 'No external reporting activity has been recorded yet.' }}
+        {{
+          memberView
+            ? 'No outcome updates are available yet.'
+            : 'No external reporting activity has been recorded yet.'
+        }}
       </p>
 
       <article
         v-for="report in reports"
         :key="report.id"
-        class="report-card"
+        class="outcome-report-card"
         :data-testid="`external-report-${report.id}`"
       >
-        <header class="report-header">
+        <header class="outcome-report-header">
           <h3>{{ destinationPlatformLabel(report.platform) }}</h3>
-          <span class="badge" :data-testid="`report-status-${report.id}`">
+          <span class="outcome-status-badge" :data-testid="`report-status-${report.id}`">
             {{ externalReportStatusLabel(report.status) }}
           </span>
         </header>
 
-        <dl class="details">
+        <dl class="case-details">
           <div>
             <dt>Reporting channel</dt>
             <dd>{{ report.reporting_channel }}</dd>
@@ -56,33 +62,47 @@
           </div>
           <div>
             <dt>Verification</dt>
-            <dd data-testid="verification-status">{{ externalReportVerificationLabel(report.verification_status) }}</dd>
+            <dd data-testid="verification-status">
+              {{ externalReportVerificationLabel(report.verification_status) }}
+            </dd>
           </div>
         </dl>
 
-        <p v-if="memberView && report.reporter_visible_summary" class="summary">
+        <p v-if="memberView && report.reporter_visible_summary" class="outcome-summary">
           {{ report.reporter_visible_summary }}
         </p>
 
-        <div v-if="report.status_history && report.status_history.length > 0" class="timeline" data-testid="outcome-timeline">
+        <div
+          v-if="report.status_history && report.status_history.length > 0"
+          class="outcome-timeline-track"
+          data-testid="outcome-timeline"
+        >
           <h4>{{ memberView ? 'Your report' : 'Timeline' }}</h4>
-          <ul>
+          <ul class="outcome-timeline-steps">
             <li
               v-for="(entry, index) in report.status_history"
               :key="entry.id ?? index"
-              :class="{ done: isTimelineStepDone(entry.new_status, report.status) }"
+              class="outcome-timeline-step"
+              :class="{
+                done: isTimelineStepDone(entry.new_status, report.status),
+                current: entry.new_status === report.status,
+              }"
             >
-              <span class="dot">{{ isTimelineStepDone(entry.new_status, report.status) ? '✓' : '○' }}</span>
-              <span class="step-label">{{ externalReportStatusLabel(entry.new_status) }}</span>
-              <span class="step-date">{{ formatDateTime(entry.changed_at) }}</span>
-              <p v-if="!memberView && entry.note" class="muted">{{ entry.note }}</p>
+              <span class="outcome-step-marker">
+                {{ isTimelineStepDone(entry.new_status, report.status) ? '✓' : index + 1 }}
+              </span>
+              <div class="outcome-step-body">
+                <span class="outcome-step-label">{{ externalReportStatusLabel(entry.new_status) }}</span>
+                <span class="outcome-step-date">{{ formatDateTime(entry.changed_at) }}</span>
+                <p v-if="!memberView && entry.note" class="outcome-step-note muted">{{ entry.note }}</p>
+              </div>
             </li>
           </ul>
         </div>
 
-        <div v-if="report.appeals && report.appeals.length > 0" class="appeals" data-testid="appeals-list">
+        <div v-if="report.appeals && report.appeals.length > 0" class="outcome-appeals" data-testid="appeals-list">
           <h4>Appeals</h4>
-          <article v-for="(appeal, index) in report.appeals" :key="appeal.id" class="appeal-card">
+          <article v-for="(appeal, index) in report.appeals" :key="appeal.id" class="outcome-appeal-card">
             <p><strong>Appeal #{{ index + 1 }}</strong></p>
             <p>Submitted: {{ formatDateTime(appeal.submitted_at) }}</p>
             <p>Status: {{ appealStatusLabel(appeal.status) }}</p>
@@ -92,7 +112,7 @@
           </article>
         </div>
 
-        <div v-if="memberView && canAppeal(report)" class="actions">
+        <div v-if="memberView && canAppeal(report)" class="outcome-actions">
           <button
             class="button secondary"
             type="button"
@@ -103,7 +123,7 @@
           </button>
         </div>
 
-        <div v-if="!memberView && canManage" class="actions">
+        <div v-if="!memberView && canManage" class="outcome-actions">
           <button
             class="button secondary"
             type="button"
@@ -117,7 +137,7 @@
 
       <button
         v-if="!memberView && canManage"
-        class="button"
+        class="button outcome-record-cta"
         type="button"
         data-testid="record-external-report"
         @click="showRecordForm = true"
@@ -226,7 +246,9 @@
     <dialog v-if="appealTarget" open class="dialog" data-testid="appeal-dialog">
       <form class="stack" @submit.prevent="submitAppeal">
         <h3>Request Correction / Appeal</h3>
-        <p class="muted">This records that an appeal was submitted — it does not automatically send anything externally.</p>
+        <p class="muted">
+          This records that an appeal was submitted — it does not automatically send anything externally.
+        </p>
         <label class="field">
           Reason
           <textarea v-model="appealForm.reason" required rows="4" />
@@ -463,69 +485,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.outcome-block {
-  border-top: 1px solid var(--line);
-  padding-top: 1rem;
-}
-
-.report-card {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.report-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.badge {
-  font-size: 0.85rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  background: var(--line);
-}
-
-.timeline ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.timeline li {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 0.5rem 1rem;
-  padding: 0.35rem 0;
-  align-items: start;
-}
-
-.timeline li.done .step-label {
-  font-weight: 600;
-}
-
-.dot {
-  width: 1.25rem;
-}
-
-.appeal-card {
-  border-left: 3px solid var(--line);
-  padding-left: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
 .dialog {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-top: var(--space-4);
   max-width: 32rem;
-}
-
-.summary {
-  margin: 0.5rem 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
 }
 </style>
