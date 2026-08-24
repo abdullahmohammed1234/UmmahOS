@@ -1,1 +1,46 @@
-MSA Platform/
+# Environment and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+frontend/.env.*
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build and cache
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/.cache/
+frontend/node_modules/.tmp/
+backend/bootstrap/cache/*.php
+!backend/bootstrap/cache/.gitignore
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+!backend/storage/**/.gitignore
+
+# Local databases (seeded demo data — regenerate with migrate --seed)
+backend/database/*.sqlite
+backend/database/*.sqlite-journal
+
+# PHPUnit / tooling
+backend/.phpunit.result.cache
+.phpunit.result.cache
+coverage/
+*.log
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Reference material stays in repo but is not part of runtime
+# MSA Platform/ is intentionally tracked — do not delete

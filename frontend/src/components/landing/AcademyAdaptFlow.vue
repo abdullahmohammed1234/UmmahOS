@@ -17,13 +17,12 @@
 
 <script setup lang="ts">
 const steps = [
-  { label: 'Confirmed pattern', icon: '◆', tone: 'pattern' },
-  { label: 'Learning objective', icon: '◎', tone: 'objective' },
-  { label: 'Academy lesson', icon: '▤', tone: 'lesson' },
+  { label: 'Confirmed Pattern', icon: '◆', tone: 'pattern' },
+  { label: 'Academy Lesson', icon: '▤', tone: 'lesson' },
   { label: 'Scenario', icon: '◇', tone: 'scenario' },
-  { label: 'Learner response', icon: '◉', tone: 'response' },
-  { label: 'ADAPT notices', icon: '◈', tone: 'adapt' },
-  { label: 'Next challenge', icon: '→', tone: 'next' },
+  { label: 'Learner Response', icon: '◉', tone: 'response' },
+  { label: 'ADAPT', icon: '◈', tone: 'adapt' },
+  { label: 'Next Challenge', icon: '→', tone: 'next' },
 ];
 </script>
 

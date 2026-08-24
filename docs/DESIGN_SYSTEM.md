@@ -87,6 +87,8 @@ Reusable components in `frontend/src/components/ui/`:
 - `EmptyState.vue` — Empty list placeholders
 - `LoadingState.vue` — Loading text and skeletons
 
+Landing storytelling components live in `frontend/src/components/landing/`. Community Shield context visualization: `ContextRelationshipView.vue`.
+
 ## AI vs human visual distinction
 
 | Context | Visual treatment |

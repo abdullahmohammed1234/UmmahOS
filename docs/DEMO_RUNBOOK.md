@@ -1,9 +1,9 @@
 # UmmahOS Demo Runbook
 
-**Target duration:** 3–5 minutes  
+**GNCI / judge demo — 3–5 minutes**  
 **Start URL:** [http://localhost:5173/welcome](http://localhost:5173/welcome)
 
-All demo data is **seeded and labeled**. Demo password for all accounts: **`password`**
+All data is **seeded and labeled**. Demo password: **`password`**
 
 ---
 
@@ -14,124 +14,149 @@ All demo data is **seeded and labeled**. Demo password for all accounts: **`pass
 | `alpha.member@example.com` | Demo MSA Alpha | Member |
 | `alpha.reviewer@example.com` | Demo MSA Alpha | Community Safety Reviewer |
 | `alpha.admin@example.com` | Demo MSA Alpha | Admin |
-| `multi.user@example.com` | Alpha (reviewer) + Beta (admin) | Multi-org demo |
+| `multi.user@example.com` | Alpha (reviewer) + Beta (admin) | Multi-org isolation demo |
 
 ---
 
-## 0:00–0:30 — Landing page
+## 0:00 — Open landing
 
 1. Open `/welcome`
-2. Read headline: *"Build stronger, safer Muslim student communities"*
+2. Read headline: *Community infrastructure for Muslim student organizations.*
 3. Point to **AI assists. Humans decide.**
-4. Scroll to **"From concern to learning"** workflow
-5. Show Community Shield **before/after** (screenshot vs structured evidence)
-6. Click **Open Demo** → sign in
+4. Scroll **The problem** — disconnected tools vs one system
 
-**Say:** MSAs manage operations and safety across disconnected tools. UmmahOS unifies them with organization-aware isolation.
+**Say:** A community safety report should not end with a screenshot.
 
 ---
 
-## 0:30–1:15 — Member: Community Shield
+## 0:20 — Explain the problem
 
-1. Sign in as `alpha.member@example.com`
-2. Confirm organization: **Demo MSA Alpha** (sidebar org switcher)
-3. Navigate: **Community Shield**
-4. Show landing: workflow Capture → Review → Respond → Follow Up
-5. Click **Report a Concern** OR open **My Reports** → seeded report
-6. If submitting: fill platform, content type, visibility, description, optional context
-
-**Say:** Members preserve context — not just screenshots. More context helps trained reviewers.
+1. Show fragmented tools (forms, screenshots, spreadsheets, chats)
+2. Scroll **UmmahOS loop** (Concern → … → ADAPT)
+3. Show **screenshot vs structured context**
+4. Show **Community Shield loop** (Report → Outcome)
 
 ---
 
-## 1:15–2:00 — Reviewer: Evidence + AI + Human decision
+## 0:40 — Community Shield
+
+1. Click **Explore the Demo** → sign in as `alpha.member@example.com`
+2. Confirm **Demo MSA Alpha** in organization switcher
+3. Open **Community Shield**
+4. Point to workflow: Capture → Context → Analyze → Review → Evidence → Outcome
+
+---
+
+## 1:10 — Structured context
+
+1. Open **My Reports** → seeded report with context  
+   **OR** start **Report a Concern** and walk through context sections
+2. Highlight: original item, surrounding context, replies, related copies
+
+**Say:** Context changes everything.
+
+---
+
+## 1:40 — Gemini / AI analysis
 
 1. Sign out → sign in as `alpha.reviewer@example.com`
-2. Navigate: **Review Queue**
-3. Open a seeded report (e.g. report with context and AI analysis)
-4. Walk through evidence sections: Incident → Original Item → Context → Replies
-5. Show **AI Context Analysis** — note advisory banner
-6. If high uncertainty: point to uncertainty banner
-7. Show **Human Review** block — visually distinct from AI
-8. Demonstrate human action (confirm / mark uncertain) if appropriate
+2. Open **Review Queue** → seeded report with analysis
+3. Show **context relationship** diagram (actual recorded fields)
+4. Show **AI Analysis** — advisory banner, signals, confidence, uncertainty
 
-**Say:** AI identifies signals and uncertainty. Trained reviewers decide independently.
+**Say:** Gemini assists. It does not decide. (Fake provider works offline if no API key.)
 
 ---
 
-## 2:00–2:30 — Evidence package
+## 2:00 — Uncertainty
 
-1. On review detail, scroll to evidence package section
-2. Show **Preview**, **Export JSON**, **Export PDF**
-3. Note: exports are informational — **not automatically submitted to platforms**
-
-**Say:** Professional case file for documentation and external reporting routes.
+1. If high uncertainty banner is present, read it aloud
+2. **Say:** Uncertainty is a valid outcome.
 
 ---
 
-## 2:30–3:00 — Outcome: "What happened next?"
+## 2:15 — Human review
 
-1. Sign in as member OR show member view
-2. Navigate: **My Reports** → open report with outcomes
-3. Show timeline: Report recorded → Under review → Human decision → Outcome
-
-**Say:** We don't stop at "report submitted." Members see reporter-visible updates.
+1. Show **Human Review** panel — visually distinct from AI
+2. Point to: Confirm · Mark Uncertain · Request Context · Escalate · Close
+3. **Say:** Humans decide. No action is automatic.
 
 ---
 
-## 3:00–3:45 — Education: Academy + ADAPT
+## 2:40 — Evidence package
 
-1. Navigate: **Academy** → **Community Safety**
-2. Open a lesson linked to a confirmed community pattern
-3. Start **ADAPT** practice session
-4. Show adaptive loop: Your response → What ADAPT noticed → Feedback → Next challenge
+1. Scroll to **Evidence Package**
+2. Expand sections: Incident, Context, AI, Uncertainty, Human Review, Outcome, Reporting Route, Safety & Privacy
+3. Show **Export JSON** and **Export PDF**
 
-**Say:** Confirmed patterns become education. ADAPT adapts based on learner evidence.
+**Say:** Exporting creates a report. It does not automatically submit it.
 
 ---
 
-## 3:45–4:15 — Architecture (optional if time)
+## 3:00 — What happened next?
+
+1. Sign in as member (or show member view)
+2. **My Reports** → report with outcomes
+3. Timeline: Reported → Under Review → Decision → Outcome → Appeal / Correction
+
+---
+
+## 3:20 — Academy
+
+1. **Academy** → **Community Safety**
+2. Show Shield → Lesson → Scenario → ADAPT bridge
+3. Open a seeded lesson linked to a confirmed pattern
+
+---
+
+## 3:40 — ADAPT
+
+1. **Start Adaptive Practice**
+2. Show Answer, Confidence, Reasoning
+3. Submit → Feedback, What ADAPT noticed, Why this question?, Next challenge
+
+---
+
+## 4:00 — Multi-MSA isolation
 
 1. Sign in as `multi.user@example.com`
-2. Use **organization switcher** → switch Alpha ↔ Beta
-3. Show sidebar permissions change (reviewer vs admin sections)
-4. Mention: 170 backend tests, 42 synthetic safety scenarios, 0 critical failures
+2. Organization switcher lists Alpha (reviewer) and Beta (admin)
+3. Switch **Demo MSA Alpha** → **Demo MSA Beta**
+4. Show sidebar, permissions, announcements, and incidents change
 
-**Say:** One platform, multiple MSAs, strict tenant isolation.
+**Say:** One platform. Many MSAs. Isolated data.
 
 ---
+
+## 4:30 — Close
+
+**Say:** Preserve context. Protect people. Track outcomes. Turn community learning into action. AI assists. Humans decide.
+
+Optional: mention 170 backend tests, 42 frontend tests, 42 synthetic scenarios with 0 critical failures.
+
+---
+
+## Quick start (if demo is not running)
+
+```bash
+# Terminal 1
+cd backend && composer install && cp .env.example .env && php artisan key:generate && php artisan migrate --seed && php artisan serve
+
+# Terminal 2
+cd frontend && npm install && npm run dev
+```
 
 ## Troubleshooting
 
 | Issue | Fix |
 |-------|-----|
-| Backend not running | `cd backend && php artisan serve` |
-| Frontend not running | `cd frontend && npm run dev` |
-| ADAPT unavailable | Check backend ADAPT integration env vars |
-| AI analysis fails | Fake provider works offline; Gemini requires API key |
-| Empty review queue | Run `php artisan migrate --seed` |
+| Empty review queue | `php artisan migrate --seed` |
+| AI unavailable | Works offline with fake provider |
+| ADAPT unavailable | Set `ADAPT_BASE_URL` or show unavailable message honestly |
 
----
+## Do not claim
 
-## What NOT to demo
-
-- Do not claim AI accuracy percentages
-- Do not present seeded counts as real analytics
-- Do not bypass authorization with fake shortcuts
-- Do not modify `MSA Platform/` reference material
-
----
-
-## Quick command reference
-
-```bash
-# Terminal 1 — Backend
-cd backend && php artisan serve
-
-# Terminal 2 — Frontend
-cd frontend && npm run dev
-
-# Verify tests
-cd backend && php artisan test
-cd frontend && npm test && npm run build
-```
+- AI accuracy percentages
+- Seeded counts as real analytics
+- Live platform enforcement
+- Production deployment

@@ -1,5 +1,5 @@
 <template>
-  <div class="problem-comparison" data-testid="community-shield-before-after">
+  <div class="problem-comparison">
     <div class="comparison-side today">
       <div class="side-header">
         <span class="side-tag">Today</span>

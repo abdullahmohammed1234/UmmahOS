@@ -53,7 +53,7 @@
       <div class="shield-process-section">
         <p class="process-label">How it works</p>
         <ShieldProcessSteps
-          :steps="['Capture', 'Review', 'Respond', 'Follow Up']"
+          :steps="['Capture', 'Context', 'Analyze', 'Review', 'Evidence', 'Outcome']"
           aria-label="Community Shield workflow"
         />
       </div>
@@ -141,7 +141,8 @@
           <p class="eyebrow">New report</p>
           <h2>Report a Concern</h2>
           <p class="muted wizard-intro">
-            Provide what you know. Optional sections help reviewers understand surrounding context.
+            This is a calm, structured report — not a database form. Required fields are marked.
+            Everything else is optional and helps reviewers understand context.
           </p>
         </div>
         <button class="button ghost small" type="button" @click="cancelReport">Cancel</button>
@@ -275,10 +276,10 @@
           <div v-show="currentStep === 3" class="wizard-step context-step">
             <div class="step-header">
               <span class="step-badge">Step 04</span>
-              <h3>Add context reviewers need</h3>
+              <h3>What was the original item, and what surrounds it?</h3>
               <p class="step-desc">
-                Everything here is optional. More context helps — but you can submit with only the
-                basics.
+                3. Original item · 4. Surrounding context · 5. Related items · 6. Additional notes.
+                All optional. Missing information is acceptable.
               </p>
             </div>
 
@@ -619,9 +620,9 @@ interface DraftRelatedItem {
 }
 
 const wizardSteps = [
-  { id: 'platform', label: 'Platform', number: '01' },
-  { id: 'content', label: 'Content', number: '02' },
-  { id: 'visibility', label: 'Visibility', number: '03' },
+  { id: 'platform', label: 'Where', number: '01' },
+  { id: 'content', label: 'What happened', number: '02' },
+  { id: 'visibility', label: 'Reach', number: '03' },
   { id: 'context', label: 'Context', number: '04' },
   { id: 'review', label: 'Review', number: '05' },
 ];

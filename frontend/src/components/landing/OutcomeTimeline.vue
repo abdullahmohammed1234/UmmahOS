@@ -1,5 +1,5 @@
 <template>
-  <div class="outcome-timeline" data-testid="product-story-workflow">
+  <div class="outcome-timeline">
     <p class="timeline-eyebrow">Outcome Tracking</p>
     <h3 class="timeline-headline">Don't stop at "report submitted."</h3>
     <p class="timeline-sub">What happened next?</p>

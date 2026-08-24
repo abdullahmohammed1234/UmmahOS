@@ -7,7 +7,7 @@
 
     <template v-else>
       <header>
-        <p class="eyebrow">My Report</p>
+        <p class="eyebrow">What happened next?</p>
         <h1>{{ report.reference }}</h1>
         <p class="muted">
           {{ platformLabel(report.platform) }} · {{ statusLabel(report.status) }}
@@ -16,6 +16,12 @@
           </template>
         </p>
       </header>
+
+      <p class="muted">
+        This view shows reporter-visible progress only. Internal reviewer notes are not shown here.
+      </p>
+
+      <WorkflowSteps :steps="memberFlow" aria-label="Report progress" />
 
       <OutcomeTrackingPanel
         v-if="organization.currentOrganization"
@@ -32,6 +38,7 @@
 import { ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import OutcomeTrackingPanel from '@/components/OutcomeTrackingPanel.vue';
+import WorkflowSteps from '@/components/ui/WorkflowSteps.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type { MemberReportSummary } from '@/types';
@@ -42,6 +49,13 @@ const route = useRoute();
 const report = ref<MemberReportSummary | null>(null);
 const isLoading = ref(false);
 const error = ref<string | null>(null);
+const memberFlow = [
+  'Reported',
+  'Under Review',
+  'Decision',
+  'Outcome',
+  'Appeal / Correction',
+];
 
 async function loadReport(): Promise<void> {
   const orgId = organization.currentOrganization?.id;

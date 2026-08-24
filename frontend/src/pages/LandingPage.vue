@@ -8,6 +8,7 @@
           <span class="brand-name">UmmahOS</span>
         </RouterLink>
         <nav class="nav-links" aria-label="Landing navigation">
+          <a href="#ummahos-loop">How it works</a>
           <a href="#community-shield">Community Shield</a>
           <a href="#ethics">Ethics</a>
           <a href="#multi-msa">Multi-MSA</a>
@@ -15,7 +16,7 @@
         <div class="nav-actions">
           <RouterLink class="button secondary" to="/login">Sign in</RouterLink>
           <RouterLink class="button" to="/login" data-testid="landing-explore-cta">
-            Open Demo
+            Explore the Demo
           </RouterLink>
         </div>
         <button
@@ -31,30 +32,29 @@
         </button>
       </div>
       <nav v-if="mobileOpen" id="landing-mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+        <a href="#ummahos-loop" @click="mobileOpen = false">How it works</a>
         <a href="#community-shield" @click="mobileOpen = false">Community Shield</a>
         <a href="#ethics" @click="mobileOpen = false">Ethics</a>
         <a href="#multi-msa" @click="mobileOpen = false">Multi-MSA</a>
         <RouterLink to="/login" @click="mobileOpen = false">Sign in</RouterLink>
-        <RouterLink to="/login" @click="mobileOpen = false">Open Demo</RouterLink>
+        <RouterLink to="/login" @click="mobileOpen = false">Explore the Demo</RouterLink>
       </nav>
     </header>
 
     <main id="landing-main" tabindex="-1">
-      <!-- Hero -->
       <section class="hero">
         <div class="hero-inner landing-wide">
           <div class="hero-copy">
-            <p class="eyebrow">Community infrastructure for MSAs</p>
-            <h1 class="display-title">Build stronger, safer Muslim student communities.</h1>
+            <p class="eyebrow">UmmahOS</p>
+            <h1 class="display-title">Community infrastructure for Muslim student organizations.</h1>
             <p class="lede">
-              UmmahOS brings MSA operations, community safety, evidence-based review, and adaptive
-              education into one platform — designed for the communities themselves.
+              Preserve context. Protect people. Track outcomes. Turn community learning into action.
             </p>
             <div class="actions">
               <RouterLink class="button large" to="/login" data-testid="hero-explore-cta">
-                Explore UmmahOS
+                Explore the Demo
               </RouterLink>
-              <a class="button secondary large" href="#community-shield">See Community Shield</a>
+              <a class="button secondary large" href="#ummahos-loop">See How It Works</a>
             </div>
             <p class="hero-tagline">
               <strong>AI assists. Humans decide.</strong>
@@ -64,33 +64,113 @@
         </div>
       </section>
 
-      <!-- Problem / Solution -->
       <section class="section">
         <div class="landing-wide">
           <div class="section-header centered">
-            <p class="eyebrow">The challenge</p>
-            <h2>Disconnected tools create disconnected communities.</h2>
+            <p class="eyebrow">The problem</p>
+            <h2>Fragmented workflows lose the story.</h2>
             <p>
-              MSAs manage members, events, resources, education, and community safety across
-              fragmented systems. When something concerning happens online, context gets lost.
+              Forms → screenshots → spreadsheets → messaging apps → disconnected reports.
+              When something concerning happens online, context disappears before a trained reviewer
+              ever sees it.
             </p>
           </div>
           <ProblemComparison />
+          <p class="section-footnote muted">
+            UmmahOS replaces that scatter with <strong>one organization-aware system</strong>.
+          </p>
         </div>
       </section>
 
-      <!-- Community Shield flagship -->
+      <section id="ummahos-loop" class="section section-alt">
+        <div class="landing-wide">
+          <div class="section-header centered">
+            <p class="eyebrow">The UmmahOS loop</p>
+            <h2>From concern to adaptive learning.</h2>
+            <p>One coherent story — not a pile of disconnected tools.</p>
+          </div>
+          <UmmahOSLoop />
+        </div>
+      </section>
+
+      <section id="community-shield" class="section">
+        <div class="landing-wide">
+          <div class="section-header centered">
+            <p class="eyebrow">Community Shield</p>
+            <h2>Why a screenshot is not enough.</h2>
+            <p>
+              Preserve context. Protect people. Respond responsibly. Community Shield captures the
+              surrounding story so reviewers can decide carefully.
+            </p>
+          </div>
+          <ContextEvidenceCompare />
+          <CommunityShieldLoop />
+        </div>
+      </section>
+
       <CommunityShieldShowcase />
 
-      <!-- AI vs Human -->
       <section id="ethics" class="section section-alt">
         <div class="landing-wide">
           <div class="section-header centered">
-            <p class="eyebrow">Ethics</p>
-            <h2>AI assists. Humans decide.</h2>
-            <p>Three principles that guide every Community Shield workflow.</p>
+            <p class="eyebrow">AI + human oversight</p>
+            <h2>AI analyzes. Humans decide.</h2>
+            <p>
+              Potential signals, classification, confidence, uncertainty, and recommended action —
+              then a reviewer confirms, marks uncertain, requests context, escalates, or closes.
+            </p>
           </div>
           <AiHumanComparison />
+          <p class="section-footnote centered">
+            <strong>Uncertainty is a valid outcome.</strong>
+          </p>
+          <UncertaintySection />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="landing-wide">
+          <OutcomeTimeline />
+          <p class="section-footnote muted centered">
+            UmmahOS does not stop when the report is submitted. Members can follow
+            <strong>What happened next?</strong>
+          </p>
+        </div>
+      </section>
+
+      <section class="section academy-section">
+        <div class="landing-wide">
+          <div class="section-header centered">
+            <p class="eyebrow">Safety → education</p>
+            <h2>Confirmed patterns become practice.</h2>
+            <p>
+              Community Shield → Academy lesson → scenario → learner response → ADAPT → next challenge.
+            </p>
+          </div>
+          <AcademyAdaptFlow />
+        </div>
+      </section>
+
+      <section id="multi-msa" class="section">
+        <div class="landing-wide two-col">
+          <div class="section-header">
+            <p class="eyebrow">Multi-MSA</p>
+            <h2>One platform. Isolated organizations.</h2>
+            <p>
+              Each MSA keeps its own members, events, reports, evidence, reviews, Academy, and
+              outcomes. Switching organizations changes both content and permissions.
+            </p>
+          </div>
+          <MultiMsaNetwork />
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="landing-wide">
+          <div class="section-header centered">
+            <p class="eyebrow">Ethics</p>
+            <h2>Principles that stay visible in the product.</h2>
+          </div>
           <div class="principles-row">
             <article v-for="p in principles" :key="p.title" class="principle panel content">
               <h3>{{ p.title }}</h3>
@@ -100,63 +180,18 @@
         </div>
       </section>
 
-      <!-- Uncertainty -->
-      <section class="section">
-        <div class="landing-wide">
-          <UncertaintySection />
-        </div>
-      </section>
-
-      <!-- Outcome Tracking -->
-      <section class="section section-alt">
-        <div class="landing-wide">
-          <OutcomeTimeline />
-        </div>
-      </section>
-
-      <!-- Academy + ADAPT -->
-      <section class="section academy-section">
-        <div class="landing-wide">
-          <div class="section-header centered">
-            <p class="eyebrow">Academy + ADAPT</p>
-            <h2>From community experience to adaptive education.</h2>
-            <p>
-              Turn confirmed community patterns into adaptive education. ADAPT challenges adapt based
-              on learner evidence.
-            </p>
-          </div>
-          <AcademyAdaptFlow />
-        </div>
-      </section>
-
-      <!-- Multi-MSA -->
-      <section id="multi-msa" class="section">
-        <div class="landing-wide two-col">
-          <div class="section-header">
-            <p class="eyebrow">Multi-MSA</p>
-            <h2>One platform. Multiple organizations.</h2>
-            <p>
-              Organization-scoped permissions and data isolation prevent cross-MSA access. Switch
-              organizations without leaving the platform.
-            </p>
-          </div>
-          <MultiMsaNetwork />
-        </div>
-      </section>
-
-      <!-- Final CTA -->
       <section class="section cta-section">
         <div class="landing-wide cta-inner">
-          <h2>Community infrastructure, built for the communities themselves.</h2>
+          <h2>Explore the UmmahOS demo</h2>
           <div class="actions">
             <RouterLink class="button large" to="/login" data-testid="landing-final-cta">
-              Explore UmmahOS
+              Explore the Demo
             </RouterLink>
-            <RouterLink class="button secondary large" to="/login">Open Demo</RouterLink>
+            <RouterLink class="button secondary large" to="/login">Sign in</RouterLink>
           </div>
           <p class="muted demo-credentials">
-            Demo accounts are provided in the repository documentation. All demo data is clearly
-            labeled as seeded content.
+            Demo accounts and seeded data are labeled in the repository documentation — not presented
+            as production analytics.
           </p>
         </div>
       </section>
@@ -178,6 +213,9 @@ import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import HeroVisual from '@/components/landing/HeroVisual.vue';
 import ProblemComparison from '@/components/landing/ProblemComparison.vue';
+import UmmahOSLoop from '@/components/landing/UmmahOSLoop.vue';
+import ContextEvidenceCompare from '@/components/landing/ContextEvidenceCompare.vue';
+import CommunityShieldLoop from '@/components/landing/CommunityShieldLoop.vue';
 import CommunityShieldShowcase from '@/components/landing/CommunityShieldShowcase.vue';
 import AiHumanComparison from '@/components/landing/AiHumanComparison.vue';
 import UncertaintySection from '@/components/landing/UncertaintySection.vue';
@@ -189,16 +227,28 @@ const mobileOpen = ref(false);
 
 const principles = [
   {
-    title: 'Context before conclusions',
-    body: 'Reports capture platform, visibility, surrounding conversation, and related copies — not just the reported item in isolation.',
+    title: 'AI is advisory',
+    body: 'AI analysis surfaces signals and uncertainty. It never issues an automatic verdict.',
   },
   {
-    title: 'Uncertainty is allowed',
-    body: 'When AI analysis is uncertain, reviewers see it clearly. High uncertainty triggers visible guidance — not false confidence.',
+    title: 'Human review is authoritative',
+    body: 'Trained reviewers confirm, mark uncertain, request context, escalate, or close.',
   },
   {
-    title: 'Human review remains authoritative',
-    body: 'Trained reviewers make determinations independently. AI output is labeled advisory throughout the product.',
+    title: 'Uncertainty is explicit',
+    body: 'Uncertainty is a valid outcome — not something the product hides behind false confidence.',
+  },
+  {
+    title: 'Private information stays protected',
+    body: 'Reporter-visible summaries and internal notes are separated by design and permissions.',
+  },
+  {
+    title: 'No automatic enforcement',
+    body: 'Exporting an evidence package creates a report. It does not automatically submit it anywhere.',
+  },
+  {
+    title: 'Synthetic data powers safety evaluation',
+    body: 'Safety evaluation uses synthetic scenarios so judges can inspect behavior without live harm claims.',
   },
 ];
 </script>
@@ -386,11 +436,19 @@ const principles = [
   font-size: clamp(1.5rem, 3vw, var(--text-3xl));
 }
 
+.section-footnote {
+  margin-top: var(--space-8);
+  font-size: var(--text-base);
+}
+
+.section-footnote.centered {
+  text-align: center;
+}
+
 .principles-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-5);
-  margin-top: var(--space-10);
 }
 
 .principle h3 {

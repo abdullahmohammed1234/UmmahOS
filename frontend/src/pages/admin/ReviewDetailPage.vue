@@ -25,6 +25,12 @@
         </p>
       </header>
 
+      <ContextRelationshipView
+        :incident="pkg.incident"
+        :ai-present="latestAnalysis?.status === 'completed'"
+        :human-present="Boolean(pkg.human_review.outcome)"
+      />
+
       <div class="review-layout">
         <main class="review-main">
           <section class="case-file-section" data-testid="incident-block">
@@ -165,9 +171,10 @@
             class="case-file-section education-block"
             data-testid="community-education-section"
           >
-            <h2>COMMUNITY EDUCATION</h2>
+            <h2>Learning Pattern</h2>
             <p class="muted">
-              Capture a learning pattern from this confirmed review for Academy curriculum planning.
+              Community Shield → Academy. Capture a learning pattern from this confirmed review
+              for Community Safety lessons and ADAPT practice.
             </p>
 
             <p v-if="patternLoading" class="muted">Loading learning pattern…</p>
@@ -262,6 +269,9 @@
               <p>
                 Complete incident record with context, AI analysis, human review, and reporting guidance.
               </p>
+              <p class="muted">
+                Exporting creates a report. It does not automatically submit it.
+              </p>
             </div>
             <div class="evidence-doc-body">
               <div v-if="evidencePackage" data-testid="evidence-package-preview">
@@ -329,11 +339,22 @@
                 </button>
 
                 <div v-if="showPackageDetails" class="package-details" data-testid="package-details">
-                  <h3>AI uncertainty</h3>
+                  <h3>Incident</h3>
+                  <p>{{ evidencePackage.incident.description }}</p>
+                  <h3>Context</h3>
+                  <p>{{ evidencePackage.evidence.surrounding_context || 'No surrounding context recorded.' }}</p>
+                  <h3>Related Evidence</h3>
+                  <p>
+                    {{ evidencePackage.evidence.replies.length }} replies ·
+                    {{ evidencePackage.evidence.related_items.length }} related items
+                  </p>
+                  <h3>AI Analysis</h3>
+                  <p>{{ evidencePackage.ai_analysis.disclaimer }}</p>
+                  <h3>Uncertainty</h3>
                   <p data-testid="package-ai-uncertainty">
                     {{ evidencePackage.ai_analysis.uncertainty.interpretation_note }}
                   </p>
-                  <h3>Human decision</h3>
+                  <h3>Human Review</h3>
                   <p data-testid="package-human-decision">
                     <template v-if="evidencePackage.human_review.status === 'not_yet_reviewed'">
                       Not yet reviewed
@@ -348,12 +369,16 @@
                       }}
                     </template>
                   </p>
-                  <h3>Safety &amp; privacy notes</h3>
+                  <h3>Safety &amp; privacy</h3>
                   <ul>
                     <li v-for="note in evidencePackage.safety_privacy_notes.notes" :key="note">
                       {{ note }}
                     </li>
                   </ul>
+                  <h3>Reporting route</h3>
+                  <p>{{ evidencePackage.reporting_route.platform_label }} — {{ evidencePackage.reporting_route.recommended_route }}</p>
+                  <h3>Outcome</h3>
+                  <p>{{ reviewOutcomeLabel(evidencePackage.human_review.outcome) }}</p>
                 </div>
               </div>
 
@@ -397,9 +422,10 @@
         <aside class="review-sidebar">
           <section class="ai-panel" data-testid="ai-context-analysis">
             <div class="ai-panel-header">
-              <h2>AI Context Analysis</h2>
+              <h2>AI Analysis</h2>
               <span class="ai-advisory-tag">Advisory</span>
             </div>
+            <p class="muted">AI Context Analysis is advisory. Humans decide.</p>
             <div class="ai-advisory-banner" data-testid="ai-advisory-banner">
               <span>
                 <strong>AI analysis is advisory.</strong> Human review remains authoritative. AI output
@@ -440,12 +466,15 @@
                   <dd>{{ aiClassificationLabel(latestAnalysis.analysis.classification.label) }}</dd>
                 </div>
                 <div>
-                  <dt>Confidence</dt>
-                  <dd>{{ aiConfidenceLabel(latestAnalysis.analysis.classification.confidence) }}</dd>
+                  <dt>AI confidence</dt>
+                  <dd>AI confidence: {{ aiConfidenceLabel(latestAnalysis.analysis.classification.confidence) }}</dd>
                 </div>
                 <div>
-                  <dt>Uncertainty</dt>
-                  <dd>{{ aiConfidenceLabel(latestAnalysis.analysis.uncertainty.level) }}</dd>
+                  <dt>AI uncertainty</dt>
+                  <dd>
+                    AI uncertainty: {{ aiConfidenceLabel(latestAnalysis.analysis.uncertainty.level) }}.
+                    Context may change interpretation.
+                  </dd>
                 </div>
                 <div>
                   <dt>Recommended action</dt>
@@ -484,7 +513,7 @@
           <section class="human-panel" data-testid="human-review-block">
             <div class="human-panel-header">
               <h2>Human Review</h2>
-              <p>What is your determination? The reviewer decides independently of AI.</p>
+              <p>Authoritative. What is your determination? The reviewer decides independently of AI. No action is automatic.</p>
             </div>
 
             <dl class="case-details">
@@ -685,6 +714,7 @@ import { computed, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import LoadingState from '@/components/ui/LoadingState.vue';
 import OutcomeTrackingPanel from '@/components/OutcomeTrackingPanel.vue';
+import ContextRelationshipView from '@/components/community-shield/ContextRelationshipView.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type {

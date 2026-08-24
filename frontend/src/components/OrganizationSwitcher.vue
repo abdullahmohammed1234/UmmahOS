@@ -27,14 +27,23 @@
       <span class="role-badge">{{ organization.currentRole ?? 'member' }}</span>
       in <strong>{{ organization.currentOrganization.name }}</strong>
     </p>
+    <ul v-if="memberships.length > 1" class="org-roles" data-testid="org-role-list">
+      <li v-for="membership in memberships" :key="membership.id">
+        {{ membership.organization.name }}:
+        {{ membership.role.slug.replace(/_/g, ' ') }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 import AppIcon from '@/components/icons/AppIcon.vue';
+import { computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
 import { useOrganizationStore } from '@/stores/organization';
 
 const organization = useOrganizationStore();
+const memberships = computed(() => useAuthStore().memberships);
 
 async function onChange(event: Event): Promise<void> {
   const value = Number((event.target as HTMLSelectElement).value);
@@ -111,6 +120,20 @@ async function onChange(event: Event): Promise<void> {
 .org-hint strong {
   color: var(--primary);
   font-weight: var(--font-semibold);
+}
+
+.org-roles {
+  margin: 0;
+  padding-left: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  display: grid;
+  gap: 0.2rem;
+}
+
+.org-roles strong {
+  color: var(--text-primary);
+  text-transform: capitalize;
 }
 
 .role-badge {

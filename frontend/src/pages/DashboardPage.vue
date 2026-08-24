@@ -7,6 +7,11 @@
         You are viewing this MSA as <strong>{{ organization.currentRole ?? 'a visitor' }}</strong>.
         Switching organizations changes both the community and your permissions.
       </p>
+      <div class="actions">
+        <RouterLink class="button" to="/community-shield">Report a Concern</RouterLink>
+        <RouterLink class="button secondary" to="/events">Upcoming events</RouterLink>
+        <RouterLink class="button secondary" to="/academy">Academy</RouterLink>
+      </div>
     </article>
 
     <LoadingState v-if="isLoading" skeleton :lines="4" test-id="dashboard-loading" />
@@ -18,8 +23,8 @@
           <h2>Upcoming events</h2>
           <EmptyState
             v-if="dashboard.upcoming_events.length === 0"
-            title="No upcoming events"
-            description="Check back later for new events."
+            title="Nothing here yet"
+            description="When your MSA publishes events, they will appear here."
             icon="📅"
           />
           <ul v-else class="item-list">
@@ -33,11 +38,11 @@
         </article>
 
         <article class="panel content quick-card">
-          <h2>Recent announcements</h2>
+          <h2>Latest announcements</h2>
           <EmptyState
             v-if="dashboard.recent_announcements.length === 0"
-            title="No announcements yet"
-            description="Organization announcements will appear here."
+            title="Nothing here yet"
+            description="Organization announcements will appear here when published."
             icon="📢"
           />
           <ul v-else class="item-list">
@@ -51,10 +56,10 @@
       </div>
 
       <article class="panel content">
-        <h2>Featured resources</h2>
+        <h2>Resources</h2>
         <EmptyState
           v-if="dashboard.featured_resources.length === 0"
-          title="No resources yet"
+          title="Nothing here yet"
           description="Helpful resources from your MSA will appear here."
           icon="📚"
         />
@@ -81,17 +86,25 @@
               </RouterLink>
             </li>
           </ul>
+          <EmptyState
+            v-else
+            title="Nothing here yet"
+            description="Published courses will appear here."
+          />
           <RouterLink class="button secondary" to="/academy">Open Academy</RouterLink>
         </article>
 
         <article class="panel content feature-card shield-card">
           <h2>Community Shield</h2>
           <p class="muted">
-            Report a concern about harmful or concerning online content. Preserve context — not just
-            a screenshot.
+            Report a concern and preserve context — not just a screenshot. Track
+            <em>What happened next?</em> from My Reports.
           </p>
           <p class="shield-tagline muted"><em>AI assists. Humans decide.</em></p>
-          <RouterLink class="button" to="/community-shield">Report a concern</RouterLink>
+          <div class="actions">
+            <RouterLink class="button" to="/community-shield">Report a Concern</RouterLink>
+            <RouterLink class="button secondary" to="/community-shield/my-reports">My Reports</RouterLink>
+          </div>
         </article>
       </div>
     </template>
