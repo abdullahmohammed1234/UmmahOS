@@ -10,14 +10,16 @@
     </header>
 
     <div class="academy-bridge">
-      <div class="academy-bridge-flow" aria-hidden="true">
-        <span>Community Safety Pattern</span>
+      <div class="academy-bridge-flow" aria-hidden="true" data-testid="academy-adapt-bridge">
+        <span>Confirmed Pattern</span>
         <span>↓</span>
         <span>Academy Lesson</span>
         <span>↓</span>
         <span>Scenario</span>
         <span>↓</span>
-        <span>ADAPT Practice</span>
+        <span>ADAPT</span>
+        <span>↓</span>
+        <span>Next Challenge</span>
       </div>
       <p>
         <strong>From Community Shield to Academy.</strong> Validated patterns from human-reviewed

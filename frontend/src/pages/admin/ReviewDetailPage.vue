@@ -9,20 +9,23 @@
     <LoadingState v-else-if="isLoading || !pkg" message="Loading review package…" />
 
     <template v-else>
-      <header class="case-header">
+      <header class="case-header" data-testid="incident-case-header">
         <div class="case-header-top">
-          <span class="case-ref">REF #{{ pkg.incident.id }}</span>
+          <span class="case-ref">Community Shield</span>
+          <span class="case-ref">Incident #{{ pkg.incident.id }}</span>
+        </div>
+        <h1>Incident #{{ pkg.incident.id }}</h1>
+        <div class="case-badge-row">
+          <span class="badge neutral">{{ platformLabel(pkg.incident.platform) }}</span>
+          <span class="badge neutral">{{ contentTypeLabel(pkg.incident.content_type) }}</span>
+          <span class="badge neutral">{{ visibilityLabel(pkg.incident.visibility) }}</span>
           <span class="badge info">{{ statusLabel(pkg.incident.status) }}</span>
+          <span v-if="pkg.incident.review_outcome" class="badge success">
+            {{ reviewOutcomeLabel(pkg.incident.review_outcome) }}
+          </span>
           <span v-if="pkg.incident.escalated" class="badge warning">Escalated</span>
         </div>
-        <h1>Community Safety Review</h1>
-        <p class="case-meta">
-          {{ platformLabel(pkg.incident.platform) }} · {{ contentTypeLabel(pkg.incident.content_type) }} ·
-          {{ visibilityLabel(pkg.incident.visibility) }}
-          <template v-if="pkg.incident.review_outcome">
-            · {{ reviewOutcomeLabel(pkg.incident.review_outcome) }}
-          </template>
-        </p>
+        <p class="case-principle">AI assists. Humans decide.</p>
       </header>
 
       <ContextRelationshipView
@@ -31,116 +34,460 @@
         :human-present="Boolean(pkg.human_review.outcome)"
       />
 
-      <div class="review-layout">
+      <div class="review-layout review-layout-story">
         <main class="review-main">
-          <section class="case-file-section" data-testid="incident-block">
-            <h2>Incident</h2>
+          <section class="case-file-section story-section" data-testid="incident-block">
+            <p class="section-kicker">What happened</p>
+            <h2>What happened</h2>
+            <p class="case-body lead-story">{{ pkg.incident.description }}</p>
+
+            <div class="case-badge-row compact">
+              <span class="badge neutral">{{ platformLabel(pkg.incident.platform) }}</span>
+              <span class="badge neutral">{{ contentTypeLabel(pkg.incident.content_type) }}</span>
+              <span class="badge neutral">{{ visibilityLabel(pkg.incident.visibility) }}</span>
+            </div>
+
+            <div class="original-story" data-testid="original-item-block">
+              <h3>Original item</h3>
+              <template v-if="hasOriginalItem">
+                <p v-if="pkg.incident.original_item_title" class="title-line">
+                  {{ pkg.incident.original_item_title }}
+                </p>
+                <p v-if="pkg.incident.original_item_content" class="case-body">
+                  {{ pkg.incident.original_item_content }}
+                </p>
+                <dl class="case-details">
+                  <div>
+                    <dt>Author</dt>
+                    <dd>{{ pkg.incident.original_item_author || 'Not provided' }}</dd>
+                  </div>
+                  <div>
+                    <dt>Original posted</dt>
+                    <dd>{{ formatDateTime(pkg.incident.original_item_posted_at) }}</dd>
+                  </div>
+                  <div>
+                    <dt>Observed</dt>
+                    <dd>{{ formatDateTime(pkg.incident.observed_at) }}</dd>
+                  </div>
+                  <div>
+                    <dt>Language</dt>
+                    <dd>{{ languageLabel(pkg.incident.language) }}</dd>
+                  </div>
+                  <div class="case-detail-wide">
+                    <dt>Source URL / reference</dt>
+                    <dd>
+                      <a
+                        v-if="pkg.incident.source_url"
+                        class="breakable-url"
+                        :href="pkg.incident.source_url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {{ pkg.incident.source_url }}
+                      </a>
+                      <span v-else class="muted">Not provided</span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Submitted</dt>
+                    <dd>{{ formatDateTime(pkg.incident.created_at) }}</dd>
+                  </div>
+                </dl>
+              </template>
+              <p v-else class="muted">No original item details were provided.</p>
+            </div>
+
+            <div data-testid="reporter-notes-block">
+              <h3>Reporter notes</h3>
+              <p v-if="pkg.incident.reporter_notes" class="case-body">{{ pkg.incident.reporter_notes }}</p>
+              <p v-else class="muted">No reporter notes provided.</p>
+            </div>
+          </section>
+
+          <section class="case-file-section story-section" data-testid="context-story-section">
+            <p class="section-kicker">Context</p>
+            <h2>Context</h2>
+
+            <div data-testid="surrounding-context-block">
+              <h3>Surrounding context</h3>
+              <p v-if="pkg.incident.surrounding_context" class="case-body">
+                {{ pkg.incident.surrounding_context }}
+              </p>
+              <p v-else class="muted">No surrounding context provided.</p>
+            </div>
+
+            <div data-testid="replies-block">
+              <h3>Replies</h3>
+              <div v-if="(pkg.incident.replies?.length ?? 0) > 0" class="evidence-list">
+                <div
+                  v-for="reply in pkg.incident.replies"
+                  :key="reply.id ?? reply.position"
+                  class="evidence-entry"
+                >
+                  <p class="evidence-meta">
+                    {{ reply.author || 'Unknown author' }}
+                    <span v-if="reply.posted_at"> · {{ formatDateTime(reply.posted_at) }}</span>
+                  </p>
+                  <p class="case-body">{{ reply.content }}</p>
+                </div>
+              </div>
+              <p v-else class="muted">No replies recorded.</p>
+            </div>
+
+            <div data-testid="related-items-block">
+              <h3>Related items</h3>
+              <div v-if="(pkg.incident.related_items?.length ?? 0) > 0" class="evidence-list">
+                <div
+                  v-for="related in pkg.incident.related_items"
+                  :key="related.id"
+                  class="evidence-entry"
+                >
+                  <p class="evidence-meta">
+                    {{ platformLabel(related.platform) }} · {{ contentTypeLabel(related.content_type) }}
+                    <span v-if="related.observed_at"> · {{ formatDateTime(related.observed_at) }}</span>
+                  </p>
+                  <p v-if="related.description" class="case-body">{{ related.description }}</p>
+                  <a
+                    v-if="related.reference_url"
+                    :href="related.reference_url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {{ related.reference_url }}
+                  </a>
+                </div>
+              </div>
+              <p v-else class="muted">No related items recorded.</p>
+            </div>
+          </section>
+
+          <section class="ai-panel story-ai-panel" data-testid="ai-context-analysis">
+            <div class="ai-panel-header">
+              <div>
+                <p class="section-kicker ai-kicker">AI Assistance</p>
+                <h2>AI Analysis</h2>
+              </div>
+              <span class="ai-advisory-tag">Advisory — not a decision</span>
+            </div>
+            <p class="muted">AI Context Analysis is advisory. Humans decide.</p>
+            <div class="ai-advisory-banner" data-testid="ai-advisory-banner">
+              <span>
+                <strong>AI analysis is advisory.</strong> Human review remains authoritative. AI output
+                is not a verdict or final determination.
+              </span>
+            </div>
+            <p class="hierarchy-callout" data-testid="ai-human-hierarchy">
+              <strong>AI assists</strong>
+              <span aria-hidden="true"> · </span>
+              <strong>Human decides</strong>
+            </p>
+            <p class="muted disclaimer">{{ pkg.ai_assisted_triage.advisory_disclaimer }}</p>
+
+            <div
+              v-if="latestAnalysis?.analysis?.uncertainty?.level === 'high'"
+              class="uncertainty-banner"
+              data-testid="high-uncertainty-banner"
+            >
+              <strong>High uncertainty</strong>
+              <p>
+                {{ latestAnalysis.analysis.uncertainty.explanation }}
+                Additional context may be useful before making a determination.
+              </p>
+            </div>
+
+            <template v-if="latestAnalysis?.status === 'completed' && latestAnalysis.analysis">
+              <p class="meta">
+                {{ latestAnalysis.provider }} · {{ latestAnalysis.prompt_version }} · Completed
+              </p>
+              <h3>Potential signals</h3>
+              <ul class="evidence-list plain">
+                <li v-for="signal in latestAnalysis.analysis.signals" :key="signal.name">
+                  <p class="meta">
+                    {{ aiSignalLabel(signal.name) }} ·
+                    {{ aiConfidenceLabel(signal.confidence) }} confidence
+                  </p>
+                  <p class="case-body">{{ signal.description }}</p>
+                </li>
+              </ul>
+              <dl class="case-details">
+                <div>
+                  <dt>Potential classification</dt>
+                  <dd>{{ aiClassificationLabel(latestAnalysis.analysis.classification.label) }}</dd>
+                </div>
+                <div>
+                  <dt>AI confidence</dt>
+                  <dd>
+                    AI confidence:
+                    {{ aiConfidenceLabel(latestAnalysis.analysis.classification.confidence) }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>AI uncertainty</dt>
+                  <dd>
+                    AI uncertainty: {{ aiConfidenceLabel(latestAnalysis.analysis.uncertainty.level) }}.
+                    Context may change interpretation.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Recommended action</dt>
+                  <dd>
+                    {{ aiRecommendedActionLabel(latestAnalysis.analysis.recommended_action.type) }}
+                  </dd>
+                </div>
+              </dl>
+              <p v-if="latestAnalysis.analysis.alternative_interpretation" class="case-body">
+                <strong>Alternative interpretation:</strong>
+                {{ latestAnalysis.analysis.alternative_interpretation }}
+              </p>
+            </template>
+            <p v-else-if="latestAnalysis?.status === 'failed'" class="muted">
+              {{ latestAnalysis.error_message || 'AI analysis unavailable.' }}
+            </p>
+            <p v-else class="muted">No AI Context Analysis is available yet.</p>
+
+            <p class="ai-footer muted">AI analysis does not determine the final outcome.</p>
+
+            <div
+              v-if="pkg.ai_assisted_triage.history.length > 1"
+              class="history-block"
+              data-testid="ai-analysis-history"
+            >
+              <h3>AI analysis history</h3>
+              <ul class="history">
+                <li v-for="entry in pkg.ai_assisted_triage.history" :key="entry.id">
+                  {{ formatDateTime(entry.created_at) }} · {{ entry.provider }} ·
+                  {{ entry.prompt_version }} · {{ entry.status }}
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="human-panel story-human-panel" data-testid="human-review-block">
+            <div class="human-panel-header">
+              <p class="section-kicker">Human Review — Authoritative</p>
+              <h2>Human Review</h2>
+              <p>
+                Authoritative. What is your determination? The reviewer decides independently of AI.
+                No action is automatic.
+              </p>
+            </div>
+
             <dl class="case-details">
-          <div>
-            <dt>Platform</dt>
-            <dd>{{ platformLabel(pkg.incident.platform) }}</dd>
-          </div>
-          <div>
-            <dt>Content type</dt>
-            <dd>{{ contentTypeLabel(pkg.incident.content_type) }}</dd>
-          </div>
-          <div>
-            <dt>Visibility</dt>
-            <dd>{{ visibilityLabel(pkg.incident.visibility) }}</dd>
-          </div>
-          <div>
-            <dt>Submitted</dt>
-            <dd>{{ formatDateTime(pkg.incident.created_at) }}</dd>
-          </div>
-        </dl>
-            <h3>Description</h3>
-            <p class="case-body">{{ pkg.incident.description }}</p>
-          </section>
+              <div>
+                <dt>Reviewer</dt>
+                <dd>{{ pkg.incident.current_reviewer?.name || 'Unassigned' }}</dd>
+              </div>
+              <div>
+                <dt>Outcome</dt>
+                <dd>{{ reviewOutcomeLabel(pkg.human_review.outcome) }}</dd>
+              </div>
+              <div>
+                <dt>Decision / classification</dt>
+                <dd>{{ safetyClassificationLabel(pkg.incident.safety_classification) }}</dd>
+              </div>
+              <div>
+                <dt>Reviewer notes</dt>
+                <dd data-testid="reviewer-notes">{{ pkg.human_review.notes || 'None yet' }}</dd>
+              </div>
+              <div>
+                <dt>Escalation</dt>
+                <dd>
+                  <template v-if="pkg.human_review.escalated">
+                    Escalated — {{ pkg.human_review.escalation_reason }}
+                  </template>
+                  <template v-else>Not escalated</template>
+                </dd>
+              </div>
+            </dl>
 
-          <section class="case-file-section" data-testid="original-item-block">
-        <h2>Original item</h2>
-        <template v-if="hasOriginalItem">
-          <p v-if="pkg.incident.original_item_title" class="title-line">{{ pkg.incident.original_item_title }}</p>
-          <p v-if="pkg.incident.original_item_content" class="case-body">{{ pkg.incident.original_item_content }}</p>
-          <dl class="case-details">
-            <div>
-              <dt>Author</dt>
-              <dd>{{ pkg.incident.original_item_author || 'Not provided' }}</dd>
+            <div
+              v-if="pkg.human_review.context_requests.length > 0"
+              class="context-requests"
+              data-testid="context-requests"
+            >
+              <h3>Context requests</h3>
+              <ul class="history">
+                <li v-for="request in pkg.human_review.context_requests" :key="request.id">
+                  <strong>{{ request.status }}</strong>
+                  — {{ request.reason }}
+                  <span class="muted"> · {{ formatDateTime(request.requested_at) }}</span>
+                </li>
+              </ul>
             </div>
-            <div>
-              <dt>Posted</dt>
-              <dd>{{ formatDateTime(pkg.incident.original_item_posted_at) }}</dd>
+
+            <div class="human-actions" data-testid="review-actions">
+              <button
+                v-if="can('start')"
+                class="button"
+                type="button"
+                data-testid="start-review"
+                :disabled="busy"
+                @click="onStart"
+              >
+                Start Review
+              </button>
+
+              <button
+                v-if="can('confirm')"
+                class="button"
+                type="button"
+                data-testid="open-confirm"
+                @click="activeDialog = 'confirm'"
+              >
+                Confirm
+              </button>
+              <button
+                v-if="can('uncertain')"
+                class="button secondary"
+                type="button"
+                data-testid="open-uncertain"
+                @click="activeDialog = 'uncertain'"
+              >
+                Mark Uncertain
+              </button>
+              <button
+                v-if="can('request_context')"
+                class="button secondary"
+                type="button"
+                data-testid="open-request-context"
+                @click="activeDialog = 'context'"
+              >
+                Request More Context
+              </button>
+              <button
+                v-if="can('escalate')"
+                class="button secondary"
+                type="button"
+                data-testid="open-escalate"
+                @click="activeDialog = 'escalate'"
+              >
+                Escalate
+              </button>
+              <button
+                v-if="can('close')"
+                class="button secondary"
+                type="button"
+                data-testid="open-close"
+                @click="activeDialog = 'close'"
+              >
+                Close
+              </button>
             </div>
-            <div>
-              <dt>Reference</dt>
-              <dd>
-                <a
-                  v-if="pkg.incident.source_url"
-                  :href="pkg.incident.source_url"
-                  target="_blank"
-                  rel="noopener noreferrer"
+
+            <p v-if="actionError" class="error" data-testid="action-error">{{ actionError }}</p>
+
+            <div v-if="activeDialog === 'confirm'" class="dialog" data-testid="confirm-dialog">
+              <h3>Human determination</h3>
+              <label class="field">
+                <span>Classification</span>
+                <select v-model="confirmForm.classification" data-testid="confirm-classification">
+                  <option disabled value="">Select classification</option>
+                  <option
+                    v-for="option in HUMAN_CLASSIFICATION_OPTIONS"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Reviewer notes</span>
+                <textarea v-model="confirmForm.notes" rows="4" data-testid="confirm-notes" />
+              </label>
+              <div class="actions">
+                <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+                <button
+                  class="button"
+                  type="button"
+                  data-testid="submit-confirm"
+                  :disabled="busy"
+                  @click="onConfirm"
                 >
-                  {{ pkg.incident.source_url }}
-                </a>
-                <span v-else class="muted">Not provided</span>
-              </dd>
-            </div>
-          </dl>
-        </template>
-        <p v-else class="muted">No original item details were provided.</p>
-      </section>
-
-          <section class="case-file-section" data-testid="surrounding-context-block">
-            <h2>Surrounding context</h2>
-            <p v-if="pkg.incident.surrounding_context" class="case-body">{{ pkg.incident.surrounding_context }}</p>
-            <p v-else class="muted">No surrounding context provided.</p>
-          </section>
-
-          <section class="case-file-section" data-testid="replies-block">
-            <h2>Replies</h2>
-            <div v-if="(pkg.incident.replies?.length ?? 0) > 0" class="evidence-list">
-              <div v-for="reply in pkg.incident.replies" :key="reply.id ?? reply.position" class="evidence-entry">
-                <p class="evidence-meta">
-                  {{ reply.author || 'Unknown author' }}
-                  <span v-if="reply.posted_at"> · {{ formatDateTime(reply.posted_at) }}</span>
-                </p>
-                <p class="case-body">{{ reply.content }}</p>
+                  Confirm
+                </button>
               </div>
             </div>
-            <p v-else class="muted">No replies recorded.</p>
-          </section>
 
-          <section class="case-file-section" data-testid="related-items-block">
-            <h2>Related items</h2>
-            <div v-if="(pkg.incident.related_items?.length ?? 0) > 0" class="evidence-list">
-              <div v-for="related in pkg.incident.related_items" :key="related.id" class="evidence-entry">
-                <p class="evidence-meta">
-                  {{ platformLabel(related.platform) }} · {{ contentTypeLabel(related.content_type) }}
-                  <span v-if="related.observed_at"> · {{ formatDateTime(related.observed_at) }}</span>
-                </p>
-                <p v-if="related.description" class="case-body">{{ related.description }}</p>
-                <a
-                  v-if="related.reference_url"
-                  :href="related.reference_url"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <div v-if="activeDialog === 'uncertain'" class="dialog" data-testid="uncertain-dialog">
+              <h3>Mark uncertain</h3>
+              <label class="field">
+                <span>Reviewer notes</span>
+                <textarea v-model="uncertainNotes" rows="4" data-testid="uncertain-notes" />
+              </label>
+              <div class="actions">
+                <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+                <button
+                  class="button"
+                  type="button"
+                  data-testid="submit-uncertain"
+                  :disabled="busy"
+                  @click="onUncertain"
                 >
-                  {{ related.reference_url }}
-                </a>
+                  Mark Uncertain
+                </button>
               </div>
             </div>
-            <p v-else class="muted">No related items recorded.</p>
-          </section>
 
-          <section class="case-file-section">
-            <h2>Language</h2>
-            <p>{{ languageLabel(pkg.incident.language) }}</p>
-          </section>
+            <div v-if="activeDialog === 'context'" class="dialog" data-testid="context-dialog">
+              <h3>Request more context</h3>
+              <label class="field">
+                <span>What context is needed?</span>
+                <textarea v-model="contextReason" rows="4" data-testid="context-reason" />
+              </label>
+              <div class="actions">
+                <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+                <button
+                  class="button"
+                  type="button"
+                  data-testid="submit-context"
+                  :disabled="busy"
+                  @click="onRequestContext"
+                >
+                  Request Context
+                </button>
+              </div>
+            </div>
 
-          <section class="case-file-section" data-testid="reporter-notes-block">
-            <h2>Reporter notes</h2>
-            <p v-if="pkg.incident.reporter_notes" class="case-body">{{ pkg.incident.reporter_notes }}</p>
-            <p v-else class="muted">No reporter notes provided.</p>
+            <div v-if="activeDialog === 'escalate'" class="dialog" data-testid="escalate-dialog">
+              <h3>Escalate</h3>
+              <label class="field">
+                <span>Why are you escalating?</span>
+                <textarea v-model="escalateReason" rows="4" data-testid="escalate-reason" />
+              </label>
+              <div class="actions">
+                <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+                <button
+                  class="button"
+                  type="button"
+                  data-testid="submit-escalate"
+                  :disabled="busy"
+                  @click="onEscalate"
+                >
+                  Escalate
+                </button>
+              </div>
+            </div>
+
+            <div v-if="activeDialog === 'close'" class="dialog" data-testid="close-dialog">
+              <h3>Close review</h3>
+              <label class="field">
+                <span>Reason (optional)</span>
+                <textarea v-model="closeNotes" rows="4" data-testid="close-notes" />
+              </label>
+              <div class="actions">
+                <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
+                <button
+                  class="button"
+                  type="button"
+                  data-testid="submit-close"
+                  :disabled="busy"
+                  @click="onClose"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </section>
 
           <section class="case-file-section" data-testid="review-history">
@@ -156,115 +503,13 @@
             <p v-else class="muted">No review actions yet.</p>
           </section>
 
-          <OutcomeTrackingPanel
-            v-if="organization.canViewOutcomes && organization.currentOrganization && pkg"
-            :organization-id="organization.currentOrganization.id"
-            :report-id="pkg.incident.id"
-            :can-manage="organization.canManageOutcomes"
-          />
-
-          <section
-            v-if="
-              pkg.incident.review_outcome === 'confirmed'
-              && (organization.canViewEducationPatterns || organization.canCreateEducationPatterns)
-            "
-            class="case-file-section education-block"
-            data-testid="community-education-section"
-          >
-            <h2>Learning Pattern</h2>
-            <p class="muted">
-              Community Shield → Academy. Capture a learning pattern from this confirmed review
-              for Community Safety lessons and ADAPT practice.
-            </p>
-
-            <p v-if="patternLoading" class="muted">Loading learning pattern…</p>
-            <p v-else-if="patternError" class="error">{{ patternError }}</p>
-
-            <template v-else-if="learningPattern">
-              <dl class="case-details" data-testid="existing-learning-pattern">
-                <div>
-                  <dt>Status</dt>
-                  <dd>{{ learningPattern.status }}</dd>
-                </div>
-                <div>
-                  <dt>Objective</dt>
-                  <dd>{{ learningPattern.learning_objective }}</dd>
-                </div>
-                <div>
-                  <dt>Type</dt>
-                  <dd>{{ patternTypeLabel(learningPattern.pattern_type) }}</dd>
-                </div>
-              </dl>
-              <div class="actions">
-                <RouterLink
-                  :to="{ name: 'admin-learning-pattern-detail', params: { id: learningPattern.id } }"
-                  data-testid="view-learning-pattern"
-                >
-                  View learning pattern
-                </RouterLink>
-                <RouterLink to="/admin/education/patterns" data-testid="browse-learning-patterns">
-                  Browse learning patterns
-                </RouterLink>
-              </div>
-            </template>
-
-            <form
-              v-else-if="organization.canCreateEducationPatterns"
-              class="stack"
-              data-testid="create-learning-pattern-form"
-              @submit.prevent="createLearningPattern"
-            >
-              <label class="field">
-                <span>Pattern type</span>
-                <select
-                  v-model="patternForm.pattern_type"
-                  name="pattern_type"
-                  data-testid="pattern-type"
-                  required
-                >
-                  <option disabled value="">Select a type</option>
-                  <option
-                    v-for="option in LEARNING_PATTERN_TYPE_OPTIONS"
-                    :key="option.value"
-                    :value="option.value"
-                  >
-                    {{ option.label }}
-                  </option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Title</span>
-                <input v-model="patternForm.title" name="title" type="text" data-testid="pattern-title" required />
-              </label>
-              <label class="field">
-                <span>Summary</span>
-                <textarea v-model="patternForm.summary" name="summary" data-testid="pattern-summary" required />
-              </label>
-              <label class="field">
-                <span>Learning objective</span>
-                <textarea
-                  v-model="patternForm.learning_objective"
-                  name="learning_objective"
-                  data-testid="pattern-learning-objective"
-                  required
-                />
-              </label>
-              <label class="field">
-                <span>Domain</span>
-                <input v-model="patternForm.domain" name="domain" type="text" data-testid="pattern-domain" />
-              </label>
-              <button class="button" type="submit" :disabled="patternBusy">Create Learning Pattern</button>
-            </form>
-
-            <p v-else class="muted">No learning pattern has been created for this report yet.</p>
-          </section>
-
           <section
             v-if="organization.canExportIncidents"
             class="evidence-doc"
             data-testid="evidence-package-section"
           >
             <div class="evidence-doc-header">
+              <p class="section-kicker evidence-kicker">Evidence Package</p>
               <h2>Evidence Package</h2>
               <p>
                 Complete incident record with context, AI analysis, human review, and reporting guidance.
@@ -274,6 +519,16 @@
               </p>
             </div>
             <div class="evidence-doc-body">
+              <ul class="evidence-summary-list">
+                <li>Incident</li>
+                <li>Context</li>
+                <li>AI Analysis</li>
+                <li>Human Review</li>
+                <li>Outcome</li>
+                <li>Reporting Route</li>
+                <li>Safety &amp; Privacy</li>
+              </ul>
+
               <div v-if="evidencePackage" data-testid="evidence-package-preview">
                 <p class="evidence-doc-ref">INCIDENT EVIDENCE PACKAGE · REF #{{ pkg.incident.id }}</p>
                 <dl class="case-details">
@@ -376,7 +631,10 @@
                     </li>
                   </ul>
                   <h3>Reporting route</h3>
-                  <p>{{ evidencePackage.reporting_route.platform_label }} — {{ evidencePackage.reporting_route.recommended_route }}</p>
+                  <p>
+                    {{ evidencePackage.reporting_route.platform_label }} —
+                    {{ evidencePackage.reporting_route.recommended_route }}
+                  </p>
                   <h3>Outcome</h3>
                   <p>{{ reviewOutcomeLabel(evidencePackage.human_review.outcome) }}</p>
                 </div>
@@ -417,293 +675,125 @@
             </div>
           </section>
 
-        </main>
+          <OutcomeTrackingPanel
+            v-if="organization.canViewOutcomes && organization.currentOrganization && pkg"
+            :organization-id="organization.currentOrganization.id"
+            :report-id="pkg.incident.id"
+            :can-manage="organization.canManageOutcomes"
+          />
 
-        <aside class="review-sidebar">
-          <section class="ai-panel" data-testid="ai-context-analysis">
-            <div class="ai-panel-header">
-              <h2>AI Analysis</h2>
-              <span class="ai-advisory-tag">Advisory</span>
-            </div>
-            <p class="muted">AI Context Analysis is advisory. Humans decide.</p>
-            <div class="ai-advisory-banner" data-testid="ai-advisory-banner">
-              <span>
-                <strong>AI analysis is advisory.</strong> Human review remains authoritative. AI output
-                is not a verdict or final determination.
-              </span>
-            </div>
-            <p class="muted disclaimer">{{ pkg.ai_assisted_triage.advisory_disclaimer }}</p>
+          <section
+            v-if="
+              pkg.incident.review_outcome === 'confirmed'
+              && (organization.canViewEducationPatterns || organization.canCreateEducationPatterns)
+            "
+            class="case-file-section education-block"
+            data-testid="community-education-section"
+          >
+            <h2>Learning Pattern</h2>
+            <p class="muted">
+              Community Shield → Academy. Capture a learning pattern from this confirmed review
+              for Community Safety lessons and ADAPT practice.
+            </p>
 
-            <div
-              v-if="latestAnalysis?.analysis?.uncertainty?.level === 'high'"
-              class="uncertainty-banner"
-              data-testid="high-uncertainty-banner"
-            >
-              <strong>High uncertainty</strong>
-              <p>
-                {{ latestAnalysis.analysis.uncertainty.explanation }}
-                Additional context may be useful before making a determination.
-              </p>
-            </div>
+            <p v-if="patternLoading" class="muted">Loading learning pattern…</p>
+            <p v-else-if="patternError" class="error">{{ patternError }}</p>
 
-            <template v-if="latestAnalysis?.status === 'completed' && latestAnalysis.analysis">
-              <p class="meta">
-                {{ latestAnalysis.provider }} · {{ latestAnalysis.prompt_version }} · Completed
-              </p>
-              <h3>Potential signals</h3>
-              <ul class="evidence-list plain">
-                <li v-for="signal in latestAnalysis.analysis.signals" :key="signal.name">
-                  <p class="meta">
-                    {{ aiSignalLabel(signal.name) }} ·
-                    {{ aiConfidenceLabel(signal.confidence) }} confidence
-                  </p>
-                  <p class="case-body">{{ signal.description }}</p>
-                </li>
-              </ul>
-              <dl class="case-details">
+            <template v-else-if="learningPattern">
+              <dl class="case-details" data-testid="existing-learning-pattern">
                 <div>
-                  <dt>Potential classification</dt>
-                  <dd>{{ aiClassificationLabel(latestAnalysis.analysis.classification.label) }}</dd>
+                  <dt>Status</dt>
+                  <dd>{{ learningPattern.status }}</dd>
                 </div>
                 <div>
-                  <dt>AI confidence</dt>
-                  <dd>AI confidence: {{ aiConfidenceLabel(latestAnalysis.analysis.classification.confidence) }}</dd>
+                  <dt>Objective</dt>
+                  <dd>{{ learningPattern.learning_objective }}</dd>
                 </div>
                 <div>
-                  <dt>AI uncertainty</dt>
-                  <dd>
-                    AI uncertainty: {{ aiConfidenceLabel(latestAnalysis.analysis.uncertainty.level) }}.
-                    Context may change interpretation.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Recommended action</dt>
-                  <dd>
-                    {{ aiRecommendedActionLabel(latestAnalysis.analysis.recommended_action.type) }}
-                  </dd>
+                  <dt>Type</dt>
+                  <dd>{{ patternTypeLabel(learningPattern.pattern_type) }}</dd>
                 </div>
               </dl>
-              <p v-if="latestAnalysis.analysis.alternative_interpretation" class="case-body">
-                <strong>Alternative interpretation:</strong>
-                {{ latestAnalysis.analysis.alternative_interpretation }}
-              </p>
+              <div class="actions">
+                <RouterLink
+                  :to="{ name: 'admin-learning-pattern-detail', params: { id: learningPattern.id } }"
+                  data-testid="view-learning-pattern"
+                >
+                  View learning pattern
+                </RouterLink>
+                <RouterLink to="/admin/education/patterns" data-testid="browse-learning-patterns">
+                  Browse learning patterns
+                </RouterLink>
+              </div>
             </template>
-            <p v-else-if="latestAnalysis?.status === 'failed'" class="muted">
-              {{ latestAnalysis.error_message || 'AI analysis unavailable.' }}
-            </p>
-            <p v-else class="muted">No AI Context Analysis is available yet.</p>
 
-            <p class="ai-footer muted">AI analysis does not determine the final outcome.</p>
-
-            <div
-              v-if="pkg.ai_assisted_triage.history.length > 1"
-              class="history-block"
-              data-testid="ai-analysis-history"
+            <form
+              v-else-if="organization.canCreateEducationPatterns"
+              class="stack"
+              data-testid="create-learning-pattern-form"
+              @submit.prevent="createLearningPattern"
             >
-              <h3>AI analysis history</h3>
-              <ul class="history">
-                <li v-for="entry in pkg.ai_assisted_triage.history" :key="entry.id">
-                  {{ formatDateTime(entry.created_at) }} · {{ entry.provider }} ·
-                  {{ entry.prompt_version }} · {{ entry.status }}
-                </li>
-              </ul>
-            </div>
+              <label class="field">
+                <span>Pattern type</span>
+                <select
+                  v-model="patternForm.pattern_type"
+                  name="pattern_type"
+                  data-testid="pattern-type"
+                  required
+                >
+                  <option disabled value="">Select a type</option>
+                  <option
+                    v-for="option in LEARNING_PATTERN_TYPE_OPTIONS"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Title</span>
+                <input
+                  v-model="patternForm.title"
+                  name="title"
+                  type="text"
+                  data-testid="pattern-title"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>Summary</span>
+                <textarea
+                  v-model="patternForm.summary"
+                  name="summary"
+                  data-testid="pattern-summary"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>Learning objective</span>
+                <textarea
+                  v-model="patternForm.learning_objective"
+                  name="learning_objective"
+                  data-testid="pattern-learning-objective"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>Domain</span>
+                <input
+                  v-model="patternForm.domain"
+                  name="domain"
+                  type="text"
+                  data-testid="pattern-domain"
+                />
+              </label>
+              <button class="button" type="submit" :disabled="patternBusy">Create Learning Pattern</button>
+            </form>
+
+            <p v-else class="muted">No learning pattern has been created for this report yet.</p>
           </section>
-
-          <section class="human-panel" data-testid="human-review-block">
-            <div class="human-panel-header">
-              <h2>Human Review</h2>
-              <p>Authoritative. What is your determination? The reviewer decides independently of AI. No action is automatic.</p>
-            </div>
-
-            <dl class="case-details">
-              <div>
-                <dt>Outcome</dt>
-                <dd>{{ reviewOutcomeLabel(pkg.human_review.outcome) }}</dd>
-              </div>
-              <div>
-                <dt>Reviewer notes</dt>
-                <dd data-testid="reviewer-notes">{{ pkg.human_review.notes || 'None yet' }}</dd>
-              </div>
-              <div>
-                <dt>Human classification</dt>
-                <dd>{{ safetyClassificationLabel(pkg.incident.safety_classification) }}</dd>
-              </div>
-              <div>
-                <dt>Escalation</dt>
-                <dd>
-                  <template v-if="pkg.human_review.escalated">
-                    Escalated — {{ pkg.human_review.escalation_reason }}
-                  </template>
-                  <template v-else>Not escalated</template>
-                </dd>
-              </div>
-              <div>
-                <dt>Current reviewer</dt>
-                <dd>{{ pkg.incident.current_reviewer?.name || 'Unassigned' }}</dd>
-              </div>
-            </dl>
-
-            <div
-              v-if="pkg.human_review.context_requests.length > 0"
-              class="context-requests"
-              data-testid="context-requests"
-            >
-              <h3>Context requests</h3>
-              <ul class="history">
-                <li v-for="request in pkg.human_review.context_requests" :key="request.id">
-                  <strong>{{ request.status }}</strong>
-                  — {{ request.reason }}
-                  <span class="muted"> · {{ formatDateTime(request.requested_at) }}</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="human-actions" data-testid="review-actions">
-          <button
-            v-if="can('start')"
-            class="button"
-            type="button"
-            data-testid="start-review"
-            :disabled="busy"
-            @click="onStart"
-          >
-            Start Review
-          </button>
-
-          <button
-            v-if="can('confirm')"
-            class="button"
-            type="button"
-            data-testid="open-confirm"
-            @click="activeDialog = 'confirm'"
-          >
-            Confirm
-          </button>
-          <button
-            v-if="can('uncertain')"
-            class="button secondary"
-            type="button"
-            data-testid="open-uncertain"
-            @click="activeDialog = 'uncertain'"
-          >
-            Mark Uncertain
-          </button>
-          <button
-            v-if="can('request_context')"
-            class="button secondary"
-            type="button"
-            data-testid="open-request-context"
-            @click="activeDialog = 'context'"
-          >
-            Request More Context
-          </button>
-          <button
-            v-if="can('escalate')"
-            class="button secondary"
-            type="button"
-            data-testid="open-escalate"
-            @click="activeDialog = 'escalate'"
-          >
-            Escalate
-          </button>
-          <button
-            v-if="can('close')"
-            class="button secondary"
-            type="button"
-            data-testid="open-close"
-            @click="activeDialog = 'close'"
-          >
-            Close
-          </button>
-        </div>
-
-        <p v-if="actionError" class="error" data-testid="action-error">{{ actionError }}</p>
-
-        <div v-if="activeDialog === 'confirm'" class="dialog" data-testid="confirm-dialog">
-          <h3>Human determination</h3>
-          <label class="field">
-            <span>Classification</span>
-            <select v-model="confirmForm.classification" data-testid="confirm-classification">
-              <option disabled value="">Select classification</option>
-              <option
-                v-for="option in HUMAN_CLASSIFICATION_OPTIONS"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.label }}
-              </option>
-            </select>
-          </label>
-          <label class="field">
-            <span>Reviewer notes</span>
-            <textarea v-model="confirmForm.notes" rows="4" data-testid="confirm-notes" />
-          </label>
-          <div class="actions">
-            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
-            <button class="button" type="button" data-testid="submit-confirm" :disabled="busy" @click="onConfirm">
-              Confirm
-            </button>
-          </div>
-        </div>
-
-        <div v-if="activeDialog === 'uncertain'" class="dialog" data-testid="uncertain-dialog">
-          <h3>Mark uncertain</h3>
-          <label class="field">
-            <span>Reviewer notes</span>
-            <textarea v-model="uncertainNotes" rows="4" data-testid="uncertain-notes" />
-          </label>
-          <div class="actions">
-            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
-            <button class="button" type="button" data-testid="submit-uncertain" :disabled="busy" @click="onUncertain">
-              Mark Uncertain
-            </button>
-          </div>
-        </div>
-
-        <div v-if="activeDialog === 'context'" class="dialog" data-testid="context-dialog">
-          <h3>Request more context</h3>
-          <label class="field">
-            <span>What context is needed?</span>
-            <textarea v-model="contextReason" rows="4" data-testid="context-reason" />
-          </label>
-          <div class="actions">
-            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
-            <button class="button" type="button" data-testid="submit-context" :disabled="busy" @click="onRequestContext">
-              Request Context
-            </button>
-          </div>
-        </div>
-
-        <div v-if="activeDialog === 'escalate'" class="dialog" data-testid="escalate-dialog">
-          <h3>Escalate</h3>
-          <label class="field">
-            <span>Why are you escalating?</span>
-            <textarea v-model="escalateReason" rows="4" data-testid="escalate-reason" />
-          </label>
-          <div class="actions">
-            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
-            <button class="button" type="button" data-testid="submit-escalate" :disabled="busy" @click="onEscalate">
-              Escalate
-            </button>
-          </div>
-        </div>
-
-        <div v-if="activeDialog === 'close'" class="dialog" data-testid="close-dialog">
-          <h3>Close review</h3>
-          <label class="field">
-            <span>Reason (optional)</span>
-            <textarea v-model="closeNotes" rows="4" data-testid="close-notes" />
-          </label>
-          <div class="actions">
-            <button class="button secondary" type="button" @click="activeDialog = null">Cancel</button>
-            <button class="button" type="button" data-testid="submit-close" :disabled="busy" @click="onClose">
-              Close
-            </button>
-          </div>
-        </div>
-          </section>
-        </aside>
+        </main>
       </div>
     </template>
   </div>
@@ -1215,5 +1305,88 @@ watch(
   margin-top: 0.85rem;
   display: grid;
   gap: 0.5rem;
+}
+
+.case-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+.case-badge-row.compact {
+  margin: var(--space-4) 0;
+}
+
+.case-principle {
+  margin: var(--space-3) 0 0;
+  color: var(--accent-mint);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+.section-kicker {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.ai-kicker,
+.evidence-kicker {
+  color: inherit;
+  opacity: 0.9;
+}
+
+.lead-story {
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.hierarchy-callout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: var(--space-3) 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--background-alt);
+  font-size: var(--text-sm);
+}
+
+.evidence-summary-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+}
+
+.evidence-summary-list li {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  background: var(--background-alt);
+  border: 1px solid var(--border-subtle);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+}
+
+.review-layout-story {
+  grid-template-columns: 1fr;
+}
+
+.story-ai-panel,
+.story-human-panel {
+  margin-top: 0;
+}
+
+.original-story {
+  margin-top: var(--space-4);
 }
 </style>

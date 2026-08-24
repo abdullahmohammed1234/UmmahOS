@@ -49,8 +49,8 @@
       <div class="diagram-connector down" aria-hidden="true">│</div>
 
       <ol class="diagram-flow">
-        <li :class="{ muted: !surroundingContext }">
-          Context{{ surroundingContext ? '' : ' not provided' }}
+        <li :class="{ muted: !surroundingContext && !replies.length }">
+          Replies / Context{{ surroundingContext || replies.length ? '' : ' not provided' }}
         </li>
         <li :class="{ ai: aiPresent, muted: !aiPresent }">
           {{ aiPresent ? 'AI Analysis (advisory)' : 'AI Analysis not yet available' }}

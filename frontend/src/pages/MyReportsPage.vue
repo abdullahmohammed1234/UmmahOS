@@ -30,20 +30,31 @@
         data-testid="my-report-link"
       >
         <div class="report-card-header">
-          <strong>{{ report.reference }}</strong>
+          <strong>Report {{ report.reference }}</strong>
           <span class="badge" :class="statusBadgeClass(report.status)">
             {{ statusLabel(report.status) }}
           </span>
         </div>
-        <p class="report-meta muted">
-          {{ platformLabel(report.platform) }}
-          · Submitted {{ formatDateTime(report.submitted_at) }}
-        </p>
-        <p v-if="report.external_report_count" class="report-update muted">
-          {{ report.external_report_count }} external report(s) recorded
+        <dl class="report-facts">
+          <div>
+            <dt>Platform</dt>
+            <dd>{{ platformLabel(report.platform) }}</dd>
+          </div>
+          <div>
+            <dt>Date</dt>
+            <dd>{{ formatDateTime(report.submitted_at) }}</dd>
+          </div>
+          <div>
+            <dt>Current stage</dt>
+            <dd>{{ currentStage(report) }}</dd>
+          </div>
+        </dl>
+        <p class="what-next-label">What happened next?</p>
+        <p class="report-timeline muted">
+          Reported → Under Review → Decision → Outcome → Appeal
         </p>
         <p v-if="report.review_outcome" class="report-outcome">
-          Outcome: {{ reviewOutcomeLabel(report.review_outcome) }}
+          Decision: {{ reviewOutcomeLabel(report.review_outcome) }}
         </p>
       </RouterLink>
     </div>
@@ -73,6 +84,22 @@ function statusBadgeClass(status: string): string {
   if (status === 'reviewing') return 'info';
   return 'neutral';
 }
+
+function currentStage(report: MemberReportSummary): string {
+  if ((report.external_report_count ?? 0) > 0) {
+    return 'Outcome tracking';
+  }
+  if (report.review_outcome) {
+    return `Decision · ${reviewOutcomeLabel(report.review_outcome)}`;
+  }
+  if (report.status === 'reviewing') {
+    return 'Under Review';
+  }
+  if (report.status === 'resolved') {
+    return 'Decision recorded';
+  }
+  return 'Reported';
+}
 </script>
 
 <style scoped>
@@ -95,11 +122,40 @@ function statusBadgeClass(status: string): string {
   justify-content: space-between;
   align-items: center;
   gap: var(--space-3);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
-.report-meta,
-.report-update,
+.report-facts {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+}
+
+.report-facts dt {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.1rem;
+}
+
+.report-facts dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.what-next-label {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.report-timeline,
 .report-outcome {
   margin: var(--space-1) 0 0;
   font-size: var(--text-sm);

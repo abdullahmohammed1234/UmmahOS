@@ -7,7 +7,7 @@
 
     <template v-else>
       <header>
-        <p class="eyebrow">What happened next?</p>
+        <p class="eyebrow">Community Shield</p>
         <h1>{{ report.reference }}</h1>
         <p class="muted">
           {{ platformLabel(report.platform) }} · {{ statusLabel(report.status) }}
@@ -17,6 +17,7 @@
         </p>
       </header>
 
+      <p class="what-next-heading">What happened next?</p>
       <p class="muted">
         This view shows reporter-visible progress only. Internal reviewer notes are not shown here.
       </p>
@@ -85,3 +86,12 @@ watch(
   { immediate: true },
 );
 </script>
+
+<style scoped>
+.what-next-heading {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--primary);
+}
+</style>

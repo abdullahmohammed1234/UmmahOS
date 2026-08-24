@@ -23,14 +23,16 @@
       </select>
       <AppIcon name="chevron" size="sm" class="select-chevron" />
     </label>
-    <p v-if="organization.currentOrganization" class="org-hint" data-testid="current-org-name">
-      <span class="role-badge">{{ organization.currentRole ?? 'member' }}</span>
-      in <strong>{{ organization.currentOrganization.name }}</strong>
-    </p>
+    <div v-if="organization.currentOrganization" class="org-display" data-testid="current-org-name">
+      <strong class="org-name">{{ organization.currentOrganization.name }}</strong>
+      <p class="org-role-line">
+        Role: <span class="role-badge">{{ displayRole }}</span>
+      </p>
+    </div>
     <ul v-if="memberships.length > 1" class="org-roles" data-testid="org-role-list">
       <li v-for="membership in memberships" :key="membership.id">
         {{ membership.organization.name }}:
-        {{ membership.role.slug.replace(/_/g, ' ') }}
+        {{ membership.role.name || membership.role.slug.replace(/_/g, ' ') }}
       </li>
     </ul>
   </div>
@@ -44,6 +46,21 @@ import { useOrganizationStore } from '@/stores/organization';
 
 const organization = useOrganizationStore();
 const memberships = computed(() => useAuthStore().memberships);
+
+const displayRole = computed(() => {
+  const named = organization.currentMembership?.role?.name;
+  if (named) {
+    return named;
+  }
+  const slug = organization.currentRole;
+  if (!slug) {
+    return 'Member';
+  }
+  return slug
+    .split('_')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+});
 
 async function onChange(event: Event): Promise<void> {
   const value = Number((event.target as HTMLSelectElement).value);
@@ -78,11 +95,11 @@ async function onChange(event: Event): Promise<void> {
 
 .switcher-select {
   appearance: none;
-  border: 1px solid rgba(20, 92, 62, 0.2);
+  border: 2px solid rgba(20, 92, 62, 0.28);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-8) var(--space-3) var(--space-3);
   background: var(--surface-elevated);
-  font-weight: var(--font-semibold);
+  font-weight: var(--font-bold);
   font-size: var(--text-sm);
   color: var(--text-primary);
   width: 100%;
@@ -110,16 +127,24 @@ async function onChange(event: Event): Promise<void> {
   color: var(--text-muted);
 }
 
-.org-hint {
-  font-size: var(--text-xs);
-  margin: 0;
-  line-height: var(--leading-normal);
-  color: var(--text-muted);
+.org-display {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  border: 1px solid rgba(20, 92, 62, 0.15);
 }
 
-.org-hint strong {
+.org-name {
+  display: block;
+  font-size: var(--text-sm);
   color: var(--primary);
-  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.org-role-line {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
 }
 
 .org-roles {
@@ -131,16 +156,11 @@ async function onChange(event: Event): Promise<void> {
   gap: 0.2rem;
 }
 
-.org-roles strong {
-  color: var(--text-primary);
-  text-transform: capitalize;
-}
-
 .role-badge {
   display: inline-block;
   padding: 0.1rem 0.45rem;
   border-radius: var(--radius-full);
-  background: var(--primary-soft);
+  background: var(--surface-elevated);
   color: var(--primary);
   font-weight: var(--font-semibold);
   font-size: 0.65rem;

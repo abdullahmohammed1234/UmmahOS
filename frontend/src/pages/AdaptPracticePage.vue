@@ -36,16 +36,16 @@
           </span>
           <p class="adapt-prompt">{{ challenge.prompt }}</p>
 
-          <fieldset class="adapt-choices" data-testid="adapt-choices">
-            <legend>Choose an answer</legend>
+          <fieldset class="adapt-choices adapt-answer-block" data-testid="adapt-choices">
+            <legend class="adapt-field-label">Answer</legend>
             <label v-for="choice in challenge.choices" :key="choice" class="adapt-choice">
               <input v-model="answer" type="radio" name="adapt-answer" :value="choice" />
               <span>{{ choice }}</span>
             </label>
           </fieldset>
 
-          <label class="field">
-            <span>Confidence (1–5)</span>
+          <label class="field adapt-confidence-block">
+            <span class="adapt-field-label">Confidence</span>
             <select v-model.number="confidence" data-testid="adapt-confidence">
               <option v-for="level in confidenceOptions" :key="level" :value="level">
                 {{ level }}
@@ -53,8 +53,8 @@
             </select>
           </label>
 
-          <label class="field">
-            <span>Reasoning</span>
+          <label class="field adapt-reasoning-block">
+            <span class="adapt-field-label">Reasoning</span>
             <textarea
               v-model="reasoning"
               data-testid="adapt-reasoning"
@@ -79,6 +79,10 @@
         </section>
 
         <section v-if="lastResult" class="adapt-feedback-panel" data-testid="adapt-feedback">
+          <div class="adapt-feedback-banner">
+            <p class="adapt-field-label">Feedback</p>
+            <p class="muted">ADAPT used your answer, confidence, and reasoning to shape what comes next.</p>
+          </div>
           <div v-if="noticedText" class="adapt-noticed-panel" data-testid="adapt-noticed">
             <h2>What ADAPT noticed</h2>
             <p class="adapt-block-body">{{ noticedText }}</p>
@@ -88,7 +92,7 @@
             <p class="adapt-block-body">{{ whyText }}</p>
           </div>
           <div v-if="nextChallenge" class="adapt-next-panel" data-testid="adapt-next-challenge">
-            <h2>Next challenge from ADAPT</h2>
+            <h2>Next challenge</h2>
             <p class="adapt-block-body">{{ nextChallenge.prompt }}</p>
             <button class="button secondary" type="button" @click="continueWithNext">
               Continue with next challenge

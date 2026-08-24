@@ -17,7 +17,7 @@
       <p v-if="reports.length === 0" class="muted" data-testid="outcome-empty">
         {{
           memberView
-            ? 'No outcome updates are available yet.'
+            ? 'What happened next? No external outcome has been recorded yet.'
             : 'No external reporting activity has been recorded yet.'
         }}
       </p>
@@ -34,6 +34,8 @@
             {{ externalReportStatusLabel(report.status) }}
           </span>
         </header>
+
+        <p class="outcome-flow-label">Reported → Under Review → Decision → Outcome → Appeal / Correction</p>
 
         <dl class="case-details">
           <div>
@@ -112,14 +114,23 @@
           </article>
         </div>
 
-        <div v-if="memberView && canAppeal(report)" class="outcome-actions">
+        <div
+          v-if="memberView && canAppeal(report)"
+          class="correction-appeal-section"
+          data-testid="correction-appeal-section"
+        >
+          <p class="section-kicker">Correction or Appeal</p>
+          <h4>Think something in this report needs correction or further review?</h4>
+          <p class="muted">
+            Your request will be reviewed without changing the original decision.
+          </p>
           <button
             class="button secondary"
             type="button"
             data-testid="request-appeal"
             @click="openAppealForm(report)"
           >
-            Request Correction / Appeal
+            Request a Correction or Appeal
           </button>
         </div>
 
@@ -493,5 +504,40 @@ onMounted(() => {
   max-width: 32rem;
   background: var(--surface);
   box-shadow: var(--shadow-md);
+}
+
+.outcome-flow-label {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+.correction-appeal-section {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(20, 92, 62, 0.2);
+  background: var(--primary-soft);
+}
+
+.correction-appeal-section .section-kicker {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.correction-appeal-section h4 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+}
+
+.correction-appeal-section .muted {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
 }
 </style>

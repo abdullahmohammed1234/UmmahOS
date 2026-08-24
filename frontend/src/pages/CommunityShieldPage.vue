@@ -8,7 +8,7 @@
           <p class="eyebrow">Community Shield</p>
           <h1>Community Shield</h1>
           <p class="hero-subtitle">
-            Document concerns with the context reviewers need.
+            Turn a concern into context, evidence, review, and accountability.
           </p>
           <p class="hero-tagline">
             Preserve context. Protect people. Respond responsibly.
@@ -30,22 +30,6 @@
             >
               View My Reports
             </RouterLink>
-            <RouterLink
-              v-if="organization.canReviewIncidents"
-              class="button secondary large hero-secondary-btn"
-              to="/community-shield/review-queue"
-              data-testid="review-queue-link"
-            >
-              Open Review Queue
-            </RouterLink>
-            <RouterLink
-              v-if="organization.canManageIncidents"
-              class="button secondary large hero-secondary-btn"
-              to="/admin/community-shield"
-              data-testid="admin-review-link"
-            >
-              Review Reports
-            </RouterLink>
           </div>
         </div>
       </div>
@@ -53,10 +37,41 @@
       <div class="shield-process-section">
         <p class="process-label">How it works</p>
         <ShieldProcessSteps
-          :steps="['Capture', 'Context', 'Analyze', 'Review', 'Evidence', 'Outcome']"
+          :steps="['Concern', 'Context', 'AI assistance', 'Human review', 'Evidence', 'Outcome']"
           aria-label="Community Shield workflow"
         />
       </div>
+
+      <article
+        v-if="organization.canReviewIncidents || organization.canManageIncidents"
+        class="reviewer-workspace panel content"
+        data-testid="reviewer-workspace"
+      >
+        <p class="section-kicker">Reviewer Workspace</p>
+        <h2>Review concerns for {{ organization.currentOrganization?.name ?? 'your MSA' }}</h2>
+        <p class="intro-text">
+          Open the queue to see context, AI assistance, and make a human determination.
+          AI assists. Humans decide.
+        </p>
+        <div class="reviewer-actions">
+          <RouterLink
+            v-if="organization.canReviewIncidents"
+            class="button"
+            to="/community-shield/review-queue"
+            data-testid="review-queue-link"
+          >
+            Review Queue
+          </RouterLink>
+          <RouterLink
+            v-if="organization.canManageIncidents"
+            class="button secondary"
+            to="/admin/community-shield"
+            data-testid="admin-review-link"
+          >
+            Reports / management
+          </RouterLink>
+        </div>
+      </article>
 
       <article class="shield-intro panel content">
         <h2>What is Community Shield?</h2>
@@ -575,8 +590,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { RouterLink } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 import ReportWizardProgress from '@/components/community-shield/ReportWizardProgress.vue';
 import ShieldProcessSteps from '@/components/community-shield/ShieldProcessSteps.vue';
 import Timeline from '@/components/ui/Timeline.vue';
@@ -649,6 +664,7 @@ function platformIcon(value: CommunityShieldPlatform): string {
 }
 
 const organization = useOrganizationStore();
+const route = useRoute();
 const view = ref<'landing' | 'form' | 'confirmation'>('landing');
 const currentStep = ref(0);
 const platform = ref<CommunityShieldPlatform | ''>('');
@@ -862,6 +878,24 @@ async function onSubmit(): Promise<void> {
   }
 }
 
+function openReportFromQuery(): void {
+  const action = route.query.action;
+  if (action === 'report') {
+    startReport();
+  }
+}
+
+onMounted(() => {
+  openReportFromQuery();
+});
+
+watch(
+  () => route.query.action,
+  () => {
+    openReportFromQuery();
+  },
+);
+
 watch(
   () => organization.currentOrganization?.id,
   () => {
@@ -869,6 +903,7 @@ watch(
     submitted.value = null;
     confirmationMessage.value = '';
     resetForm();
+    openReportFromQuery();
   },
 );
 </script>
@@ -979,6 +1014,32 @@ watch(
 .ai-principle {
   font-size: var(--text-sm);
   margin: 0;
+}
+
+.reviewer-workspace {
+  border: 1px solid rgba(20, 92, 62, 0.2);
+  background: linear-gradient(180deg, var(--primary-soft) 0%, var(--surface) 100%);
+}
+
+.section-kicker {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.reviewer-workspace h2 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+}
+
+.reviewer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 
 /* Confirmation */
