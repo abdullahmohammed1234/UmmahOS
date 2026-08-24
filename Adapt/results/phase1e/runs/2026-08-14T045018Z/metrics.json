@@ -1,0 +1,652 @@
+{
+  "adapt_by_family": {
+    "CF-P2": {
+      "denominator": 6,
+      "display": "6 / 6 = 100.0%",
+      "numerator": 6,
+      "rate": 1.0,
+      "wilson_95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "CF-P3": {
+      "denominator": 6,
+      "display": "6 / 6 = 100.0%",
+      "numerator": 6,
+      "rate": 1.0,
+      "wilson_95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "S-001": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-002": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-003": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-004": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-005": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-006": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-007": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-008": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-009": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-010": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-011": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-012": {
+      "denominator": 6,
+      "display": "6 / 6 = 100.0%",
+      "numerator": 6,
+      "rate": 1.0,
+      "wilson_95": [
+        0.6097,
+        1.0
+      ]
+    }
+  },
+  "baseline_by_family": {
+    "CF-P2": {
+      "denominator": 6,
+      "display": "3 / 6 = 50.0%",
+      "numerator": 3,
+      "rate": 0.5,
+      "wilson_95": [
+        0.1876,
+        0.8124
+      ]
+    },
+    "CF-P3": {
+      "denominator": 6,
+      "display": "2 / 6 = 33.3%",
+      "numerator": 2,
+      "rate": 0.3333333333333333,
+      "wilson_95": [
+        0.0968,
+        0.7
+      ]
+    },
+    "S-001": {
+      "denominator": 3,
+      "display": "2 / 3 = 66.7%",
+      "numerator": 2,
+      "rate": 0.6666666666666666,
+      "wilson_95": [
+        0.2077,
+        0.9385
+      ]
+    },
+    "S-002": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-003": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-004": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-005": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-006": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-007": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-008": {
+      "denominator": 3,
+      "display": "2 / 3 = 66.7%",
+      "numerator": 2,
+      "rate": 0.6666666666666666,
+      "wilson_95": [
+        0.2077,
+        0.9385
+      ]
+    },
+    "S-009": {
+      "denominator": 3,
+      "display": "2 / 3 = 66.7%",
+      "numerator": 2,
+      "rate": 0.6666666666666666,
+      "wilson_95": [
+        0.2077,
+        0.9385
+      ]
+    },
+    "S-010": {
+      "denominator": 3,
+      "display": "2 / 3 = 66.7%",
+      "numerator": 2,
+      "rate": 0.6666666666666666,
+      "wilson_95": [
+        0.2077,
+        0.9385
+      ]
+    },
+    "S-011": {
+      "denominator": 3,
+      "display": "3 / 3 = 100.0%",
+      "numerator": 3,
+      "rate": 1.0,
+      "wilson_95": [
+        0.4385,
+        1.0
+      ]
+    },
+    "S-012": {
+      "denominator": 6,
+      "display": "5 / 6 = 83.3%",
+      "numerator": 5,
+      "rate": 0.8333333333333334,
+      "wilson_95": [
+        0.4365,
+        0.9699
+      ]
+    }
+  },
+  "counts": {
+    "adapt_records": 51,
+    "baseline_records": 51,
+    "counterfactual_pairs_adapt": 9,
+    "counterfactual_pairs_baseline": 9,
+    "paired": 51
+  },
+  "meta": {
+    "benchmark_version": "phase1e-v1",
+    "git_commit": "unavailable",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.8",
+    "random_seed": 20260813,
+    "scenario_count": 51,
+    "timestamp": "2026-08-14T04:50:18Z"
+  },
+  "paired_mcnemar_appropriateness": {
+    "continuity_correction": true,
+    "n00": 0,
+    "n01": 0,
+    "n10": 12,
+    "n11": 39,
+    "note": "descriptive prototype p-value; do not treat as confirmatory",
+    "p_value": 0.0014961642897455495,
+    "statistic": 10.083333333333334
+  },
+  "primary": {
+    "M-001_decision_appropriateness": {
+      "adapt": {
+        "denominator": 51,
+        "display": "51 / 51 = 100.0%",
+        "numerator": 51,
+        "rate": 1.0,
+        "wilson_95": [
+          0.93,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "39 / 51 = 76.5%",
+        "numerator": 39,
+        "rate": 0.7647058823529411,
+        "wilson_95": [
+          0.6324,
+          0.86
+        ]
+      },
+      "percentage_point_difference": 23.529411764705888,
+      "relative_improvement": 0.30769230769230776
+    },
+    "M-002_counterfactual_differentiation": {
+      "adapt": {
+        "denominator": 9,
+        "display": "9 / 9 = 100.0%",
+        "numerator": 9,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7009,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 9,
+        "display": "3 / 9 = 33.3%",
+        "numerator": 3,
+        "rate": 0.3333333333333333,
+        "wilson_95": [
+          0.1206,
+          0.6458
+        ]
+      },
+      "percentage_point_difference": 66.66666666666667,
+      "relative_improvement": 2.0000000000000004
+    },
+    "M-003_evidence_sensitivity": {
+      "adapt": {
+        "denominator": 9,
+        "display": "9 / 9 = 100.0%",
+        "numerator": 9,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7009,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 9,
+        "display": "2 / 9 = 22.2%",
+        "numerator": 2,
+        "rate": 0.2222222222222222,
+        "wilson_95": [
+          0.0632,
+          0.5474
+        ]
+      },
+      "percentage_point_difference": 77.77777777777779,
+      "relative_improvement": 3.5000000000000004
+    },
+    "M-004_misconception_response": {
+      "adapt": {
+        "denominator": 3,
+        "display": "3 / 3 = 100.0%",
+        "numerator": 3,
+        "rate": 1.0,
+        "wilson_95": [
+          0.4385,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 3,
+        "display": "3 / 3 = 100.0%",
+        "numerator": 3,
+        "rate": 1.0,
+        "wilson_95": [
+          0.4385,
+          1.0
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": 0.0
+    },
+    "M-005_uncertainty_handling": {
+      "adapt": {
+        "denominator": 9,
+        "display": "9 / 9 = 100.0%",
+        "numerator": 9,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7009,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 9,
+        "display": "9 / 9 = 100.0%",
+        "numerator": 9,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7009,
+          1.0
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": 0.0
+    },
+    "M-006_noise_stability": {
+      "adapt": {
+        "denominator": 3,
+        "display": "3 / 3 = 100.0%",
+        "numerator": 3,
+        "rate": 1.0,
+        "wilson_95": [
+          0.4385,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 3,
+        "display": "3 / 3 = 100.0%",
+        "numerator": 3,
+        "rate": 1.0,
+        "wilson_95": [
+          0.4385,
+          1.0
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": 0.0
+    },
+    "M-007_difficulty_appropriateness": {
+      "adapt": {
+        "denominator": 51,
+        "display": "51 / 51 = 100.0%",
+        "numerator": 51,
+        "rate": 1.0,
+        "wilson_95": [
+          0.93,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "49 / 51 = 96.1%",
+        "numerator": 49,
+        "rate": 0.9607843137254902,
+        "wilson_95": [
+          0.8678,
+          0.9892
+        ]
+      },
+      "percentage_point_difference": 3.9215686274509776,
+      "relative_improvement": 0.040816326530612214
+    },
+    "M-008_decision_traceability": {
+      "adapt": {
+        "denominator": 51,
+        "display": "51 / 51 = 100.0%",
+        "numerator": 51,
+        "rate": 1.0,
+        "wilson_95": [
+          0.93,
+          1.0
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "percentage_point_difference": 100.0,
+      "relative_improvement": null
+    }
+  },
+  "secondary": {
+    "false_mastery_rate": {
+      "adapt": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": null
+    },
+    "false_weakness_rate": {
+      "adapt": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": null
+    },
+    "misconception_persistence_rate": {
+      "adapt": {
+        "denominator": 3,
+        "display": "0 / 3 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.5615
+        ]
+      },
+      "baseline": {
+        "denominator": 3,
+        "display": "0 / 3 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.5615
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": null
+    },
+    "overreaction_rate": {
+      "adapt": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": null
+    },
+    "uncertainty_overconfidence_rate": {
+      "adapt": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "percentage_point_difference": 0.0,
+      "relative_improvement": null
+    },
+    "underreaction_rate": {
+      "adapt": {
+        "denominator": 51,
+        "display": "0 / 51 = 0.0%",
+        "numerator": 0,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.07
+        ]
+      },
+      "baseline": {
+        "denominator": 51,
+        "display": "1 / 51 = 2.0%",
+        "numerator": 1,
+        "rate": 0.0196078431372549,
+        "wilson_95": [
+          0.0035,
+          0.103
+        ]
+      },
+      "percentage_point_difference": -1.9607843137254901,
+      "relative_improvement": -1.0
+    }
+  }
+}

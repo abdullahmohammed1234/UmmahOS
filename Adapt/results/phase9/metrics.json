@@ -1,0 +1,129 @@
+{
+  "version": "phase9-v1",
+  "seed": 20260815,
+  "timestamp": "2026-08-15T23:26:29Z",
+  "metrics": {
+    "M9-001_navigation": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-002_lightweight_evidence": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-003_feedback_consistency": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-004_repetition_avoidance": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-005_seven_domains": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-006_concept_coverage": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-007_strategy_preservation": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-008_counterfactual": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-009_research_trace": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-010_progress": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-011_determinism": {
+      "ok": true,
+      "pass": true
+    },
+    "M9-012_challenge_variety": {
+      "ok": true,
+      "pass": true
+    }
+  },
+  "raw": {
+    "navigation": {
+      "ok": true,
+      "subjects": 7
+    },
+    "domains": {
+      "subjects": 7,
+      "min_concepts": 10,
+      "counts": {
+        "mathematics": 10,
+        "calculus": 10,
+        "computer-science": 14,
+        "physics": 10,
+        "chemistry": 10,
+        "space": 10,
+        "quantum": 17
+      },
+      "errors": []
+    },
+    "variety": {
+      "types": 21,
+      "names": [
+        "APPLICATION",
+        "COMPARE",
+        "CONCEPT_CHECK",
+        "DEBUG",
+        "DIAGNOSTIC",
+        "DIAGRAM",
+        "DIRECT",
+        "ERROR_ANALYSIS",
+        "ESTIMATION",
+        "EXPLAIN_CHOICE",
+        "EXPLANATION",
+        "MATCH",
+        "MULTIPLE_CHOICE",
+        "NUMERIC",
+        "PREDICTION",
+        "REMEDIATION",
+        "SCENARIO",
+        "SEQUENCE",
+        "SHORT_ANSWER",
+        "TRANSFER",
+        "TRUE_FALSE"
+      ]
+    },
+    "lightweight": {
+      "ok": true
+    },
+    "explanations": {
+      "ok": true
+    },
+    "diversity": {
+      "ok": true
+    },
+    "progress": {
+      "ok": true
+    },
+    "research": {
+      "ok": true
+    },
+    "preservation": {
+      "ok": true
+    },
+    "counterfactual": {
+      "ok": true,
+      "a": "INCREASE",
+      "b": "PROBE"
+    },
+    "determinism": {
+      "ok": true
+    }
+  },
+  "failures": [],
+  "pass": true
+}

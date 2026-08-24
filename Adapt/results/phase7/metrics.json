@@ -1,0 +1,58 @@
+{
+  "M7-001_subject_coverage": {
+    "id": "M7-001",
+    "value": 7,
+    "target": 6,
+    "display": "7 domains",
+    "passed": true
+  },
+  "M7-002_concept_coverage": {
+    "id": "M7-002",
+    "value": 50,
+    "target": 12,
+    "display": "50 concepts",
+    "passed": true
+  },
+  "M7-003_challenge_diversity": {
+    "id": "M7-003",
+    "value": 14,
+    "target": 5,
+    "display": "14 types",
+    "passed": true
+  },
+  "M7-004_repetition_avoidance": {
+    "id": "M7-004",
+    "value": 1.0,
+    "target": 0.95,
+    "display": "100.0%",
+    "passed": true
+  },
+  "M7-005_strategy_to_challenge": {
+    "id": "M7-005",
+    "value": 1.0,
+    "target": 0.95,
+    "display": "40/40",
+    "passed": true
+  },
+  "M7-006_trace_completeness": {
+    "id": "M7-006",
+    "value": 1.0,
+    "target": 1.0,
+    "display": "6/6",
+    "passed": true
+  },
+  "M7-007_counterfactual": {
+    "id": "M7-007",
+    "value": 1.0,
+    "target": 1.0,
+    "display": "preserved",
+    "passed": true
+  },
+  "M7-008_determinism": {
+    "id": "M7-008",
+    "value": 1.0,
+    "target": 1.0,
+    "display": "identical",
+    "passed": true
+  }
+}

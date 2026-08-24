@@ -1,0 +1,721 @@
+{
+  "counterfactuals": [
+    {
+      "challenge_a": "ALG-H-003",
+      "challenge_b": "ALG-P-003",
+      "decision_a": "INCREASE",
+      "decision_b": "PROBE",
+      "differentiated": true,
+      "engine_decision_a": "INCREASE",
+      "engine_decision_b": "PROBE",
+      "engine_differentiated": true,
+      "pair_id": "P4-CF-001",
+      "preserved": true
+    },
+    {
+      "challenge_a": "ALG-H-004",
+      "challenge_b": "ALG-P-002",
+      "decision_a": "INCREASE",
+      "decision_b": "GATHER_EVIDENCE",
+      "differentiated": true,
+      "engine_decision_a": "INCREASE",
+      "engine_decision_b": "GATHER_EVIDENCE",
+      "engine_differentiated": true,
+      "pair_id": "P4-CF-002",
+      "preserved": true
+    },
+    {
+      "challenge_a": "FR-H-001",
+      "challenge_b": "FR-D-002",
+      "decision_a": "INCREASE",
+      "decision_b": "PROBE",
+      "differentiated": true,
+      "engine_decision_a": "INCREASE",
+      "engine_decision_b": "PROBE",
+      "engine_differentiated": true,
+      "pair_id": "P4-CF-003",
+      "preserved": true
+    },
+    {
+      "challenge_a": "ALG-H-003",
+      "challenge_b": "ALG-P-003",
+      "decision_a": "INCREASE",
+      "decision_b": "PROBE",
+      "differentiated": true,
+      "engine_decision_a": "INCREASE",
+      "engine_decision_b": "PROBE",
+      "engine_differentiated": true,
+      "pair_id": "P4-CF-004",
+      "preserved": true
+    },
+    {
+      "challenge_a": "FR-H-002",
+      "challenge_b": "FR-D-002",
+      "decision_a": "INCREASE",
+      "decision_b": "GATHER_EVIDENCE",
+      "differentiated": true,
+      "engine_decision_a": "INCREASE",
+      "engine_decision_b": "GATHER_EVIDENCE",
+      "engine_differentiated": true,
+      "pair_id": "P4-CF-005",
+      "preserved": true
+    }
+  ],
+  "meta": {
+    "benchmark_version": "phase4-v1",
+    "counterfactual_count": 5,
+    "coverage_ok": true,
+    "default_seed": 20260814,
+    "git_commit": "7d67deb7146993568a02e2adec2ccb74a858937f",
+    "python_version": "3.12.8",
+    "seed": 20260814,
+    "session_count": 20,
+    "timestamp": "2026-08-14T225840Z"
+  },
+  "records": [
+    {
+      "completed_without_failure": true,
+      "final_strategy": "INCREASE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-001",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "PROBE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-002",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "INCREASE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN",
+        "INCREASE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-003",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN",
+        "INCREASE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "INCREASE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-004",
+      "steps": 6,
+      "topic_id": "fractions",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "PROBE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-005",
+      "steps": 6,
+      "topic_id": "fractions",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE",
+        "PROBE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-006",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "PROBE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "PROBE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-007",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "PROBE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "INCREASE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-008",
+      "steps": 6,
+      "topic_id": "fractions",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "INCREASE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-009",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-S-010",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 8,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": true,
+      "scenario_id": "P4-R-001",
+      "steps": 8,
+      "topic_id": "algebra",
+      "trace_complete_steps": 8,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 7,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": true,
+      "scenario_id": "P4-R-002",
+      "steps": 7,
+      "topic_id": "algebra",
+      "trace_complete_steps": 7,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 7,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "DECREASE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": true,
+      "scenario_id": "P4-R-003",
+      "steps": 7,
+      "topic_id": "fractions",
+      "trace_complete_steps": 7,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "DECREASE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "GATHER_EVIDENCE",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE"
+      ],
+      "recovery_scenario": true,
+      "scenario_id": "P4-R-004",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": false,
+      "preserved_steps": 6,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": true,
+      "scenario_id": "P4-R-005",
+      "steps": 6,
+      "topic_id": "algebra",
+      "trace_complete_steps": 6,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": true,
+      "preserved_steps": 5,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-M-001",
+      "steps": 5,
+      "topic_id": "algebra",
+      "trace_complete_steps": 5,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": true,
+      "preserved_steps": 5,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "PROBE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-M-002",
+      "steps": 5,
+      "topic_id": "algebra",
+      "trace_complete_steps": 5,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "PROBE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "GATHER_EVIDENCE",
+      "kind": "session",
+      "misconception_scenario": true,
+      "preserved_steps": 5,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "GATHER_EVIDENCE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-M-003",
+      "steps": 5,
+      "topic_id": "fractions",
+      "trace_complete_steps": 5,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "MAINTAIN",
+        "GATHER_EVIDENCE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "REMEDIATE",
+      "kind": "session",
+      "misconception_scenario": true,
+      "preserved_steps": 5,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-M-004",
+      "steps": 5,
+      "topic_id": "algebra",
+      "trace_complete_steps": 5,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "REMEDIATE",
+        "REMEDIATE"
+      ]
+    },
+    {
+      "completed_without_failure": true,
+      "final_strategy": "MAINTAIN",
+      "kind": "session",
+      "misconception_scenario": true,
+      "preserved_steps": 5,
+      "product_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "recovery_scenario": false,
+      "scenario_id": "P4-M-005",
+      "steps": 5,
+      "topic_id": "fractions",
+      "trace_complete_steps": 5,
+      "tutor_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    }
+  ],
+  "restorations": [
+    {
+      "control_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN"
+      ],
+      "id": "P4-RESTORE-001",
+      "preserved": true,
+      "restored_decisions": [
+        "GATHER_EVIDENCE",
+        "PROBE",
+        "INCREASE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "control_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ],
+      "id": "P4-RESTORE-002",
+      "preserved": true,
+      "restored_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE",
+        "INCREASE"
+      ]
+    },
+    {
+      "control_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "PROBE"
+      ],
+      "id": "P4-RESTORE-003",
+      "preserved": true,
+      "restored_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "INCREASE",
+        "PROBE"
+      ]
+    },
+    {
+      "control_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ],
+      "id": "P4-RESTORE-004",
+      "preserved": true,
+      "restored_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "GATHER_EVIDENCE",
+        "MAINTAIN"
+      ]
+    },
+    {
+      "control_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "PROBE",
+        "INCREASE"
+      ],
+      "id": "P4-RESTORE-005",
+      "preserved": true,
+      "restored_decisions": [
+        "GATHER_EVIDENCE",
+        "MAINTAIN",
+        "PROBE",
+        "INCREASE"
+      ]
+    }
+  ]
+}

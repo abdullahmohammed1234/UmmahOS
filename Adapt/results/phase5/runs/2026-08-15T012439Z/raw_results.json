@@ -1,0 +1,640 @@
+{
+  "boundary": {
+    "adapt_batch_engine": "AdaptiveTutor",
+    "baseline_forbidden_imports": [],
+    "chain_ok": true,
+    "http_ok": "tested_in_pytest",
+    "steps": [
+      {
+        "challenge_id": "ALG-D-001",
+        "complete_link": true,
+        "kind": "strong_correct",
+        "next_challenge_id": "ALG-P-001",
+        "strategy": "GATHER_EVIDENCE"
+      },
+      {
+        "challenge_id": "ALG-P-001",
+        "complete_link": true,
+        "kind": "weak_correct",
+        "next_challenge_id": "ALG-P-002",
+        "strategy": "PROBE"
+      },
+      {
+        "challenge_id": "ALG-P-002",
+        "complete_link": true,
+        "kind": "misconception",
+        "next_challenge_id": "ALG-E-003",
+        "strategy": "MAINTAIN"
+      },
+      {
+        "challenge_id": "ALG-E-003",
+        "complete_link": true,
+        "kind": "strong_correct",
+        "next_challenge_id": "ALG-E-004",
+        "strategy": "MAINTAIN"
+      }
+    ],
+    "tutor_class": "AdaptiveTutor",
+    "uses_adaptive_tutor": true
+  },
+  "historical": {
+    "files": [
+      {
+        "exists": true,
+        "expected": "0aa9cfeabd0fa9cc123cf9af04cd8b2f729b643151c77fdbe4a94b489e113e85",
+        "path": "results/phase1e/metrics.json",
+        "sha256": "0aa9cfeabd0fa9cc123cf9af04cd8b2f729b643151c77fdbe4a94b489e113e85",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "4efc304481b00841b46babb698368891ddb9171f714209e095543790bfd895ba",
+        "path": "results/phase1e/raw_results.json",
+        "sha256": "4efc304481b00841b46babb698368891ddb9171f714209e095543790bfd895ba",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "8751b514438fc3f671e0c95e489551d381ec6f67a681cf29284e24c670dae672",
+        "path": "results/phase1e/report.md",
+        "sha256": "8751b514438fc3f671e0c95e489551d381ec6f67a681cf29284e24c670dae672",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "a5e1b75df91072a134b0df743f7b402b66af8dd4d5ea0915d3a89dc43f0bb9c0",
+        "path": "results/phase1f/metrics.json",
+        "sha256": "a5e1b75df91072a134b0df743f7b402b66af8dd4d5ea0915d3a89dc43f0bb9c0",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "3971bec69c5bc13e8bd64f545443b66933b562d63bd3841ea4be20f3b64b3a4a",
+        "path": "results/phase1f/raw_results.json",
+        "sha256": "3971bec69c5bc13e8bd64f545443b66933b562d63bd3841ea4be20f3b64b3a4a",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "5f55c0f8aa8c5b55e674d9f46cc7f0abcf3f5524d3d16d40aeaab1c52997ba4b",
+        "path": "results/phase1f/report.md",
+        "sha256": "5f55c0f8aa8c5b55e674d9f46cc7f0abcf3f5524d3d16d40aeaab1c52997ba4b",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "8ca74bb0eedb96a499d0ff6e27ee83d62df961fbef50e5bbdf7cd6072bd44d0f",
+        "path": "results/phase1f/holdout_results.json",
+        "sha256": "8ca74bb0eedb96a499d0ff6e27ee83d62df961fbef50e5bbdf7cd6072bd44d0f",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "e7b84821b03415add96f6cda576b8aae9d2278c6d04699a9ea772ff0a6ed686b",
+        "path": "results/phase1f/development_results.json",
+        "sha256": "e7b84821b03415add96f6cda576b8aae9d2278c6d04699a9ea772ff0a6ed686b",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "97a232f7315a37a55ba27c579a4b1292baefe2ffd7bc9736ea87795a402ca53a",
+        "path": "results/phase2/metrics.json",
+        "sha256": "97a232f7315a37a55ba27c579a4b1292baefe2ffd7bc9736ea87795a402ca53a",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "4766d466e8a45e04389f6261585cb646a721d9485d6b2d51944466b45243309a",
+        "path": "results/phase2/raw_results.json",
+        "sha256": "4766d466e8a45e04389f6261585cb646a721d9485d6b2d51944466b45243309a",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "e5135fee217a69b0e47c27f8112c344e24edc239dfa8dfd23bed99f5e08150c8",
+        "path": "results/phase2/report.md",
+        "sha256": "e5135fee217a69b0e47c27f8112c344e24edc239dfa8dfd23bed99f5e08150c8",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "bc81ddaf9f0f02ba18108219bab1c43181bc642820540dfce3396c3e5bd6cb16",
+        "path": "results/phase3/metrics.json",
+        "sha256": "bc81ddaf9f0f02ba18108219bab1c43181bc642820540dfce3396c3e5bd6cb16",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "dbff7ec0bfe04a5a2a154263e8577ce3a9806161b61200ec5593668e00ef1e09",
+        "path": "results/phase3/raw_results.json",
+        "sha256": "dbff7ec0bfe04a5a2a154263e8577ce3a9806161b61200ec5593668e00ef1e09",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "9d3e1b329126b446883ac46356c2eae50c5d11baa0c23893fb78ca99851e3bee",
+        "path": "results/phase3/report.md",
+        "sha256": "9d3e1b329126b446883ac46356c2eae50c5d11baa0c23893fb78ca99851e3bee",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "853b06339a6584fcfb148068311d06e6e2b3f71b302e9cbf451c74c95e021e4d",
+        "path": "results/phase3/trajectories.json",
+        "sha256": "853b06339a6584fcfb148068311d06e6e2b3f71b302e9cbf451c74c95e021e4d",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "38ae3fd53dbc05296adf366d8823c133bac7fb02eaa59d65f62dab6f10664bb9",
+        "path": "results/phase4/metrics.json",
+        "sha256": "38ae3fd53dbc05296adf366d8823c133bac7fb02eaa59d65f62dab6f10664bb9",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "d0082f1853f9d0606a198e1c462b1ae14477b4bde915afa7af6e69e046b82f83",
+        "path": "results/phase4/raw_results.json",
+        "sha256": "d0082f1853f9d0606a198e1c462b1ae14477b4bde915afa7af6e69e046b82f83",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "4742057dedb475e1bb2b4b29c9dd31ff7d63ee6a51a524490511d8cab1d1af44",
+        "path": "results/phase4/report.md",
+        "sha256": "4742057dedb475e1bb2b4b29c9dd31ff7d63ee6a51a524490511d8cab1d1af44",
+        "unchanged": true
+      },
+      {
+        "exists": true,
+        "expected": "6128a5dc2c685cddd6470e30be1b805f6907d546ff56d4962a8787bbd40e7b0d",
+        "path": "results/phase4/usability.md",
+        "sha256": "6128a5dc2c685cddd6470e30be1b805f6907d546ff56d4962a8787bbd40e7b0d",
+        "unchanged": true
+      }
+    ],
+    "unchanged": true
+  },
+  "human_records": [],
+  "meta": {
+    "actual_human_participants": 0,
+    "benchmark_version": "phase5-v1",
+    "delayed_retention": "NOT COLLECTED",
+    "design": "within_subject",
+    "git_commit": "34a797b66ecf0c3f7a786289c901b1f4c2c7cc8b",
+    "phase4_usability_participants": "0 / 5 PENDING",
+    "planned_participants": 10,
+    "python_version": "3.12.8",
+    "seed": 20260814,
+    "synthetic_cases": 3,
+    "timestamp": "2026-08-15T012439Z"
+  },
+  "synthetic": {
+    "all_passed": true,
+    "cases": [
+      {
+        "expected_delta": 0.1,
+        "id": "SYN-A",
+        "label": "ADAPT gain 0.20, baseline gain 0.10",
+        "observed_delta": 0.1,
+        "passed": true,
+        "source": "synthetic"
+      },
+      {
+        "expected_delta": -0.1,
+        "id": "SYN-B",
+        "label": "ADAPT gain 0.10, baseline gain 0.20",
+        "observed_delta": -0.1,
+        "passed": true,
+        "source": "synthetic"
+      },
+      {
+        "expected_delta": 0.0,
+        "id": "SYN-C",
+        "label": "equal gain 0.15",
+        "observed_delta": 0.0,
+        "passed": true,
+        "source": "synthetic"
+      }
+    ],
+    "metrics": {
+      "M5-001_learning_gain": {
+        "adapt": {
+          "mean": 0.15,
+          "median": 0.15,
+          "n": 3,
+          "stdev": 0.05,
+          "values": [
+            0.2,
+            0.1,
+            0.15
+          ]
+        },
+        "baseline": {
+          "mean": 0.15,
+          "median": 0.15,
+          "n": 3,
+          "stdev": 0.05,
+          "values": [
+            0.1,
+            0.2,
+            0.15
+          ]
+        },
+        "delta": {
+          "bootstrap_ci_95": [
+            -0.10000000000000002,
+            0.10000000000000002
+          ],
+          "cohen_dz": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "n": 3,
+          "stdev": 0.1,
+          "values": [
+            0.1,
+            -0.1,
+            0.0
+          ],
+          "wilcoxon": {
+            "W": 1.5,
+            "W_negative": 1.5,
+            "W_positive": 1.5,
+            "confirmatory": false,
+            "n": 2,
+            "note": "Exploratory evidence only."
+          }
+        }
+      },
+      "M5-002_misconception_recovery": {
+        "adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      },
+      "M5-003_post_test_accuracy": {
+        "adapt": {
+          "mean": 0.65,
+          "median": 0.65,
+          "n": 3,
+          "stdev": 0.04999999999999999,
+          "values": [
+            0.7,
+            0.6,
+            0.65
+          ]
+        },
+        "baseline": {
+          "mean": 0.65,
+          "median": 0.65,
+          "n": 3,
+          "stdev": 0.04999999999999999,
+          "values": [
+            0.6,
+            0.7,
+            0.65
+          ]
+        }
+      },
+      "M5-004_delayed_retention": {
+        "adapt": null,
+        "baseline": null,
+        "status": "NOT COLLECTED"
+      },
+      "M5-005_perceived_adaptiveness": {
+        "adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      },
+      "M5-006_challenge_appropriateness": {
+        "adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      },
+      "M5-007_explanation_clarity": {
+        "adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        }
+      },
+      "M5-008_strategy_transition_quality": {
+        "adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "note": "Operationalized as Q3 (understood why the next challenge was given)."
+      },
+      "M5-009_session_completion": {
+        "adapt": 3,
+        "baseline": 3,
+        "n": 3
+      },
+      "M5-010_engagement_dropout": {
+        "adapt": 0,
+        "baseline": 0,
+        "n": 3
+      },
+      "analysis": {
+        "delta": {
+          "bootstrap_ci_95": [
+            -0.10000000000000002,
+            0.10000000000000002
+          ],
+          "cohen_dz": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "n": 3,
+          "stdev": 0.1,
+          "values": [
+            0.1,
+            -0.1,
+            0.0
+          ],
+          "wilcoxon": {
+            "W": 1.5,
+            "W_negative": 1.5,
+            "W_positive": 1.5,
+            "confirmatory": false,
+            "n": 2,
+            "note": "Exploratory evidence only."
+          }
+        },
+        "dropout_adapt": 0,
+        "dropout_baseline": 0,
+        "gain_adapt": {
+          "mean": 0.15,
+          "median": 0.15,
+          "n": 3,
+          "stdev": 0.05,
+          "values": [
+            0.2,
+            0.1,
+            0.15
+          ]
+        },
+        "gain_baseline": {
+          "mean": 0.15,
+          "median": 0.15,
+          "n": 3,
+          "stdev": 0.05,
+          "values": [
+            0.1,
+            0.2,
+            0.15
+          ]
+        },
+        "interpretation": {
+          "exploratory": true,
+          "h1": "INCONCLUSIVE",
+          "reason": "The exploratory sample does not show a consistent paired direction. Exploratory evidence only."
+        },
+        "method": {
+          "design": "within_subject",
+          "effect_size": "Cohen dz for paired deltas when n>=2 and sd>0",
+          "inferential": "Wilcoxon signed-rank + bootstrap CI on mean delta only if n>=6",
+          "primary_metric": "paired delta = gain_ADAPT - gain_BASELINE",
+          "small_sample": "Exploratory evidence only."
+        },
+        "misconception_recovery_adapt": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "misconception_recovery_baseline": {
+          "mean": null,
+          "median": null,
+          "n": 0,
+          "stdev": null,
+          "values": []
+        },
+        "n": 3,
+        "post_test_adapt": {
+          "mean": 0.65,
+          "median": 0.65,
+          "n": 3,
+          "stdev": 0.04999999999999999,
+          "values": [
+            0.7,
+            0.6,
+            0.65
+          ]
+        },
+        "post_test_baseline": {
+          "mean": 0.65,
+          "median": 0.65,
+          "n": 3,
+          "stdev": 0.04999999999999999,
+          "values": [
+            0.6,
+            0.7,
+            0.65
+          ]
+        },
+        "pre_test": {
+          "mean": 0.5,
+          "median": 0.5,
+          "n": 3,
+          "stdev": 0.0,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "session_completion_adapt": 3,
+        "session_completion_baseline": 3,
+        "survey_adapt": {
+          "challenge_appropriateness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "explanation_clarity": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "learning_helpfulness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "perceived_adaptiveness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "would_use_again": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          }
+        },
+        "survey_baseline": {
+          "challenge_appropriateness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "explanation_clarity": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "learning_helpfulness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "perceived_adaptiveness": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          },
+          "would_use_again": {
+            "mean": null,
+            "median": null,
+            "n": 0,
+            "stdev": null,
+            "values": []
+          }
+        }
+      },
+      "interpretation": {
+        "exploratory": true,
+        "h1": "INCONCLUSIVE",
+        "reason": "The exploratory sample does not show a consistent paired direction. Exploratory evidence only."
+      },
+      "label": "synthetic",
+      "method": {
+        "design": "within_subject",
+        "effect_size": "Cohen dz for paired deltas when n>=2 and sd>0",
+        "inferential": "Wilcoxon signed-rank + bootstrap CI on mean delta only if n>=6",
+        "primary_metric": "paired delta = gain_ADAPT - gain_BASELINE",
+        "small_sample": "Exploratory evidence only."
+      },
+      "n": 3,
+      "pre_test": {
+        "mean": 0.5,
+        "median": 0.5,
+        "n": 3,
+        "stdev": 0.0,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    "table": [
+      {
+        "adapt": 0.5,
+        "baseline": 0.5,
+        "difference": 0.0,
+        "metric": "Pre-test"
+      },
+      {
+        "adapt": 0.65,
+        "baseline": 0.65,
+        "difference": 0.0,
+        "metric": "Post-test"
+      },
+      {
+        "adapt": 0.15,
+        "baseline": 0.15,
+        "difference": 0.0,
+        "metric": "Learning gain"
+      },
+      {
+        "adapt": null,
+        "baseline": null,
+        "difference": null,
+        "metric": "Misconception recovery"
+      },
+      {
+        "adapt": null,
+        "baseline": null,
+        "difference": null,
+        "metric": "Perceived adaptiveness"
+      },
+      {
+        "adapt": null,
+        "baseline": null,
+        "difference": null,
+        "metric": "Challenge appropriateness"
+      }
+    ]
+  }
+}

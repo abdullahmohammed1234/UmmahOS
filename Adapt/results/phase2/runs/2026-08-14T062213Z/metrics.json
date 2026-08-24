@@ -1,0 +1,151 @@
+{
+  "M2-001_strategy_appropriateness": {
+    "denominator": 60,
+    "display": "60 / 60 = 100.0%",
+    "numerator": 60,
+    "rate": 1.0,
+    "wilson_95": [
+      0.9398,
+      1.0
+    ]
+  },
+  "M2-002_strategy_recovery": {
+    "denominator": 8,
+    "display": "8 / 8 = 100.0%",
+    "numerator": 8,
+    "rate": 1.0,
+    "wilson_95": [
+      0.6756,
+      1.0
+    ]
+  },
+  "M2-003_misconception_regression_separation": {
+    "denominator": 8,
+    "display": "8 / 8 = 100.0%",
+    "numerator": 8,
+    "rate": 1.0,
+    "wilson_95": [
+      0.6756,
+      1.0
+    ]
+  },
+  "M2-004_strategy_stability": {
+    "denominator": 60,
+    "display": "0 / 60 = 0.0%",
+    "note": "unnecessary transitions / scored trajectories; lower is better",
+    "numerator": 0,
+    "rate": 0.0,
+    "wilson_95": [
+      0.0,
+      0.0602
+    ]
+  },
+  "M2-005_evidence_sensitivity": {
+    "denominator": 4,
+    "display": "4 / 4 = 100.0%",
+    "numerator": 4,
+    "rate": 1.0,
+    "wilson_95": [
+      0.5101,
+      1.0
+    ]
+  },
+  "M2-006_strategy_traceability": {
+    "denominator": 60,
+    "display": "60 / 60 = 100.0%",
+    "numerator": 60,
+    "rate": 1.0,
+    "wilson_95": [
+      0.9398,
+      1.0
+    ]
+  },
+  "M2-007_by_concept": {
+    "basic_algebra": {
+      "denominator": 31,
+      "display": "31 / 31 = 100.0%",
+      "numerator": 31,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8897,
+        1.0
+      ]
+    },
+    "fractions": {
+      "denominator": 29,
+      "display": "29 / 29 = 100.0%",
+      "numerator": 29,
+      "rate": 1.0,
+      "wilson_95": [
+        0.883,
+        1.0
+      ]
+    }
+  },
+  "M2-007_cross_concept_generalization": {
+    "denominator": 60,
+    "display": "60 / 60 = 100.0%",
+    "numerator": 60,
+    "rate": 1.0,
+    "wilson_95": [
+      0.9398,
+      1.0
+    ]
+  },
+  "M2-008_recovery_latency": {
+    "mean": 1.125,
+    "n": 8,
+    "note": "successful evidence events before leaving REMEDIATE; not minimized by construction",
+    "values": [
+      1.0,
+      1.0,
+      1.0,
+      2.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "counterfactual": {
+    "differentiated": {
+      "denominator": 4,
+      "display": "4 / 4 = 100.0%",
+      "numerator": 4,
+      "rate": 1.0,
+      "wilson_95": [
+        0.5101,
+        1.0
+      ]
+    },
+    "evidence_sensitive": {
+      "denominator": 4,
+      "display": "4 / 4 = 100.0%",
+      "numerator": 4,
+      "rate": 1.0,
+      "wilson_95": [
+        0.5101,
+        1.0
+      ]
+    }
+  },
+  "counts": {
+    "concepts": [
+      "basic_algebra",
+      "fractions"
+    ],
+    "counterfactuals": 4,
+    "recovery": 8,
+    "scenarios": 60
+  },
+  "meta": {
+    "benchmark_version": "phase2-v1",
+    "git_commit": "a0d3e3b2bd19a11d2178ba1578192cf4d5543eb9",
+    "phase1f_frozen": true,
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.8",
+    "random_seed": 20260813,
+    "scenario_count": 60,
+    "timestamp": "2026-08-14T06:22:13Z"
+  }
+}

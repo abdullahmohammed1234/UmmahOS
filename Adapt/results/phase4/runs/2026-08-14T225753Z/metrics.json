@@ -1,0 +1,68 @@
+{
+  "M4-001_task_completion": {
+    "display": "20 / 20 = 100.0%",
+    "met": true,
+    "n": 20,
+    "rate": 1.0,
+    "successes": 20,
+    "target": 0.95,
+    "wilson_95": [
+      0.8389,
+      1.0
+    ]
+  },
+  "M4-002_adaptive_result_preservation": {
+    "display": "119 / 119 = 100.0%",
+    "met": true,
+    "n": 119,
+    "rate": 1.0,
+    "successes": 119,
+    "target": 1.0,
+    "wilson_95": [
+      0.9687,
+      1.0
+    ]
+  },
+  "M4-003_trace_visibility": {
+    "display": "119 / 119 = 100.0%",
+    "met": true,
+    "n": 119,
+    "rate": 1.0,
+    "successes": 119,
+    "target": 1.0,
+    "wilson_95": [
+      0.9687,
+      1.0
+    ]
+  },
+  "M4-004_counterfactual_preservation": {
+    "display": "5 / 5 = 100.0%",
+    "met": true,
+    "n": 5,
+    "rate": 1.0,
+    "successes": 5,
+    "target": 1.0,
+    "wilson_95": [
+      0.5655,
+      1.0
+    ]
+  },
+  "M4-005_session_recovery": {
+    "display": "1 / 1 = 100.0%",
+    "met": true,
+    "n": 1,
+    "rate": 1.0,
+    "successes": 1,
+    "target": 1.0,
+    "wilson_95": [
+      0.2065,
+      1.0
+    ]
+  },
+  "all_targets_met": true,
+  "counterfactual_count": 5,
+  "misconception_scenario_count": 5,
+  "recovery_scenario_count": 5,
+  "session_count": 20,
+  "step_count": 119
+}

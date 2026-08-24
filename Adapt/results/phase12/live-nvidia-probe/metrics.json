@@ -1,0 +1,571 @@
+{
+  "meta": {
+    "evaluation": "representative-probe",
+    "benchmark_version": "phase12-v1",
+    "scenario_version": "phase12-scenarios-v1",
+    "seed": 20260819,
+    "provider": "NVIDIA",
+    "model": "meta/llama-3.3-70b-instruct",
+    "backend": "nvidia",
+    "simulator": false,
+    "gemini": false,
+    "prompt_id": "evidence_v3",
+    "experiment": "P-003",
+    "case_ids": [
+      "A-010",
+      "B-010",
+      "G-006",
+      "D-009",
+      "E-009",
+      "J-008"
+    ],
+    "holdout_ids": [
+      "A-010",
+      "A-011",
+      "A-012",
+      "B-010",
+      "B-011",
+      "B-012",
+      "C-010",
+      "C-011",
+      "C-012",
+      "D-009",
+      "D-010",
+      "D-011",
+      "D-012",
+      "E-009",
+      "E-010",
+      "E-011",
+      "E-012",
+      "F-007",
+      "F-008",
+      "G-005",
+      "G-006",
+      "H-005",
+      "H-006",
+      "I-007",
+      "I-008",
+      "I-009",
+      "I-010",
+      "J-008",
+      "J-009",
+      "J-010"
+    ],
+    "n_planned": 6,
+    "n_completed": 3,
+    "complete": false,
+    "incomplete_reason": "3 consecutive provider failures",
+    "configured_timeout_seconds": 45.0,
+    "evaluation_timeout_seconds": 60.0,
+    "temperature": 0.0,
+    "timestamp": "2026-08-21T06:33:36.227443+00:00",
+    "nvidia_calls": 3,
+    "nvidia_call_successes": 0,
+    "nvidia_call_failures": 3,
+    "nvidia_call_failure_codes": [
+      "LLM_TIMEOUT",
+      "LLM_TIMEOUT",
+      "LLM_TIMEOUT"
+    ],
+    "live_baseline": false
+  },
+  "metrics": null,
+  "criteria": null,
+  "score": null,
+  "counts": {
+    "cases_source_nvidia": 0,
+    "cases_source_fallback": 3,
+    "validation_failures": 0,
+    "api_or_provider_failures": 3,
+    "strategy_leak_cases": 0,
+    "engine_owns_strategy": true
+  },
+  "rows": [
+    {
+      "scenario_id": "A-010",
+      "family": "A",
+      "kind": "standard",
+      "split": "holdout",
+      "pair_id": null,
+      "pair_role": null,
+      "prompt_id": "evidence_v3",
+      "experiment": "P-003",
+      "source": "DETERMINISTIC_FALLBACK",
+      "validation_ok": false,
+      "failure_code": "LLM_TIMEOUT",
+      "llm_evidence": null,
+      "adapt_evidence": {
+        "response_id": "A-010-R",
+        "answer_status": "CORRECT",
+        "reasoning_quality": "WEAK",
+        "error_type": "NONE",
+        "misconception_signal": null,
+        "confidence_signal": "LOW",
+        "evidence_strength": "WEAK",
+        "diagnostic_confidence": "LOW",
+        "evidence_reliability": "LOW",
+        "polarity": "POSITIVE"
+      },
+      "adapt_strategy": "GATHER_EVIDENCE",
+      "next_challenge_id": "ALG-P-001",
+      "mastery": 0.5030625,
+      "extraction_ok": false,
+      "extraction": {
+        "ok": false,
+        "hits": 0,
+        "total": 5,
+        "fields": {}
+      },
+      "adapt_appropriate": true,
+      "strategy_leak": false,
+      "traceable": true,
+      "workflow": {
+        "source": "DETERMINISTIC_FALLBACK",
+        "prompt_id": "evidence_v3",
+        "prompt_version": "evidence_v3",
+        "workflow_version": "phase12-v1",
+        "model": null,
+        "temperature": null,
+        "parsed": null,
+        "llm_evidence": null,
+        "evidence": {
+          "response_id": "A-010-R",
+          "answer_status": "CORRECT",
+          "reasoning_quality": "WEAK",
+          "error_type": "NONE",
+          "misconception_signal": null,
+          "confidence_signal": "LOW",
+          "evidence_strength": "WEAK",
+          "diagnostic_confidence": "LOW",
+          "evidence_reliability": "LOW",
+          "polarity": "POSITIVE"
+        },
+        "validation_ok": false,
+        "failure_code": "LLM_TIMEOUT",
+        "failure_message": "NVIDIA request timed out",
+        "nodes": [
+          {
+            "id": "1",
+            "name": "human_input",
+            "actor": "human",
+            "purpose": "Collect answer, confidence, approach, and optional explanation.",
+            "status": "complete",
+            "detail": {
+              "answer": "2x+6",
+              "confidence": "LOW",
+              "approach": "I guessed",
+              "explanation": "I memorized the answer.",
+              "reasoning": "I guessed I memorized the answer."
+            }
+          },
+          {
+            "id": "2",
+            "name": "gemini_extraction",
+            "actor": "gemini",
+            "purpose": "Extract structured learner evidence. Does not choose strategy.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT"
+            }
+          },
+          {
+            "id": "3",
+            "name": "evidence_validation",
+            "actor": "validator",
+            "purpose": "Reject malformed LLM output so it cannot corrupt learner state.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT",
+              "message": "NVIDIA request timed out"
+            }
+          },
+          {
+            "id": "4",
+            "name": "adapt_state_update",
+            "actor": "adapt",
+            "purpose": "Deterministic learner-state update from validated evidence.",
+            "status": "complete",
+            "detail": {
+              "mastery": 0.5030625,
+              "uncertainty": "INSUFFICIENT_EVIDENCE",
+              "evidence_strength": "WEAK"
+            }
+          },
+          {
+            "id": "5",
+            "name": "adapt_strategy",
+            "actor": "adapt",
+            "purpose": "Deterministic instructional strategy. Gemini cannot override this.",
+            "status": "complete",
+            "detail": {
+              "decision": "GATHER_EVIDENCE",
+              "reason": "Evidence is still sparse, so the system gathers more evidence before committing to a major change."
+            }
+          },
+          {
+            "id": "6",
+            "name": "challenge_selection",
+            "actor": "adapt",
+            "purpose": "Select the next challenge from strategy. Gemini cannot choose it.",
+            "status": "complete",
+            "detail": {
+              "challenge_id": "ALG-P-001"
+            }
+          },
+          {
+            "id": "7",
+            "name": "human_feedback",
+            "actor": "human",
+            "purpose": "Show a short, trace-backed explanation to the learner.",
+            "status": "complete",
+            "detail": {
+              "noticed": true
+            }
+          }
+        ],
+        "human_input": {
+          "answer": "2x+6",
+          "confidence": "LOW",
+          "approach": "I guessed",
+          "explanation": "I memorized the answer.",
+          "reasoning": "I guessed I memorized the answer."
+        },
+        "raw_response_present": false
+      },
+      "human_input": {
+        "answer": "2x+6",
+        "confidence": "LOW",
+        "reasoning": "I guessed I memorized the answer."
+      },
+      "injection_ok": null,
+      "nvidia_success": false,
+      "fallback": true,
+      "included_in_primary_nvidia_score": false,
+      "final_evidence_source": "DETERMINISTIC_FALLBACK"
+    },
+    {
+      "scenario_id": "B-010",
+      "family": "B",
+      "kind": "standard",
+      "split": "holdout",
+      "pair_id": null,
+      "pair_role": null,
+      "prompt_id": "evidence_v3",
+      "experiment": "P-003",
+      "source": "DETERMINISTIC_FALLBACK",
+      "validation_ok": false,
+      "failure_code": "LLM_TIMEOUT",
+      "llm_evidence": null,
+      "adapt_evidence": {
+        "response_id": "B-010-R",
+        "answer_status": "CORRECT",
+        "reasoning_quality": "STRONG",
+        "error_type": "NONE",
+        "misconception_signal": null,
+        "confidence_signal": "HIGH",
+        "evidence_strength": "STRONG",
+        "diagnostic_confidence": "HIGH",
+        "evidence_reliability": "HIGH",
+        "polarity": "POSITIVE"
+      },
+      "adapt_strategy": "GATHER_EVIDENCE",
+      "next_challenge_id": "ALG-P-001",
+      "mastery": 0.6,
+      "extraction_ok": false,
+      "extraction": {
+        "ok": false,
+        "hits": 0,
+        "total": 5,
+        "fields": {}
+      },
+      "adapt_appropriate": false,
+      "strategy_leak": false,
+      "traceable": true,
+      "workflow": {
+        "source": "DETERMINISTIC_FALLBACK",
+        "prompt_id": "evidence_v3",
+        "prompt_version": "evidence_v3",
+        "workflow_version": "phase12-v1",
+        "model": null,
+        "temperature": null,
+        "parsed": null,
+        "llm_evidence": null,
+        "evidence": {
+          "response_id": "B-010-R",
+          "answer_status": "CORRECT",
+          "reasoning_quality": "STRONG",
+          "error_type": "NONE",
+          "misconception_signal": null,
+          "confidence_signal": "HIGH",
+          "evidence_strength": "STRONG",
+          "diagnostic_confidence": "HIGH",
+          "evidence_reliability": "HIGH",
+          "polarity": "POSITIVE"
+        },
+        "validation_ok": false,
+        "failure_code": "LLM_TIMEOUT",
+        "failure_message": "NVIDIA request timed out",
+        "nodes": [
+          {
+            "id": "1",
+            "name": "human_input",
+            "actor": "human",
+            "purpose": "Collect answer, confidence, approach, and optional explanation.",
+            "status": "complete",
+            "detail": {
+              "answer": "2x+6",
+              "confidence": "HIGH",
+              "approach": "I worked it out",
+              "explanation": "I used inverse operations. I distribute and both terms and 2x+6. I applied the same operation on both sides to isolate the unknown.",
+              "reasoning": "I worked it out I used inverse operations. I distribute and both terms and 2x+6. I applied the same operation on both sides to isolate the unknown."
+            }
+          },
+          {
+            "id": "2",
+            "name": "gemini_extraction",
+            "actor": "gemini",
+            "purpose": "Extract structured learner evidence. Does not choose strategy.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT"
+            }
+          },
+          {
+            "id": "3",
+            "name": "evidence_validation",
+            "actor": "validator",
+            "purpose": "Reject malformed LLM output so it cannot corrupt learner state.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT",
+              "message": "NVIDIA request timed out"
+            }
+          },
+          {
+            "id": "4",
+            "name": "adapt_state_update",
+            "actor": "adapt",
+            "purpose": "Deterministic learner-state update from validated evidence.",
+            "status": "complete",
+            "detail": {
+              "mastery": 0.6,
+              "uncertainty": "INSUFFICIENT_EVIDENCE",
+              "evidence_strength": "MODERATE"
+            }
+          },
+          {
+            "id": "5",
+            "name": "adapt_strategy",
+            "actor": "adapt",
+            "purpose": "Deterministic instructional strategy. Gemini cannot override this.",
+            "status": "complete",
+            "detail": {
+              "decision": "GATHER_EVIDENCE",
+              "reason": "Evidence is still sparse, so the system gathers more evidence before committing to a major change."
+            }
+          },
+          {
+            "id": "6",
+            "name": "challenge_selection",
+            "actor": "adapt",
+            "purpose": "Select the next challenge from strategy. Gemini cannot choose it.",
+            "status": "complete",
+            "detail": {
+              "challenge_id": "ALG-P-001"
+            }
+          },
+          {
+            "id": "7",
+            "name": "human_feedback",
+            "actor": "human",
+            "purpose": "Show a short, trace-backed explanation to the learner.",
+            "status": "complete",
+            "detail": {
+              "noticed": true
+            }
+          }
+        ],
+        "human_input": {
+          "answer": "2x+6",
+          "confidence": "HIGH",
+          "approach": "I worked it out",
+          "explanation": "I used inverse operations. I distribute and both terms and 2x+6. I applied the same operation on both sides to isolate the unknown.",
+          "reasoning": "I worked it out I used inverse operations. I distribute and both terms and 2x+6. I applied the same operation on both sides to isolate the unknown."
+        },
+        "raw_response_present": false
+      },
+      "human_input": {
+        "answer": "2x+6",
+        "confidence": "HIGH",
+        "reasoning": "I worked it out I used inverse operations. I distribute and both terms and 2x+6. I applied the same operation on both sides to isolate the unknown."
+      },
+      "injection_ok": null,
+      "nvidia_success": false,
+      "fallback": true,
+      "included_in_primary_nvidia_score": false,
+      "final_evidence_source": "DETERMINISTIC_FALLBACK"
+    },
+    {
+      "scenario_id": "G-006",
+      "family": "G",
+      "kind": "counterfactual",
+      "split": "holdout",
+      "pair_id": "G-P3",
+      "pair_role": "weak",
+      "prompt_id": "evidence_v3",
+      "experiment": "P-003",
+      "source": "DETERMINISTIC_FALLBACK",
+      "validation_ok": false,
+      "failure_code": "LLM_TIMEOUT",
+      "llm_evidence": null,
+      "adapt_evidence": {
+        "response_id": "G-006-R",
+        "answer_status": "CORRECT",
+        "reasoning_quality": "WEAK",
+        "error_type": "NONE",
+        "misconception_signal": null,
+        "confidence_signal": "HIGH",
+        "evidence_strength": "WEAK",
+        "diagnostic_confidence": "LOW",
+        "evidence_reliability": "LOW",
+        "polarity": "POSITIVE"
+      },
+      "adapt_strategy": "GATHER_EVIDENCE",
+      "next_challenge_id": "FR-P-001",
+      "mastery": 0.5030625,
+      "extraction_ok": false,
+      "extraction": {
+        "ok": false,
+        "hits": 0,
+        "total": 5,
+        "fields": {}
+      },
+      "adapt_appropriate": true,
+      "strategy_leak": false,
+      "traceable": true,
+      "workflow": {
+        "source": "DETERMINISTIC_FALLBACK",
+        "prompt_id": "evidence_v3",
+        "prompt_version": "evidence_v3",
+        "workflow_version": "phase12-v1",
+        "model": null,
+        "temperature": null,
+        "parsed": null,
+        "llm_evidence": null,
+        "evidence": {
+          "response_id": "G-006-R",
+          "answer_status": "CORRECT",
+          "reasoning_quality": "WEAK",
+          "error_type": "NONE",
+          "misconception_signal": null,
+          "confidence_signal": "HIGH",
+          "evidence_strength": "WEAK",
+          "diagnostic_confidence": "LOW",
+          "evidence_reliability": "LOW",
+          "polarity": "POSITIVE"
+        },
+        "validation_ok": false,
+        "failure_code": "LLM_TIMEOUT",
+        "failure_message": "NVIDIA request timed out",
+        "nodes": [
+          {
+            "id": "1",
+            "name": "human_input",
+            "actor": "human",
+            "purpose": "Collect answer, confidence, approach, and optional explanation.",
+            "status": "complete",
+            "detail": {
+              "answer": "5/6",
+              "confidence": "HIGH",
+              "approach": "I guessed",
+              "explanation": "I guessed. I just remembered the answer.",
+              "reasoning": "I guessed I guessed. I just remembered the answer."
+            }
+          },
+          {
+            "id": "2",
+            "name": "gemini_extraction",
+            "actor": "gemini",
+            "purpose": "Extract structured learner evidence. Does not choose strategy.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT"
+            }
+          },
+          {
+            "id": "3",
+            "name": "evidence_validation",
+            "actor": "validator",
+            "purpose": "Reject malformed LLM output so it cannot corrupt learner state.",
+            "status": "failed",
+            "detail": {
+              "code": "LLM_TIMEOUT",
+              "message": "NVIDIA request timed out"
+            }
+          },
+          {
+            "id": "4",
+            "name": "adapt_state_update",
+            "actor": "adapt",
+            "purpose": "Deterministic learner-state update from validated evidence.",
+            "status": "complete",
+            "detail": {
+              "mastery": 0.5030625,
+              "uncertainty": "INSUFFICIENT_EVIDENCE",
+              "evidence_strength": "WEAK"
+            }
+          },
+          {
+            "id": "5",
+            "name": "adapt_strategy",
+            "actor": "adapt",
+            "purpose": "Deterministic instructional strategy. Gemini cannot override this.",
+            "status": "complete",
+            "detail": {
+              "decision": "GATHER_EVIDENCE",
+              "reason": "Evidence is still sparse, so the system gathers more evidence before committing to a major change."
+            }
+          },
+          {
+            "id": "6",
+            "name": "challenge_selection",
+            "actor": "adapt",
+            "purpose": "Select the next challenge from strategy. Gemini cannot choose it.",
+            "status": "complete",
+            "detail": {
+              "challenge_id": "FR-P-001"
+            }
+          },
+          {
+            "id": "7",
+            "name": "human_feedback",
+            "actor": "human",
+            "purpose": "Show a short, trace-backed explanation to the learner.",
+            "status": "complete",
+            "detail": {
+              "noticed": true
+            }
+          }
+        ],
+        "human_input": {
+          "answer": "5/6",
+          "confidence": "HIGH",
+          "approach": "I guessed",
+          "explanation": "I guessed. I just remembered the answer.",
+          "reasoning": "I guessed I guessed. I just remembered the answer."
+        },
+        "raw_response_present": false
+      },
+      "human_input": {
+        "answer": "5/6",
+        "confidence": "HIGH",
+        "reasoning": "I guessed I guessed. I just remembered the answer."
+      },
+      "injection_ok": null,
+      "nvidia_success": false,
+      "fallback": true,
+      "included_in_primary_nvidia_score": false,
+      "final_evidence_source": "DETERMINISTIC_FALLBACK"
+    }
+  ]
+}

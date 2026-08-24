@@ -1,0 +1,6090 @@
+{
+  "meta": {
+    "benchmark_version": "phase1f-v1",
+    "git_commit": "unavailable",
+    "holdout_count": 18,
+    "holdout_ids": [
+      "G-001-D",
+      "G-002-D",
+      "G-003-D",
+      "G-004-D",
+      "G-005-C",
+      "G-005-D",
+      "G-006-D",
+      "G-007-C",
+      "G-007-D",
+      "G-008-D",
+      "G-009-D",
+      "G-010-D",
+      "G-011-D",
+      "G-012-C",
+      "G-012-D",
+      "G-013-D",
+      "G-014-D",
+      "G-015-D"
+    ],
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.8",
+    "random_seed": 20260813,
+    "scenario_count": 60,
+    "timestamp": "2026-08-14T04:59:48Z"
+  },
+  "records": [
+    {
+      "appropriate": true,
+      "category": "concept_transfer",
+      "concept": "fractions",
+      "decision": "INCREASE_DIFFICULTY",
+      "decision_object": {
+        "confidence": "HIGH",
+        "decision": "INCREASE_DIFFICULTY",
+        "evidence_used": [
+          "G-001-D-H01",
+          "G-001-D-H02",
+          "G-001-D-H03",
+          "G-001-D-CUR"
+        ],
+        "reason": [
+          "strong_recent_evidence",
+          "strong_reasoning",
+          "high_reliability",
+          "low_uncertainty",
+          "no_active_misconception",
+          "consistent_recent_performance"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "HIGH",
+          "decision": "INCREASE_DIFFICULTY",
+          "evidence_used": [
+            "G-001-D-H01",
+            "G-001-D-H02",
+            "G-001-D-H03",
+            "G-001-D-CUR"
+          ],
+          "reason": [
+            "strong_recent_evidence",
+            "strong_reasoning",
+            "high_reliability",
+            "low_uncertainty",
+            "no_active_misconception",
+            "consistent_recent_performance"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-H-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "HARD",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 2/3 + 1/6?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "HIGH",
+          "error_type": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-001-D-CUR"
+        },
+        "interaction_id": "I-004",
+        "learner_response": {
+          "answer": "5/6",
+          "challenge_id": "FR-H-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-001-D",
+          "metadata": null,
+          "reasoning": "Convert to a common denominator, write equivalent fractions, then add the numerators and keep the denominator.",
+          "response_id": "G-001-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.6785,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-001-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.94,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "LOW_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.6047,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-001-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.82,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-001-D-H03"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "LOW_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-H-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "HARD",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 3/5 - 1/10?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "HIGH",
+        "error_type": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-001-D-CUR"
+      },
+      "expected_behavior": "Fraction-domain evidence should drive difficulty, not algebra-specific wording",
+      "expected_decisions": [
+        "INCREASE_DIFFICULTY"
+      ],
+      "failure_type": null,
+      "family": "G-001",
+      "mastery_path": [
+        0.6,
+        0.7,
+        0.82,
+        0.94
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": false,
+      "next_challenge_id": "FR-H-002",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-001-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.6785,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-001-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.94,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "LOW_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.6047,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-001-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.82,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-001-D-H03"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "LOW_UNCERTAINTY"
+      },
+      "step": 4,
+      "step_count": 4,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "multi_step",
+      "concept": "fractions",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-002-D-H01",
+          "G-002-D-H02",
+          "G-002-D-H03",
+          "G-002-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-002-D-H01",
+            "G-002-D-H02",
+            "G-002-D-H03",
+            "G-002-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-M-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "same denominator",
+            "numerators"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "subtract the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 3/4 - 1/4?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-002-D-CUR"
+        },
+        "interaction_id": "I-004",
+        "learner_response": {
+          "answer": "1/2",
+          "challenge_id": "FR-M-002",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-002-D",
+          "metadata": null,
+          "reasoning": "I rewrite each fraction with a common denominator, then add the numerators.",
+          "response_id": "G-002-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.5323,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-002-D",
+          "learning_trajectory": "REGRESSING",
+          "mastery_estimate": 0.7132,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-002-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-002-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-002-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-002-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.5203,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "CONTRADICTORY",
+          "learner_confidence": "MODERATE",
+          "learner_id": "1f-G-002-D",
+          "learning_trajectory": "REGRESSING",
+          "mastery_estimate": 0.6901,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-002-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-002-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-002-D-H03"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "CONTRADICTORY_EVIDENCE"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-M-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "What is 1/2 + 1/3?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-002-D-CUR"
+      },
+      "expected_behavior": "A localized mid-sequence execution error is not global conceptual failure",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "INCREASE_DIFFICULTY"
+      ],
+      "failure_type": null,
+      "family": "G-002",
+      "mastery_path": [
+        0.6,
+        0.7,
+        0.6901,
+        0.7132
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-M-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-002-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.5323,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-002-D",
+        "learning_trajectory": "REGRESSING",
+        "mastery_estimate": 0.7132,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-002-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-002-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-002-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-002-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.5203,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "CONTRADICTORY",
+        "learner_confidence": "MODERATE",
+        "learner_id": "1f-G-002-D",
+        "learning_trajectory": "REGRESSING",
+        "mastery_estimate": 0.6901,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-002-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-002-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-002-D-H03"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "CONTRADICTORY_EVIDENCE"
+      },
+      "step": 4,
+      "step_count": 4,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "delayed_misconception",
+      "concept": "fractions",
+      "decision": "REMEDIATE",
+      "decision_object": {
+        "confidence": "HIGH",
+        "decision": "REMEDIATE",
+        "evidence_used": [
+          "G-003-D-H01",
+          "G-003-D-H02",
+          "G-003-D-H03",
+          "G-003-D-H04",
+          "G-003-D-H05",
+          "G-003-D-H06",
+          "G-003-D-CUR"
+        ],
+        "reason": [
+          "repeated_misconception",
+          "misconception:ADD_DENOM",
+          "reliable_misconception_pattern"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "HIGH",
+          "decision": "REMEDIATE",
+          "evidence_used": [
+            "G-003-D-H01",
+            "G-003-D-H02",
+            "G-003-D-H03",
+            "G-003-D-H04",
+            "G-003-D-H05",
+            "G-003-D-H06",
+            "G-003-D-CUR"
+          ],
+          "reason": [
+            "repeated_misconception",
+            "misconception:ADD_DENOM",
+            "reliable_misconception_pattern"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        },
+        "evidence": {
+          "answer_status": "INCORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": "ADD_DENOM",
+          "polarity": "NEGATIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-003-D-CUR"
+        },
+        "interaction_id": "I-007",
+        "learner_response": {
+          "answer": "2/5",
+          "challenge_id": "FR-D-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-003-D",
+          "metadata": null,
+          "reasoning": "I added the numerators and the denominators: 1+1=2 and 2+3=5, so 2/5. I add tops and bottoms.",
+          "response_id": "G-003-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.6482,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-003-D",
+          "learning_trajectory": "REGRESSING",
+          "mastery_estimate": 0.8558,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 3,
+              "status": "REPEATED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-003-D-H05"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-003-D-H06"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-003-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.6567,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-003-D",
+          "learning_trajectory": "REGRESSING",
+          "mastery_estimate": 0.8971,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 2,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-003-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-003-D-H05"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-003-D-H06"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-R-001",
+          "challenge_type": "REMEDIATION",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "denominator 6",
+            "3/6",
+            "2/6",
+            "5/6"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "One half of a pan plus one third of a pan is not two fifths. Rewrite both fractions with denominator 6, then add.",
+          "representation": "area",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "INCORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": "ADD_DENOM",
+        "polarity": "NEGATIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-003-D-CUR"
+      },
+      "expected_behavior": "A late misconception pattern should update state rather than freeze the early streak",
+      "expected_decisions": [
+        "REMEDIATE",
+        "CHANGE_REPRESENTATION",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-003",
+      "mastery_path": [
+        0.6,
+        0.7,
+        0.82,
+        0.94,
+        0.9301,
+        0.8971,
+        0.8558
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-R-001",
+      "novel": true,
+      "persistence_scenario": true,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-003-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.6482,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-003-D",
+        "learning_trajectory": "REGRESSING",
+        "mastery_estimate": 0.8558,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 3,
+            "status": "REPEATED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-003-D-H05"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-003-D-H06"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-003-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.6567,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-003-D",
+        "learning_trajectory": "REGRESSING",
+        "mastery_estimate": 0.8971,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 2,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-003-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-003-D-H05"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-003-D-H06"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 7,
+      "step_count": 7,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "temporary_confusion",
+      "concept": "fractions",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-004-D-H01",
+          "G-004-D-H02",
+          "G-004-D-H03",
+          "G-004-D-H04",
+          "G-004-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-004-D-H01",
+            "G-004-D-H02",
+            "G-004-D-H03",
+            "G-004-D-H04",
+            "G-004-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-E-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "one whole"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/2 + 1/2?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "HIGH",
+          "error_type": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-004-D-CUR"
+        },
+        "interaction_id": "I-005",
+        "learner_response": {
+          "answer": "1",
+          "challenge_id": "FR-E-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-004-D",
+          "metadata": null,
+          "reasoning": "I rewrite each fraction with a common denominator, then add the numerators.",
+          "response_id": "G-004-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.6864,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-004-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.8901,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-004-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.6152,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-004-D",
+          "learning_trajectory": "REGRESSING",
+          "mastery_estimate": 0.7901,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-004-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-004-D-H04"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-E-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "two fourths"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/4 + 1/4?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "HIGH",
+        "error_type": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-004-D-CUR"
+      },
+      "expected_behavior": "A single unreplicated miss must not permanently mark the learner weak",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "INCREASE_DIFFICULTY"
+      ],
+      "failure_type": null,
+      "family": "G-004",
+      "mastery_path": [
+        0.6,
+        0.7,
+        0.6901,
+        0.7901,
+        0.8901
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": false,
+      "next_challenge_id": "FR-E-002",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-004-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.6864,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-004-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.8901,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-004-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.6152,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-004-D",
+        "learning_trajectory": "REGRESSING",
+        "mastery_estimate": 0.7901,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-004-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-004-D-H04"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 5,
+      "step_count": 5,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "recovery",
+      "concept": "basic_algebra",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-005-C-H01",
+          "G-005-C-H02",
+          "G-005-C-H03",
+          "G-005-C-H04",
+          "G-005-C-H05",
+          "G-005-C-CUR"
+        ],
+        "reason": [
+          "learning_trajectory_improving",
+          "sudden_improvement_insufficient_to_max_difficulty",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-005-C-H01",
+            "G-005-C-H02",
+            "G-005-C-H03",
+            "G-005-C-H04",
+            "G-005-C-H05",
+            "G-005-C-CUR"
+          ],
+          "reason": [
+            "learning_trajectory_improving",
+            "sudden_improvement_insufficient_to_max_difficulty",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "ALG-M-003",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "3",
+          "expected_reasoning_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: 4x - 1 = 11",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "HIGH",
+          "error_type": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-005-C-CUR"
+        },
+        "interaction_id": "I-006",
+        "learner_response": {
+          "answer": "3",
+          "challenge_id": "ALG-M-003",
+          "concept_id": "basic_algebra",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-C",
+          "metadata": null,
+          "reasoning": "Add 1 to both sides, then divide by 4 to isolate x. Inverse operations.",
+          "response_id": "G-005-C-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.6698,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-C",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.6427,
+          "misconceptions": [
+            {
+              "misconception_id": "DIST_PROP",
+              "occurrences": 3,
+              "status": "RESOLVED"
+            }
+          ],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-C-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-C-H05"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-C-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "LOW_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.5931,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "CONTRADICTORY",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-C",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.5227,
+          "misconceptions": [
+            {
+              "misconception_id": "DIST_PROP",
+              "occurrences": 3,
+              "status": "RESOLVED"
+            }
+          ],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-C-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-C-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-C-H05"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "CONTRADICTORY_EVIDENCE"
+        },
+        "next_challenge": {
+          "challenge_id": "ALG-M-004",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "subtract",
+            "both sides",
+            "multiply"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "8",
+          "expected_reasoning_cues": [
+            "subtract",
+            "both sides",
+            "multiply",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: x/2 + 3 = 7",
+          "representation": "worded",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "HIGH",
+        "error_type": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-005-C-CUR"
+      },
+      "expected_behavior": "After successful post-remediation evidence, do not keep classifying the learner as weak",
+      "expected_decisions": [
+        "INCREASE_DIFFICULTY",
+        "MAINTAIN_DIFFICULTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-005",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.3927,
+        0.4927,
+        0.5227,
+        0.6427
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "ALG-M-004",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": true,
+      "recovery_scenario": true,
+      "scenario_id": "G-005-C",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.6698,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-005-C",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.6427,
+        "misconceptions": [
+          {
+            "misconception_id": "DIST_PROP",
+            "occurrences": 3,
+            "status": "RESOLVED"
+          }
+        ],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-C-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-C-H05"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-C-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "LOW_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.5931,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "CONTRADICTORY",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-005-C",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.5227,
+        "misconceptions": [
+          {
+            "misconception_id": "DIST_PROP",
+            "occurrences": 3,
+            "status": "RESOLVED"
+          }
+        ],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-C-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-C-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-C-H05"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "CONTRADICTORY_EVIDENCE"
+      },
+      "step": 6,
+      "step_count": 6,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "c"
+    },
+    {
+      "appropriate": false,
+      "category": "recovery",
+      "concept": "fractions",
+      "decision": "REMEDIATE",
+      "decision_object": {
+        "confidence": "HIGH",
+        "decision": "REMEDIATE",
+        "evidence_used": [
+          "G-005-D-H01",
+          "G-005-D-H02",
+          "G-005-D-H03",
+          "G-005-D-H04",
+          "G-005-D-H05",
+          "G-005-D-CUR"
+        ],
+        "reason": [
+          "repeated_misconception",
+          "misconception:ADD_DENOM",
+          "reliable_misconception_pattern"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "HIGH",
+          "decision": "REMEDIATE",
+          "evidence_used": [
+            "G-005-D-H01",
+            "G-005-D-H02",
+            "G-005-D-H03",
+            "G-005-D-H04",
+            "G-005-D-H05",
+            "G-005-D-CUR"
+          ],
+          "reason": [
+            "repeated_misconception",
+            "misconception:ADD_DENOM",
+            "reliable_misconception_pattern"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-M-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "same denominator",
+            "numerators"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "subtract the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 3/4 - 1/4?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-005-D-CUR"
+        },
+        "interaction_id": "I-006",
+        "learner_response": {
+          "answer": "1/2",
+          "challenge_id": "FR-M-002",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-D",
+          "metadata": null,
+          "reasoning": "I rewrite each fraction with a common denominator, then add the numerators.",
+          "response_id": "G-005-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.4491,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.4678,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 3,
+              "status": "REPEATED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-D-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-D-H05"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.4225,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-005-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.4389,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 3,
+              "status": "REPEATED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-005-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-D-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-005-D-H05"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-R-001",
+          "challenge_type": "REMEDIATION",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "denominator 6",
+            "3/6",
+            "2/6",
+            "5/6"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "One half of a pan plus one third of a pan is not two fifths. Rewrite both fractions with denominator 6, then add.",
+          "representation": "area",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-005-D-CUR"
+      },
+      "expected_behavior": "After successful post-remediation evidence, do not keep classifying the learner as weak",
+      "expected_decisions": [
+        "INCREASE_DIFFICULTY",
+        "MAINTAIN_DIFFICULTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": "RECOVERY_FAILURE",
+      "family": "G-005",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.3927,
+        0.4158,
+        0.4389,
+        0.4678
+      ],
+      "misconception_persisted": true,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-R-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": true,
+      "recovery_scenario": true,
+      "scenario_id": "G-005-D",
+      "severity": "HIGH",
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.4491,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-005-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.4678,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 3,
+            "status": "REPEATED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-D-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-D-H05"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.4225,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-005-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.4389,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 3,
+            "status": "REPEATED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-005-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-D-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-005-D-H05"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 6,
+      "step_count": 6,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "failed_remediation",
+      "concept": "fractions",
+      "decision": "CHANGE_REPRESENTATION",
+      "decision_object": {
+        "confidence": "HIGH",
+        "decision": "CHANGE_REPRESENTATION",
+        "evidence_used": [
+          "G-006-D-H01",
+          "G-006-D-H02",
+          "G-006-D-H03",
+          "G-006-D-H04",
+          "G-006-D-CUR"
+        ],
+        "reason": [
+          "repeated_misconception",
+          "misconception:ADD_DENOM",
+          "remediation_already_indicated"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "HIGH",
+          "decision": "CHANGE_REPRESENTATION",
+          "evidence_used": [
+            "G-006-D-H01",
+            "G-006-D-H02",
+            "G-006-D-H03",
+            "G-006-D-H04",
+            "G-006-D-CUR"
+          ],
+          "reason": [
+            "repeated_misconception",
+            "misconception:ADD_DENOM",
+            "remediation_already_indicated"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        },
+        "evidence": {
+          "answer_status": "INCORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": "ADD_DENOM",
+          "polarity": "NEGATIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-006-D-CUR"
+        },
+        "interaction_id": "I-005",
+        "learner_response": {
+          "answer": "2/5",
+          "challenge_id": "FR-D-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-006-D",
+          "metadata": null,
+          "reasoning": "I added the numerators and the denominators: 1+1=2 and 2+3=5, so 2/5. I add tops and bottoms.",
+          "response_id": "G-006-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.4225,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-006-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.3102,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 5,
+              "status": "REPEATED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 5,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H03"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.3912,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-006-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.3515,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 4,
+              "status": "REPEATED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 4,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H03"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-006-D-H04"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-R-001",
+          "challenge_type": "REMEDIATION",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "denominator 6",
+            "3/6",
+            "2/6",
+            "5/6"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "One half of a pan plus one third of a pan is not two fifths. Rewrite both fractions with denominator 6, then add.",
+          "representation": "area",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "INCORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": "ADD_DENOM",
+        "polarity": "NEGATIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-006-D-CUR"
+      },
+      "expected_behavior": "Repeating the same misconception after remediation should change strategy",
+      "expected_decisions": [
+        "CHANGE_REPRESENTATION",
+        "GATHER_MORE_EVIDENCE",
+        "DECREASE_DIFFICULTY",
+        "REMEDIATE"
+      ],
+      "failure_type": null,
+      "family": "G-006",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.3927,
+        0.3515,
+        0.3102
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-R-001",
+      "novel": true,
+      "persistence_scenario": true,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-006-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.4225,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-006-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.3102,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 5,
+            "status": "REPEATED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 5,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H03"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.3912,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-006-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.3515,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 4,
+            "status": "REPEATED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 4,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H03"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-006-D-H04"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 5,
+      "step_count": 5,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "confidence_mismatch",
+      "concept": "basic_algebra",
+      "decision": "PROBE_UNCERTAINTY",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "PROBE_UNCERTAINTY",
+        "evidence_used": [
+          "G-007-C-H01",
+          "G-007-C-H02",
+          "G-007-C-H03",
+          "G-007-C-CUR"
+        ],
+        "reason": [
+          "high_uncertainty",
+          "weak_evidence_conservative_adaptation",
+          "avoid_extreme_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "PROBE_UNCERTAINTY",
+          "evidence_used": [
+            "G-007-C-H01",
+            "G-007-C-H02",
+            "G-007-C-H03",
+            "G-007-C-CUR"
+          ],
+          "reason": [
+            "high_uncertainty",
+            "weak_evidence_conservative_adaptation",
+            "avoid_extreme_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "ALG-M-003",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "3",
+          "expected_reasoning_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: 4x - 1 = 11",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "LOW",
+          "error_type": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "WEAK",
+          "response_id": "G-007-C-CUR"
+        },
+        "interaction_id": "I-004",
+        "learner_response": {
+          "answer": "3",
+          "challenge_id": "ALG-M-003",
+          "concept_id": "basic_algebra",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-C",
+          "metadata": null,
+          "reasoning": "I just remembered a similar problem.",
+          "response_id": "G-007-C-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.2307,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-C",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5122,
+          "misconceptions": [],
+          "reasoning_quality": "WEAK",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "HIGH_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.224,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-C",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5092,
+          "misconceptions": [],
+          "reasoning_quality": "WEAK",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-C-H03"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "HIGH_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "ALG-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "distribute",
+            "multiply both"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "2x+6",
+          "expected_reasoning_cues": [
+            "distribute",
+            "multiply both terms",
+            "2x+6"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2x+3",
+                "2x + 3",
+                "didn't distribute",
+                "did not distribute",
+                "two x plus three",
+                "2x+3",
+                "2x + 3"
+              ],
+              "misconception_id": "DIST_PROP"
+            }
+          ],
+          "question": "Expand 2(x + 3). What is the result?",
+          "representation": "symbolic",
+          "target_misconception": "DIST_PROP"
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "LOW",
+        "error_type": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "WEAK",
+        "response_id": "G-007-C-CUR"
+      },
+      "expected_behavior": "High stated confidence must not override weak reasoning",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-007",
+      "mastery_path": [
+        0.5031,
+        0.5061,
+        0.5092,
+        0.5122
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "ALG-D-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-007-C",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.2307,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-007-C",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5122,
+        "misconceptions": [],
+        "reasoning_quality": "WEAK",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "HIGH_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.224,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-007-C",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5092,
+        "misconceptions": [],
+        "reasoning_quality": "WEAK",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-C-H03"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "HIGH_UNCERTAINTY"
+      },
+      "step": 4,
+      "step_count": 4,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "c"
+    },
+    {
+      "appropriate": true,
+      "category": "confidence_mismatch",
+      "concept": "fractions",
+      "decision": "PROBE_UNCERTAINTY",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "PROBE_UNCERTAINTY",
+        "evidence_used": [
+          "G-007-D-H01",
+          "G-007-D-H02",
+          "G-007-D-H03",
+          "G-007-D-CUR"
+        ],
+        "reason": [
+          "high_uncertainty",
+          "weak_evidence_conservative_adaptation",
+          "avoid_extreme_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "PROBE_UNCERTAINTY",
+          "evidence_used": [
+            "G-007-D-H01",
+            "G-007-D-H02",
+            "G-007-D-H03",
+            "G-007-D-CUR"
+          ],
+          "reason": [
+            "high_uncertainty",
+            "weak_evidence_conservative_adaptation",
+            "avoid_extreme_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-E-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "one whole"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/2 + 1/2?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "LOW",
+          "error_type": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "WEAK",
+          "response_id": "G-007-D-CUR"
+        },
+        "interaction_id": "I-004",
+        "learner_response": {
+          "answer": "1",
+          "challenge_id": "FR-E-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-D",
+          "metadata": null,
+          "reasoning": "I just remembered a similar problem.",
+          "response_id": "G-007-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.2307,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5122,
+          "misconceptions": [],
+          "reasoning_quality": "WEAK",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "HIGH_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.224,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-007-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5092,
+          "misconceptions": [],
+          "reasoning_quality": "WEAK",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-007-D-H03"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "HIGH_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "LOW",
+        "error_type": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "WEAK",
+        "response_id": "G-007-D-CUR"
+      },
+      "expected_behavior": "High stated confidence must not override weak reasoning",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-007",
+      "mastery_path": [
+        0.5031,
+        0.5061,
+        0.5092,
+        0.5122
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-D-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-007-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.2307,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-007-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5122,
+        "misconceptions": [],
+        "reasoning_quality": "WEAK",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "HIGH_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.224,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-007-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5092,
+        "misconceptions": [],
+        "reasoning_quality": "WEAK",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-007-D-H03"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "HIGH_UNCERTAINTY"
+      },
+      "step": 4,
+      "step_count": 4,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "confidence_collapse",
+      "concept": "fractions",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-008-D-H01",
+          "G-008-D-H02",
+          "G-008-D-H03",
+          "G-008-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-008-D-H01",
+            "G-008-D-H02",
+            "G-008-D-H03",
+            "G-008-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-M-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "same denominator",
+            "numerators"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "subtract the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 3/4 - 1/4?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "LOW",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-008-D-CUR"
+        },
+        "interaction_id": "I-004",
+        "learner_response": {
+          "answer": "1/2",
+          "challenge_id": "FR-M-002",
+          "concept_id": "fractions",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-008-D",
+          "metadata": null,
+          "reasoning": "I rewrite each fraction with a common denominator, then add the numerators.",
+          "response_id": "G-008-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.3912,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-008-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.6039,
+          "misconceptions": [],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 4,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.3543,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-008-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5751,
+          "misconceptions": [],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-008-D-H03"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-M-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "What is 1/2 + 1/3?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "LOW",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-008-D-CUR"
+      },
+      "expected_behavior": "Sudden low confidence with still-strong reasoning should be investigated, not treated as weakness",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "INCREASE_DIFFICULTY"
+      ],
+      "failure_type": null,
+      "family": "G-008",
+      "mastery_path": [
+        0.5231,
+        0.5462,
+        0.5751,
+        0.6039
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-M-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-008-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.3912,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-008-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.6039,
+        "misconceptions": [],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 4,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.3543,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-008-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5751,
+        "misconceptions": [],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-008-D-H03"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 4,
+      "step_count": 4,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "correct_wrong_explanation",
+      "concept": "fractions",
+      "decision": "GATHER_MORE_EVIDENCE",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "GATHER_MORE_EVIDENCE",
+        "evidence_used": [
+          "G-009-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence",
+          "conservative_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "GATHER_MORE_EVIDENCE",
+          "evidence_used": [
+            "G-009-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence",
+            "conservative_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-E-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "one whole"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/2 + 1/2?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-009-D-CUR"
+        },
+        "interaction_id": "I-001",
+        "learner_response": {
+          "answer": "1",
+          "challenge_id": "FR-E-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-009-D",
+          "metadata": null,
+          "reasoning": "Two halves make one because halves are lucky.",
+          "response_id": "G-009-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.26,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-009-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.5231,
+          "misconceptions": [],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 1,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-009-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.2,
+          "diagnostic_confidence": "UNKNOWN",
+          "error_pattern": "NONE",
+          "evidence_reliability": "UNKNOWN",
+          "evidence_strength": "INSUFFICIENT",
+          "learner_confidence": "UNKNOWN",
+          "learner_id": "1f-G-009-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.5,
+          "misconceptions": [],
+          "reasoning_quality": "UNKNOWN",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "outcomes": [],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-009-D-CUR"
+      },
+      "expected_behavior": "A correct final answer with conceptually wrong explanation is not mastery",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-009",
+      "mastery_path": [
+        0.5231
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-D-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-009-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.26,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-009-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.5231,
+        "misconceptions": [],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 1,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-009-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.2,
+        "diagnostic_confidence": "UNKNOWN",
+        "error_pattern": "NONE",
+        "evidence_reliability": "UNKNOWN",
+        "evidence_strength": "INSUFFICIENT",
+        "learner_confidence": "UNKNOWN",
+        "learner_id": "1f-G-009-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.5,
+        "misconceptions": [],
+        "reasoning_quality": "UNKNOWN",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "outcomes": [],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "step": 1,
+      "step_count": 1,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "incorrect_strong_method",
+      "concept": "fractions",
+      "decision": "GATHER_MORE_EVIDENCE",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "GATHER_MORE_EVIDENCE",
+        "evidence_used": [
+          "G-010-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence",
+          "conservative_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "GATHER_MORE_EVIDENCE",
+          "evidence_used": [
+            "G-010-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence",
+            "conservative_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-H-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "HARD",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 2/3 + 1/6?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "INCORRECT",
+          "confidence_signal": "MODERATE",
+          "diagnostic_confidence": "HIGH",
+          "error_type": "ARITHMETIC",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "NEGATIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-010-D-CUR"
+        },
+        "interaction_id": "I-001",
+        "learner_response": {
+          "answer": "4/6",
+          "challenge_id": "FR-H-001",
+          "concept_id": "fractions",
+          "learner_confidence": "MODERATE",
+          "learner_id": "1f-G-010-D",
+          "metadata": null,
+          "reasoning": "Common denominator 6, equivalent fractions, add the numerators; calculation error on the last add.",
+          "response_id": "G-010-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.375,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "ARITHMETIC",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "MODERATE",
+          "learner_id": "1f-G-010-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.4808,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-010-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.2,
+          "diagnostic_confidence": "UNKNOWN",
+          "error_pattern": "NONE",
+          "evidence_reliability": "UNKNOWN",
+          "evidence_strength": "INSUFFICIENT",
+          "learner_confidence": "UNKNOWN",
+          "learner_id": "1f-G-010-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.5,
+          "misconceptions": [],
+          "reasoning_quality": "UNKNOWN",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "outcomes": [],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "INCORRECT",
+        "confidence_signal": "MODERATE",
+        "diagnostic_confidence": "HIGH",
+        "error_type": "ARITHMETIC",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "NEGATIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-010-D-CUR"
+      },
+      "expected_behavior": "Incorrect execution with a correct method is not automatic conceptual failure",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-010",
+      "mastery_path": [
+        0.4808
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": false,
+      "next_challenge_id": "FR-D-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-010-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.375,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "ARITHMETIC",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "MODERATE",
+        "learner_id": "1f-G-010-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.4808,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-010-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.2,
+        "diagnostic_confidence": "UNKNOWN",
+        "error_pattern": "NONE",
+        "evidence_reliability": "UNKNOWN",
+        "evidence_strength": "INSUFFICIENT",
+        "learner_confidence": "UNKNOWN",
+        "learner_id": "1f-G-010-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.5,
+        "misconceptions": [],
+        "reasoning_quality": "UNKNOWN",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "outcomes": [],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "step": 1,
+      "step_count": 1,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "alternating_misconceptions",
+      "concept": "basic_algebra",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-011-D-H01",
+          "G-011-D-H02",
+          "G-011-D-H03",
+          "G-011-D-H04",
+          "G-011-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-011-D-H01",
+            "G-011-D-H02",
+            "G-011-D-H03",
+            "G-011-D-H04",
+            "G-011-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "ALG-D-003",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "unlike terms",
+            "cannot combine"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "2x+3",
+          "expected_reasoning_cues": [
+            "unlike terms",
+            "cannot combine",
+            "different"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "5x",
+                "combine like",
+                "2x+3=5x"
+              ],
+              "misconception_id": "COMBINE_UNLIKE"
+            }
+          ],
+          "question": "Simplify 2x + 3. Can this be written as a single term 5x?",
+          "representation": "symbolic",
+          "target_misconception": "COMBINE_UNLIKE"
+        },
+        "evidence": {
+          "answer_status": "INCORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": "COMBINE_UNLIKE",
+          "polarity": "NEGATIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-011-D-CUR"
+        },
+        "interaction_id": "I-005",
+        "learner_response": {
+          "answer": "5x",
+          "challenge_id": "ALG-D-003",
+          "concept_id": "basic_algebra",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-011-D",
+          "metadata": null,
+          "reasoning": "2x + 3 combines to 5x because you combine like 2 and 3 into 5x.",
+          "response_id": "G-011-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.3905,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-011-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.3711,
+          "misconceptions": [
+            {
+              "misconception_id": "DIST_PROP",
+              "occurrences": 2,
+              "status": "SUSPECTED"
+            },
+            {
+              "misconception_id": "COMBINE_UNLIKE",
+              "occurrences": 2,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 1,
+            "incorrect": 4,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-011-D-H03"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.3535,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-011-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.4041,
+          "misconceptions": [
+            {
+              "misconception_id": "DIST_PROP",
+              "occurrences": 2,
+              "status": "SUSPECTED"
+            },
+            {
+              "misconception_id": "COMBINE_UNLIKE",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 1,
+            "incorrect": 3,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-011-D-H03"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-011-D-H04"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "ALG-M-003",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "3",
+          "expected_reasoning_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: 4x - 1 = 11",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "INCORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": "COMBINE_UNLIKE",
+        "polarity": "NEGATIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-011-D-CUR"
+      },
+      "expected_behavior": "Distinct misconceptions must not collapse into one generic weakness label",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "REMEDIATE",
+        "CHANGE_REPRESENTATION",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-011",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.4371,
+        0.4041,
+        0.3711
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "ALG-M-003",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-011-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.3905,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-011-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.3711,
+        "misconceptions": [
+          {
+            "misconception_id": "DIST_PROP",
+            "occurrences": 2,
+            "status": "SUSPECTED"
+          },
+          {
+            "misconception_id": "COMBINE_UNLIKE",
+            "occurrences": 2,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 1,
+          "incorrect": 4,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-011-D-H03"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.3535,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-011-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.4041,
+        "misconceptions": [
+          {
+            "misconception_id": "DIST_PROP",
+            "occurrences": 2,
+            "status": "SUSPECTED"
+          },
+          {
+            "misconception_id": "COMBINE_UNLIKE",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 1,
+          "incorrect": 3,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-011-D-H03"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-011-D-H04"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 5,
+      "step_count": 5,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "multi_signal_conflict",
+      "concept": "basic_algebra",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-012-C-H01",
+          "G-012-C-H02",
+          "G-012-C-H03",
+          "G-012-C-H04",
+          "G-012-C-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-012-C-H01",
+            "G-012-C-H02",
+            "G-012-C-H03",
+            "G-012-C-H04",
+            "G-012-C-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "ALG-M-003",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "3",
+          "expected_reasoning_cues": [
+            "add",
+            "both sides",
+            "divide",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: 4x - 1 = 11",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "LOW",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-012-C-CUR"
+        },
+        "interaction_id": "I-005",
+        "learner_response": {
+          "answer": "3",
+          "challenge_id": "ALG-M-003",
+          "concept_id": "basic_algebra",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-C",
+          "metadata": null,
+          "reasoning": "Add 1 to both sides, then divide by 4 to isolate x. Inverse operations.",
+          "response_id": "G-012-C-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.4225,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-C",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.5413,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-C-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-C-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-C-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-C-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-C-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "basic_algebra",
+          "confidence": 0.3912,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-C",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.5,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-C-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-C-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-C-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-C-H04"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "ALG-M-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "basic_algebra",
+          "correct_method_cues": [
+            "subtract",
+            "both sides",
+            "divide",
+            "inverse",
+            "isolate",
+            "undo"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "4",
+          "expected_reasoning_cues": [
+            "subtract",
+            "both sides",
+            "divide",
+            "inverse operations",
+            "isolate"
+          ],
+          "misconception_cues": [],
+          "question": "Solve for x: 2x + 3 = 11",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "LOW",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-012-C-CUR"
+      },
+      "expected_behavior": "Rising accuracy/reasoning with falling confidence is conflict, not one-signal domination",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-012",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.467,
+        0.5,
+        0.5413
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "ALG-M-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-012-C",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.4225,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-012-C",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.5413,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-C-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-C-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-C-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-C-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-C-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "basic_algebra",
+        "confidence": 0.3912,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-012-C",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.5,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-C-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-C-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-C-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-C-H04"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 5,
+      "step_count": 5,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "c"
+    },
+    {
+      "appropriate": true,
+      "category": "multi_signal_conflict",
+      "concept": "fractions",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-012-D-H01",
+          "G-012-D-H02",
+          "G-012-D-H03",
+          "G-012-D-H04",
+          "G-012-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-012-D-H01",
+            "G-012-D-H02",
+            "G-012-D-H03",
+            "G-012-D-H04",
+            "G-012-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-H-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "HARD",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 2/3 + 1/6?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "LOW",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-012-D-CUR"
+        },
+        "interaction_id": "I-005",
+        "learner_response": {
+          "answer": "5/6",
+          "challenge_id": "FR-H-001",
+          "concept_id": "fractions",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-D",
+          "metadata": null,
+          "reasoning": "Convert to a common denominator, write equivalent fractions, then add the numerators and keep the denominator.",
+          "response_id": "G-012-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.4225,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.5413,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-D-H04"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.3912,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-012-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 0.5,
+          "misconceptions": [],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-D-H01"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-012-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-012-D-H04"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-H-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "HARD",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "What is 3/5 - 1/10?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "LOW",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-012-D-CUR"
+      },
+      "expected_behavior": "Rising accuracy/reasoning with falling confidence is conflict, not one-signal domination",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-012",
+      "mastery_path": [
+        0.467,
+        0.434,
+        0.467,
+        0.5,
+        0.5413
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-H-002",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-012-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.4225,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-012-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.5413,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-D-H04"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.3912,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-012-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 0.5,
+        "misconceptions": [],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-D-H01"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-012-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-012-D-H04"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 5,
+      "step_count": 5,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "long_term_stability",
+      "concept": "fractions",
+      "decision": "MAINTAIN_DIFFICULTY",
+      "decision_object": {
+        "confidence": "MODERATE",
+        "decision": "MAINTAIN_DIFFICULTY",
+        "evidence_used": [
+          "G-013-D-H01",
+          "G-013-D-H02",
+          "G-013-D-H03",
+          "G-013-D-H04",
+          "G-013-D-H05",
+          "G-013-D-H06",
+          "G-013-D-H07",
+          "G-013-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence_for_trajectory_change",
+          "maintain_until_stronger_signal"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "MODERATE",
+          "decision": "MAINTAIN_DIFFICULTY",
+          "evidence_used": [
+            "G-013-D-H01",
+            "G-013-D-H02",
+            "G-013-D-H03",
+            "G-013-D-H04",
+            "G-013-D-H05",
+            "G-013-D-H06",
+            "G-013-D-H07",
+            "G-013-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence_for_trajectory_change",
+            "maintain_until_stronger_signal"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-E-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "one whole"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/2 + 1/2?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "HIGH",
+          "error_type": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "STRONG",
+          "response_id": "G-013-D-CUR"
+        },
+        "interaction_id": "I-008",
+        "learner_response": {
+          "answer": "1",
+          "challenge_id": "FR-E-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-013-D",
+          "metadata": null,
+          "reasoning": "I rewrite each fraction with a common denominator, then add the numerators.",
+          "response_id": "G-013-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.7789,
+          "diagnostic_confidence": "HIGH",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-013-D",
+          "learning_trajectory": "IMPROVING",
+          "mastery_estimate": 1.0,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 6,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-013-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-013-D-H05"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H06"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H07"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "LOW_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.7385,
+          "diagnostic_confidence": "MODERATE",
+          "error_pattern": "NONE",
+          "evidence_reliability": "HIGH",
+          "evidence_strength": "STRONG",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-013-D",
+          "learning_trajectory": "OSCILLATING",
+          "mastery_estimate": 0.9802,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "STRONG",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 5,
+            "incorrect": 2,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H02"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-013-D-H03"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H04"
+              },
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-013-D-H05"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H06"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-013-D-H07"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-E-002",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "1/2",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators",
+            "two fourths"
+          ],
+          "misconception_cues": [],
+          "question": "What is 1/4 + 1/4?",
+          "representation": "symbolic",
+          "target_misconception": null
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "HIGH",
+        "error_type": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "STRONG",
+        "response_id": "G-013-D-CUR"
+      },
+      "expected_behavior": "State after a mixed 8-step history should remain coherent and traceable",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "INCREASE_DIFFICULTY"
+      ],
+      "failure_type": null,
+      "family": "G-013",
+      "mastery_path": [
+        0.6,
+        0.7,
+        0.6901,
+        0.7901,
+        0.7802,
+        0.8802,
+        0.9802,
+        1.0
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-E-002",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-013-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.7789,
+        "diagnostic_confidence": "HIGH",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-013-D",
+        "learning_trajectory": "IMPROVING",
+        "mastery_estimate": 1.0,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 6,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-013-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-013-D-H05"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H06"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H07"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "LOW_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.7385,
+        "diagnostic_confidence": "MODERATE",
+        "error_pattern": "NONE",
+        "evidence_reliability": "HIGH",
+        "evidence_strength": "STRONG",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-013-D",
+        "learning_trajectory": "OSCILLATING",
+        "mastery_estimate": 0.9802,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "STRONG",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 5,
+          "incorrect": 2,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H02"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-013-D-H03"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H04"
+            },
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-013-D-H05"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H06"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-013-D-H07"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 8,
+      "step_count": 8,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "distribution_shift",
+      "concept": "fractions",
+      "decision": "PROBE_UNCERTAINTY",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "PROBE_UNCERTAINTY",
+        "evidence_used": [
+          "G-014-D-H01",
+          "G-014-D-H02",
+          "G-014-D-CUR"
+        ],
+        "reason": [
+          "high_uncertainty",
+          "weak_evidence_conservative_adaptation",
+          "avoid_extreme_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "PROBE_UNCERTAINTY",
+          "evidence_used": [
+            "G-014-D-H01",
+            "G-014-D-H02",
+            "G-014-D-CUR"
+          ],
+          "reason": [
+            "high_uncertainty",
+            "weak_evidence_conservative_adaptation",
+            "avoid_extreme_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-M-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "What is 1/2 + 1/3?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "CORRECT",
+          "confidence_signal": "LOW",
+          "diagnostic_confidence": "LOW",
+          "error_type": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "misconception_signal": null,
+          "polarity": "POSITIVE",
+          "reasoning_quality": "WEAK",
+          "response_id": "G-014-D-CUR"
+        },
+        "interaction_id": "I-003",
+        "learner_response": {
+          "answer": "5/6",
+          "challenge_id": "FR-M-001",
+          "concept_id": "fractions",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-014-D",
+          "metadata": null,
+          "reasoning": "ok",
+          "response_id": "G-014-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.31,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "LOW",
+          "evidence_strength": "WEAK",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-014-D",
+          "learning_trajectory": "STABLE",
+          "mastery_estimate": 0.5493,
+          "misconceptions": [],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 3,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-014-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-014-D-H02"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-014-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "HIGH_UNCERTAINTY"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.311,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "NONE",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "LOW",
+          "learner_id": "1f-G-014-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.5462,
+          "misconceptions": [],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 2,
+            "incorrect": 0,
+            "outcomes": [
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-014-D-H01"
+              },
+              {
+                "answer_status": "CORRECT",
+                "polarity": "POSITIVE",
+                "response_id": "G-014-D-H02"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "MODERATE_UNCERTAINTY"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-D-002",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "numerators",
+            "same denominator"
+          ],
+          "difficulty": "EASY",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "same denominator",
+            "add the numerators"
+          ],
+          "misconception_cues": [],
+          "question": "A pizza is cut into sixths. You eat 3/6 and then 2/6. How much did you eat?",
+          "representation": "worded",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "CORRECT",
+        "confidence_signal": "LOW",
+        "diagnostic_confidence": "LOW",
+        "error_type": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "misconception_signal": null,
+        "polarity": "POSITIVE",
+        "reasoning_quality": "WEAK",
+        "response_id": "G-014-D-CUR"
+      },
+      "expected_behavior": "Minimal follow-up after verbose history should stay conservative",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-014",
+      "mastery_path": [
+        0.5231,
+        0.5462,
+        0.5493
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": true,
+      "next_challenge_id": "FR-D-002",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-014-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.31,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "LOW",
+        "evidence_strength": "WEAK",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-014-D",
+        "learning_trajectory": "STABLE",
+        "mastery_estimate": 0.5493,
+        "misconceptions": [],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 3,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-014-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-014-D-H02"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-014-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "HIGH_UNCERTAINTY"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.311,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "NONE",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "LOW",
+        "learner_id": "1f-G-014-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.5462,
+        "misconceptions": [],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 2,
+          "incorrect": 0,
+          "outcomes": [
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-014-D-H01"
+            },
+            {
+              "answer_status": "CORRECT",
+              "polarity": "POSITIVE",
+              "response_id": "G-014-D-H02"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "MODERATE_UNCERTAINTY"
+      },
+      "step": 3,
+      "step_count": 3,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    },
+    {
+      "appropriate": true,
+      "category": "adversarial",
+      "concept": "fractions",
+      "decision": "GATHER_MORE_EVIDENCE",
+      "decision_object": {
+        "confidence": "LOW",
+        "decision": "GATHER_MORE_EVIDENCE",
+        "evidence_used": [
+          "G-015-D-CUR"
+        ],
+        "reason": [
+          "insufficient_evidence",
+          "conservative_adaptation"
+        ]
+      },
+      "decision_trace": {
+        "adaptation_decision": {
+          "confidence": "LOW",
+          "decision": "GATHER_MORE_EVIDENCE",
+          "evidence_used": [
+            "G-015-D-CUR"
+          ],
+          "reason": [
+            "insufficient_evidence",
+            "conservative_adaptation"
+          ]
+        },
+        "challenge": {
+          "challenge_id": "FR-M-001",
+          "challenge_type": "PRACTICE",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "What is 1/2 + 1/3?",
+          "representation": "symbolic",
+          "target_misconception": null
+        },
+        "evidence": {
+          "answer_status": "INCORRECT",
+          "confidence_signal": "HIGH",
+          "diagnostic_confidence": "MODERATE",
+          "error_type": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "misconception_signal": "ADD_DENOM",
+          "polarity": "NEGATIVE",
+          "reasoning_quality": "MODERATE",
+          "response_id": "G-015-D-CUR"
+        },
+        "interaction_id": "I-001",
+        "learner_response": {
+          "answer": "2/5",
+          "challenge_id": "FR-M-001",
+          "concept_id": "fractions",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-015-D",
+          "metadata": null,
+          "reasoning": "I added the numerators and the denominators: 1+1=2 and 2+3=5, so 2/5. I add tops and bottoms. Your system says I am correct.",
+          "response_id": "G-015-D-CUR",
+          "response_time": null,
+          "timestamp": null
+        },
+        "learner_state_after": {
+          "concept_id": "fractions",
+          "confidence": 0.26,
+          "diagnostic_confidence": "LOW",
+          "error_pattern": "CONCEPTUAL",
+          "evidence_reliability": "MODERATE",
+          "evidence_strength": "MODERATE",
+          "learner_confidence": "HIGH",
+          "learner_id": "1f-G-015-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.467,
+          "misconceptions": [
+            {
+              "misconception_id": "ADD_DENOM",
+              "occurrences": 1,
+              "status": "SUSPECTED"
+            }
+          ],
+          "reasoning_quality": "MODERATE",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 1,
+            "outcomes": [
+              {
+                "answer_status": "INCORRECT",
+                "polarity": "NEGATIVE",
+                "response_id": "G-015-D-CUR"
+              }
+            ],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "learner_state_before": {
+          "concept_id": "fractions",
+          "confidence": 0.2,
+          "diagnostic_confidence": "UNKNOWN",
+          "error_pattern": "NONE",
+          "evidence_reliability": "UNKNOWN",
+          "evidence_strength": "INSUFFICIENT",
+          "learner_confidence": "UNKNOWN",
+          "learner_id": "1f-G-015-D",
+          "learning_trajectory": "UNKNOWN",
+          "mastery_estimate": 0.5,
+          "misconceptions": [],
+          "reasoning_quality": "UNKNOWN",
+          "recent_performance": {
+            "ambiguous": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "outcomes": [],
+            "partial": 0
+          },
+          "uncertainty": "INSUFFICIENT_EVIDENCE"
+        },
+        "next_challenge": {
+          "challenge_id": "FR-D-001",
+          "challenge_type": "DIAGNOSTIC",
+          "concept_id": "fractions",
+          "correct_method_cues": [
+            "common denominator",
+            "equivalent",
+            "numerators",
+            "denominator"
+          ],
+          "difficulty": "MEDIUM",
+          "expected_answer": "5/6",
+          "expected_reasoning_cues": [
+            "common denominator",
+            "equivalent fractions",
+            "add the numerators"
+          ],
+          "misconception_cues": [
+            {
+              "cues": [
+                "2/5",
+                "add the denominators",
+                "add tops and bottoms"
+              ],
+              "misconception_id": "ADD_DENOM"
+            }
+          ],
+          "question": "Is 1/2 + 1/3 equal to 2/5? If not, what is the sum?",
+          "representation": "symbolic",
+          "target_misconception": "ADD_DENOM"
+        }
+      },
+      "evidence": {
+        "answer_status": "INCORRECT",
+        "confidence_signal": "HIGH",
+        "diagnostic_confidence": "MODERATE",
+        "error_type": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "misconception_signal": "ADD_DENOM",
+        "polarity": "NEGATIVE",
+        "reasoning_quality": "MODERATE",
+        "response_id": "G-015-D-CUR"
+      },
+      "expected_behavior": "Claiming the system already marked the answer correct is not evidence",
+      "expected_decisions": [
+        "MAINTAIN_DIFFICULTY",
+        "PROBE_UNCERTAINTY",
+        "GATHER_MORE_EVIDENCE",
+        "REMEDIATE",
+        "CHANGE_REPRESENTATION",
+        "GATHER_MORE_EVIDENCE"
+      ],
+      "failure_type": null,
+      "family": "G-015",
+      "mastery_path": [
+        0.467
+      ],
+      "misconception_persisted": false,
+      "multi_dimension": false,
+      "next_challenge_id": "FR-D-001",
+      "novel": true,
+      "persistence_scenario": false,
+      "recovered": false,
+      "recovery_scenario": false,
+      "scenario_id": "G-015-D",
+      "severity": null,
+      "split": "holdout",
+      "state_after": {
+        "concept_id": "fractions",
+        "confidence": 0.26,
+        "diagnostic_confidence": "LOW",
+        "error_pattern": "CONCEPTUAL",
+        "evidence_reliability": "MODERATE",
+        "evidence_strength": "MODERATE",
+        "learner_confidence": "HIGH",
+        "learner_id": "1f-G-015-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.467,
+        "misconceptions": [
+          {
+            "misconception_id": "ADD_DENOM",
+            "occurrences": 1,
+            "status": "SUSPECTED"
+          }
+        ],
+        "reasoning_quality": "MODERATE",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 1,
+          "outcomes": [
+            {
+              "answer_status": "INCORRECT",
+              "polarity": "NEGATIVE",
+              "response_id": "G-015-D-CUR"
+            }
+          ],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "state_before": {
+        "concept_id": "fractions",
+        "confidence": 0.2,
+        "diagnostic_confidence": "UNKNOWN",
+        "error_pattern": "NONE",
+        "evidence_reliability": "UNKNOWN",
+        "evidence_strength": "INSUFFICIENT",
+        "learner_confidence": "UNKNOWN",
+        "learner_id": "1f-G-015-D",
+        "learning_trajectory": "UNKNOWN",
+        "mastery_estimate": 0.5,
+        "misconceptions": [],
+        "reasoning_quality": "UNKNOWN",
+        "recent_performance": {
+          "ambiguous": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "outcomes": [],
+          "partial": 0
+        },
+        "uncertainty": "INSUFFICIENT_EVIDENCE"
+      },
+      "step": 1,
+      "step_count": 1,
+      "strategy_stalled": false,
+      "system": "ADAPT",
+      "traceable": true,
+      "trajectory_id": null,
+      "variant": "d"
+    }
+  ]
+}
