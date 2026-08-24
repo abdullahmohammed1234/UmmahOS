@@ -3,7 +3,7 @@
     <section class="login-card panel stack">
       <div class="login-header">
         <RouterLink to="/" class="brand-link">
-          <span class="brand-mark" aria-hidden="true">U</span>
+          <BrandMark size="sm" aria-hidden="true" />
           <span class="eyebrow">UmmahOS</span>
         </RouterLink>
         <h1>Sign in to your MSA workspace</h1>
@@ -52,6 +52,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
+import BrandMark from '@/components/BrandMark.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useOrganizationStore } from '@/stores/organization';
 
@@ -93,17 +94,9 @@ async function onSubmit(): Promise<void> {
   margin-bottom: var(--space-4);
 }
 
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: var(--radius-sm);
-  background: var(--primary);
-  color: #fff;
-  font-size: var(--text-xs);
-  font-weight: var(--font-bold);
+.brand-link .eyebrow {
+  margin: 0;
+  line-height: 1;
 }
 
 h1 {
