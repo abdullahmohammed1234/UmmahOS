@@ -15,7 +15,7 @@
         <AppIcon name="menu" />
       </button>
       <RouterLink :to="{ name: 'dashboard' }" class="mobile-brand">
-        <span class="brand-mark" aria-hidden="true">U</span>
+        <BrandMark size="sm" aria-hidden="true" />
         <strong>UmmahOS</strong>
       </RouterLink>
       <span class="mobile-org" data-testid="mobile-current-org">
@@ -33,7 +33,7 @@
     >
       <div class="sidebar-header">
         <RouterLink :to="{ name: 'dashboard' }" class="brand" @click="closeMobileNav">
-          <span class="brand-mark" aria-hidden="true">U</span>
+          <BrandMark aria-hidden="true" />
           <div class="brand-text">
             <strong>UmmahOS</strong>
             <span class="brand-tagline">Community infrastructure</span>
@@ -224,6 +224,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { RouterLink, RouterView, useRouter } from 'vue-router';
 import AppIcon from '@/components/icons/AppIcon.vue';
+import BrandMark from '@/components/BrandMark.vue';
 import OrganizationSwitcher from '@/components/OrganizationSwitcher.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useOrganizationStore } from '@/stores/organization';
@@ -331,21 +332,6 @@ onBeforeUnmount(() => {
   gap: var(--space-3);
   text-decoration: none;
   color: inherit;
-}
-
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: var(--radius-md);
-  background: var(--gradient-emerald);
-  color: #fff;
-  font-weight: var(--font-extrabold);
-  font-size: var(--text-sm);
-  flex-shrink: 0;
-  box-shadow: var(--shadow-sm);
 }
 
 .brand-text {

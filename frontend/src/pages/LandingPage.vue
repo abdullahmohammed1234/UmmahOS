@@ -4,7 +4,7 @@
     <header class="landing-nav">
       <div class="landing-nav-inner landing-wide">
         <RouterLink to="/" class="brand" aria-label="UmmahOS home">
-          <span class="brand-mark" aria-hidden="true">U</span>
+          <BrandMark aria-hidden="true" />
           <span class="brand-name">UmmahOS</span>
         </RouterLink>
         <nav class="nav-links" aria-label="Landing navigation">
@@ -211,6 +211,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import BrandMark from '@/components/BrandMark.vue';
 import HeroVisual from '@/components/landing/HeroVisual.vue';
 import ProblemComparison from '@/components/landing/ProblemComparison.vue';
 import UmmahOSLoop from '@/components/landing/UmmahOSLoop.vue';
@@ -303,20 +304,6 @@ const principles = [
   font-weight: var(--font-bold);
   font-size: var(--text-lg);
   font-family: var(--font-display);
-}
-
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: var(--radius-md);
-  background: var(--gradient-emerald);
-  color: #fff;
-  font-size: var(--text-sm);
-  font-weight: var(--font-extrabold);
-  box-shadow: var(--shadow-sm);
 }
 
 .nav-links {
