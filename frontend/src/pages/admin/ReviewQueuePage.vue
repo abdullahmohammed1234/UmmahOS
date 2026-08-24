@@ -1,20 +1,20 @@
 <template>
-  <section class="panel content stack" data-testid="review-queue-page">
-    <div>
+  <section class="queue-workspace" data-testid="review-queue-page">
+    <header class="review-workspace-header">
       <p class="eyebrow">Community Shield</p>
       <h1>Community Safety Review</h1>
-      <p class="muted">
+      <p class="lede muted">
         Open reviews for {{ organization.currentOrganization?.name ?? 'this organization' }}.
         AI-assisted triage is advisory — a human reviewer decides.
       </p>
-    </div>
+    </header>
 
     <p v-if="!organization.canReviewIncidents" class="error" data-testid="review-denied">
       You cannot access the Community Safety Review queue in this organization.
     </p>
 
     <template v-else>
-      <div class="filters" data-testid="review-filters">
+      <form class="queue-filters" data-testid="review-filters" aria-label="Review queue filters" @submit.prevent>
         <label class="field">
           <span>Status</span>
           <select v-model="filters.status" data-testid="filter-status">
@@ -52,7 +52,7 @@
           </select>
         </label>
         <label class="field">
-          <span>Human classification</span>
+          <span>Classification</span>
           <select v-model="filters.classification" data-testid="filter-classification">
             <option value="">All</option>
             <option
@@ -64,23 +64,50 @@
             </option>
           </select>
         </label>
-      </div>
+      </form>
 
-      <p v-if="error" class="error">{{ error }}</p>
-      <p v-else-if="isLoading" class="muted">Loading open reviews…</p>
-      <p v-else-if="items.length === 0" class="muted">No reports match these filters.</p>
+      <LoadingState v-if="isLoading" message="Loading open reviews…" />
+      <EmptyState
+        v-else-if="error"
+        title="Unable to load queue"
+        :description="error"
+      />
+      <EmptyState
+        v-else-if="items.length === 0"
+        title="No reports match"
+        description="Try adjusting your filters or check back later."
+      />
 
-      <ul v-else class="queue" data-testid="review-queue">
-        <li v-for="item in items" :key="item.id" class="queue-item" data-testid="review-queue-item">
-          <div class="queue-main">
-            <p class="queue-title">
-              <strong>#{{ item.id }}</strong>
-              <span>{{ platformLabel(item.platform) }}</span>
-              <span>{{ visibilityLabel(item.visibility) }}</span>
-              <span v-if="item.escalated" class="badge escalate">Escalated</span>
-              <span v-if="item.status === 'reviewing'" class="badge">Under review</span>
-            </p>
-            <p class="muted triage" data-testid="ai-assisted-triage">
+      <ul v-else class="queue-list" data-testid="review-queue">
+        <li
+          v-for="item in items"
+          :key="item.id"
+          class="queue-case"
+          data-testid="review-queue-item"
+        >
+          <div class="queue-case-body">
+            <p class="queue-case-ref">#{{ item.id }}</p>
+            <div class="queue-indicators">
+              <span class="queue-indicator">{{ platformLabel(item.platform) }}</span>
+              <span class="queue-indicator">{{ visibilityLabel(item.visibility) }}</span>
+              <span
+                v-if="item.ai_assisted_triage.confidence"
+                class="queue-indicator"
+                :class="confidenceClass(item.ai_assisted_triage.confidence)"
+              >
+                {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
+              </span>
+              <span
+                v-if="item.ai_assisted_triage.uncertainty"
+                class="queue-indicator"
+                :class="uncertaintyClass(item.ai_assisted_triage.uncertainty)"
+              >
+                {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
+              </span>
+              <span v-if="item.escalated" class="queue-indicator uncertainty-high">Escalated</span>
+              <span v-if="item.status === 'reviewing'" class="queue-indicator">Under review</span>
+            </div>
+            <p class="queue-triage" data-testid="ai-assisted-triage">
               AI-assisted triage:
               {{
                 item.ai_assisted_triage.classification
@@ -94,14 +121,14 @@
                 · {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
               </template>
             </p>
-            <p class="muted">
+            <p class="queue-meta">
               {{ item.related_item_count }} related
               {{ item.related_item_count === 1 ? 'item' : 'items' }}
               · Submitted {{ formatDateTime(item.created_at) }}
             </p>
             <p
               v-if="item.ai_assisted_triage.uncertainty === 'high'"
-              class="uncertainty"
+              class="queue-uncertainty-note"
               data-testid="high-uncertainty-flag"
             >
               High uncertainty — additional context may help before a determination.
@@ -123,6 +150,8 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
+import EmptyState from '@/components/ui/EmptyState.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationQuery } from '@/composables/useOrganizationQuery';
 import { useOrganizationStore } from '@/stores/organization';
@@ -150,6 +179,17 @@ const filters = reactive({
   uncertainty: '',
   classification: '',
 });
+
+function confidenceClass(level: string): string {
+  if (level === 'high') return 'confidence-high';
+  if (level === 'moderate') return 'confidence-moderate';
+  return '';
+}
+
+function uncertaintyClass(level: string): string {
+  if (level === 'high') return 'uncertainty-high';
+  return '';
+}
 
 async function loadQueue(): Promise<void> {
   if (!organization.currentOrganization || !organization.canReviewIncidents) {
@@ -181,79 +221,3 @@ watch(filters, () => {
   void loadQueue();
 });
 </script>
-
-<style scoped>
-.content {
-  padding: 1.25rem 1.4rem;
-}
-
-.eyebrow {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-
-.filters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
-}
-
-.queue {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.85rem;
-}
-
-.queue-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: start;
-  padding: 1rem 0;
-  border-top: 1px solid var(--line);
-}
-
-.queue-item:first-child {
-  border-top: 0;
-  padding-top: 0.25rem;
-}
-
-.queue-title {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin: 0 0 0.35rem;
-}
-
-.triage {
-  margin: 0 0 0.25rem;
-}
-
-.uncertainty {
-  margin: 0.45rem 0 0;
-  color: #8a5a00;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
-  background: rgba(31, 107, 74, 0.12);
-  font-size: 0.78rem;
-}
-
-.badge.escalate {
-  background: rgba(138, 90, 0, 0.16);
-}
-
-@media (max-width: 720px) {
-  .queue-item {
-    display: grid;
-  }
-}
-</style>

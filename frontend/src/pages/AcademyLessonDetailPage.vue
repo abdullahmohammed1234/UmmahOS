@@ -1,17 +1,17 @@
 <template>
-  <section class="panel content stack" data-testid="academy-lesson-detail">
-    <RouterLink to="/academy/community-safety">Back to Community Safety</RouterLink>
+  <div class="lesson-workspace" data-testid="academy-lesson-detail">
+    <RouterLink class="back-link" to="/academy/community-safety">← Back to Community Safety</RouterLink>
     <AcademySubNav />
 
     <p v-if="error" class="error">{{ error }}</p>
-    <p v-else-if="isLoading" class="muted">Loading lesson…</p>
+    <LoadingState v-else-if="isLoading" message="Loading lesson…" />
 
     <template v-else-if="lesson">
-      <div>
-        <p class="muted">{{ lesson.category }}</p>
+      <header class="lesson-header">
+        <p class="lesson-category">{{ lesson.category }}</p>
         <h1>{{ lesson.title }}</h1>
-        <p v-if="lesson.learning_objective" class="muted">{{ lesson.learning_objective }}</p>
-      </div>
+        <p v-if="lesson.learning_objective" class="lesson-objective">{{ lesson.learning_objective }}</p>
+      </header>
 
       <section
         v-for="(section, index) in lesson.sections"
@@ -19,43 +19,50 @@
         class="lesson-section"
       >
         <h2>{{ section.heading }}</h2>
-        <p class="body">{{ section.body }}</p>
+        <p class="lesson-body">{{ section.body }}</p>
       </section>
 
-      <p v-if="actionError" class="error">{{ actionError }}</p>
-      <p v-if="actionStatus" class="muted">{{ actionStatus }}</p>
-      <p v-if="adaptUnavailable" class="muted" data-testid="adapt-unavailable">
-        {{ adaptUnavailable }}
-      </p>
+      <section class="lesson-actions-panel">
+        <h2>Adaptive Practice</h2>
+        <p>
+          ADAPT challenges adapt based on your answers, confidence, and reasoning — not a fixed quiz.
+          Practice scenarios connected to this lesson's learning objectives.
+        </p>
 
-      <div class="actions">
-        <button
-          class="button"
-          type="button"
-          data-testid="start-adapt-practice"
-          :disabled="busy"
-          @click="startAdapt"
-        >
-          Start Adaptive Practice
-        </button>
-        <button
-          class="button secondary"
-          type="button"
-          data-testid="mark-lesson-complete"
-          :disabled="busy"
-          @click="markComplete"
-        >
-          Mark complete
-        </button>
-      </div>
+        <p v-if="actionError" class="error">{{ actionError }}</p>
+        <p v-if="actionStatus" class="muted">{{ actionStatus }}</p>
+        <p v-if="adaptUnavailable" class="muted" data-testid="adapt-unavailable">{{ adaptUnavailable }}</p>
+
+        <div class="actions">
+          <button
+            class="button"
+            type="button"
+            data-testid="start-adapt-practice"
+            :disabled="busy"
+            @click="startAdapt"
+          >
+            Start Adaptive Practice
+          </button>
+          <button
+            class="button secondary"
+            type="button"
+            data-testid="mark-lesson-complete"
+            :disabled="busy"
+            @click="markComplete"
+          >
+            Mark complete
+          </button>
+        </div>
+      </section>
     </template>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import AcademySubNav from '@/components/AcademySubNav.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type { AcademyLesson } from '@/types';
@@ -158,19 +165,3 @@ watch(
   { immediate: true },
 );
 </script>
-
-<style scoped>
-.lesson-section {
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--line);
-}
-
-.lesson-section h2 {
-  margin-bottom: 0.4rem;
-}
-
-.body {
-  white-space: pre-wrap;
-  line-height: 1.5;
-}
-</style>

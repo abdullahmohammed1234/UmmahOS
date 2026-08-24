@@ -1,20 +1,31 @@
 <template>
-  <section class="panel content stack">
-    <RouterLink to="/academy">Back to Academy</RouterLink>
+  <div class="academy-workspace">
+    <RouterLink class="back-link" to="/academy">← Back to Academy</RouterLink>
+
     <p v-if="error" class="error">{{ error }}</p>
-    <p v-else-if="isLoading" class="muted">Loading course…</p>
+    <LoadingState v-else-if="isLoading" message="Loading course…" />
+
     <template v-else-if="item">
-      <p class="muted">{{ item.status }}</p>
-      <h1>{{ item.title }}</h1>
-      <p>{{ item.description }}</p>
-      <p class="muted">Lessons, quizzes, and progress tracking are not part of this foundation yet.</p>
+      <header class="academy-hero">
+        <p class="eyebrow">{{ item.status }}</p>
+        <h1>{{ item.title }}</h1>
+        <p>{{ item.description }}</p>
+      </header>
+
+      <article class="lesson-section">
+        <p class="muted">
+          This organization-scoped course entry point is part of the Academy foundation. Full lesson
+          catalogs, quizzes, and certificates are not in scope yet.
+        </p>
+      </article>
     </template>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import LoadingState from '@/components/ui/LoadingState.vue';
 import { communityApi } from '@/services/community';
 import { useOrganizationStore } from '@/stores/organization';
 import type { Course } from '@/types';
