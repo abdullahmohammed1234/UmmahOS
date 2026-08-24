@@ -51,6 +51,14 @@
   gap: var(--space-2);
   font-weight: var(--font-semibold);
   color: var(--primary);
+  font-size: var(--text-sm);
+}
+
+.academy-bridge-flow span:nth-child(odd) {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  background: var(--surface-elevated);
+  border: 1px solid rgba(20, 92, 62, 0.18);
 }
 
 .academy-bridge strong {
@@ -379,6 +387,34 @@
   font-weight: var(--font-semibold);
   color: var(--text-muted);
   margin-bottom: var(--space-3);
+}
+
+.adapt-field-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.adapt-feedback-banner {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  border: 1px solid rgba(20, 92, 62, 0.15);
+}
+
+.adapt-answer-block,
+.adapt-confidence-block,
+.adapt-reasoning-block {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
+  margin-bottom: var(--space-4);
 }
 
 .adapt-choice {

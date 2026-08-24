@@ -20,6 +20,9 @@
       </RouterLink>
       <span class="mobile-org" data-testid="mobile-current-org">
         {{ organization.currentOrganization?.name ?? '…' }}
+        <span v-if="organization.currentRole" class="mobile-role">
+          · {{ organization.currentMembership?.role?.name || organization.currentRole }}
+        </span>
       </span>
     </header>
 
@@ -75,6 +78,58 @@
           </RouterLink>
         </div>
 
+        <div class="nav-group nav-group-featured">
+          <p class="nav-label">Community Shield</p>
+          <RouterLink
+            to="/community-shield"
+            exact-active-class="active"
+            data-testid="nav-community-shield"
+            @click="closeMobileNav"
+          >
+            <AppIcon name="shield" size="sm" />
+            <span>Community Shield</span>
+          </RouterLink>
+          <RouterLink
+            v-if="!organization.canReviewIncidents"
+            to="/community-shield?action=report"
+            active-class="active"
+            data-testid="nav-report-concern"
+            @click="closeMobileNav"
+          >
+            <AppIcon name="reports" size="sm" />
+            <span>Report a Concern</span>
+          </RouterLink>
+          <RouterLink
+            v-if="organization.canReviewIncidents"
+            to="/community-shield/review-queue"
+            active-class="active"
+            data-testid="nav-review-queue"
+            @click="closeMobileNav"
+          >
+            <AppIcon name="queue" size="sm" />
+            <span>Review Queue</span>
+          </RouterLink>
+          <RouterLink
+            to="/community-shield/my-reports"
+            active-class="active"
+            data-testid="nav-my-reports"
+            @click="closeMobileNav"
+          >
+            <AppIcon name="reports" size="sm" />
+            <span>My Reports</span>
+          </RouterLink>
+          <RouterLink
+            v-if="organization.canManageIncidents"
+            to="/admin/community-shield"
+            active-class="active"
+            data-testid="nav-admin-reports"
+            @click="closeMobileNav"
+          >
+            <AppIcon name="reports" size="sm" />
+            <span>Reports / management</span>
+          </RouterLink>
+        </div>
+
         <div class="nav-group">
           <p class="nav-label">Academy</p>
           <RouterLink
@@ -103,40 +158,6 @@
           >
             <AppIcon name="progress" size="sm" />
             <span>My Progress</span>
-          </RouterLink>
-        </div>
-
-        <div class="nav-group nav-group-featured">
-          <p class="nav-label">Community Shield</p>
-          <RouterLink to="/community-shield" active-class="active" @click="closeMobileNav">
-            <AppIcon name="shield" size="sm" />
-            <span>Community Shield</span>
-          </RouterLink>
-          <RouterLink
-            to="/community-shield/my-reports"
-            active-class="active"
-            data-testid="nav-my-reports"
-            @click="closeMobileNav"
-          >
-            <AppIcon name="reports" size="sm" />
-            <span>My Reports</span>
-          </RouterLink>
-        </div>
-
-        <div v-if="organization.canReviewIncidents" class="nav-group">
-          <p class="nav-label">Review</p>
-          <RouterLink to="/admin/community-shield" active-class="active" @click="closeMobileNav">
-            <AppIcon name="reports" size="sm" />
-            <span>Reports</span>
-          </RouterLink>
-          <RouterLink
-            to="/community-shield/review-queue"
-            active-class="active"
-            data-testid="nav-review-queue"
-            @click="closeMobileNav"
-          >
-            <AppIcon name="queue" size="sm" />
-            <span>Review Queue</span>
           </RouterLink>
         </div>
 
@@ -196,7 +217,9 @@
           <div class="user-avatar" aria-hidden="true">{{ userInitials }}</div>
           <div class="user-details">
             <span class="user-name">{{ auth.user?.name }}</span>
-            <span class="user-role badge neutral">{{ organization.currentRole ?? 'no role' }}</span>
+            <span class="user-role badge neutral">
+              {{ organization.currentMembership?.role?.name || organization.currentRole || 'no role' }}
+            </span>
           </div>
         </div>
         <button class="button ghost small logout-btn" type="button" @click="onLogout">

@@ -238,6 +238,7 @@ export interface ReviewQueueItem {
   platform: CommunityShieldPlatform;
   content_type: CommunityShieldContentType;
   visibility: CommunityShieldVisibility;
+  description?: string | null;
   status: CommunityShieldStatus;
   review_outcome: CommunityShieldReviewOutcome | null;
   escalated: boolean;

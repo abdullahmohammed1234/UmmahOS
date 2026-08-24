@@ -2,7 +2,7 @@
   <section class="queue-workspace" data-testid="review-queue-page">
     <header class="review-workspace-header">
       <p class="eyebrow">Community Shield</p>
-      <h1>Community Safety Review</h1>
+      <h1>Review Queue</h1>
       <p class="lede muted">
         Open reviews for {{ organization.currentOrganization?.name ?? 'this organization' }}.
         AI-assisted triage is advisory — a human reviewer decides.
@@ -78,77 +78,152 @@
         description="Try adjusting your filters or check back later."
       />
 
-      <ul v-else class="queue-list" data-testid="review-queue">
-        <li
-          v-for="item in items"
-          :key="item.id"
-          class="queue-case"
-          data-testid="review-queue-item"
-        >
-          <div class="queue-case-body">
-            <p class="queue-case-ref">#{{ item.id }}</p>
-            <div class="queue-indicators">
-              <span class="queue-indicator">{{ platformLabel(item.platform) }}</span>
-              <span class="queue-indicator">{{ visibilityLabel(item.visibility) }}</span>
-              <span
-                v-if="item.ai_assisted_triage.confidence"
-                class="queue-indicator"
-                :class="confidenceClass(item.ai_assisted_triage.confidence)"
-              >
-                {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
-              </span>
-              <span
-                v-if="item.ai_assisted_triage.uncertainty"
-                class="queue-indicator"
-                :class="uncertaintyClass(item.ai_assisted_triage.uncertainty)"
-              >
-                {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
-              </span>
-              <span v-if="item.escalated" class="queue-indicator uncertainty-high">Escalated</span>
-              <span v-if="item.status === 'reviewing'" class="queue-indicator">Under review</span>
-            </div>
-            <p class="queue-triage" data-testid="ai-assisted-triage">
-              AI-assisted triage:
-              {{
-                item.ai_assisted_triage.classification
-                  ? aiClassificationLabel(item.ai_assisted_triage.classification)
-                  : 'No analysis yet'
-              }}
-              <template v-if="item.ai_assisted_triage.confidence">
-                · {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
-              </template>
-              <template v-if="item.ai_assisted_triage.uncertainty">
-                · {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
-              </template>
-            </p>
-            <p class="queue-meta">
-              {{ item.related_item_count }} related
-              {{ item.related_item_count === 1 ? 'item' : 'items' }}
-              · Submitted {{ formatDateTime(item.created_at) }}
-            </p>
-            <p
-              v-if="item.ai_assisted_triage.uncertainty === 'high'"
-              class="queue-uncertainty-note"
-              data-testid="high-uncertainty-flag"
+      <template v-else>
+        <section v-if="completedStories.length > 0" class="queue-section" data-testid="completed-stories">
+          <h2 class="queue-section-title">Complete demo stories</h2>
+          <p class="muted queue-section-hint">
+            Confirmed reviews with full context, AI analysis, evidence, and outcomes — ideal for walkthroughs.
+          </p>
+          <ul class="queue-list">
+            <li
+              v-for="item in completedStories"
+              :key="`complete-${item.id}`"
+              class="queue-case queue-case-featured"
+              data-testid="review-queue-item"
             >
-              High uncertainty — additional context may help before a determination.
-            </p>
-          </div>
-          <RouterLink
-            class="button"
-            :to="{ name: 'community-shield-review-detail', params: { id: item.id } }"
-            data-testid="open-review"
-          >
-            Review
-          </RouterLink>
-        </li>
-      </ul>
+              <div class="queue-case-body">
+                <p class="queue-case-ref">#{{ item.id }}</p>
+                <div class="queue-indicators">
+                  <span class="queue-indicator">{{ platformLabel(item.platform) }}</span>
+                  <span class="queue-indicator">{{ contentTypeLabel(item.content_type) }}</span>
+                  <span class="queue-indicator">{{ visibilityLabel(item.visibility) }}</span>
+                  <span class="queue-indicator">{{ statusLabel(item.status) }}</span>
+                  <span v-if="item.review_outcome" class="queue-indicator confidence-high">
+                    {{ reviewOutcomeLabel(item.review_outcome) }}
+                  </span>
+                  <span
+                    v-if="item.ai_assisted_triage.confidence"
+                    class="queue-indicator"
+                    :class="confidenceClass(item.ai_assisted_triage.confidence)"
+                  >
+                    {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
+                  </span>
+                  <span
+                    v-if="item.ai_assisted_triage.uncertainty"
+                    class="queue-indicator"
+                    :class="uncertaintyClass(item.ai_assisted_triage.uncertainty)"
+                  >
+                    {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
+                  </span>
+                </div>
+                <p v-if="item.description" class="queue-description">{{ truncate(item.description) }}</p>
+                <p class="queue-triage" data-testid="ai-assisted-triage">
+                  AI-assisted triage:
+                  {{
+                    item.ai_assisted_triage.classification
+                      ? aiClassificationLabel(item.ai_assisted_triage.classification)
+                      : 'No analysis yet'
+                  }}
+                  <template v-if="item.ai_assisted_triage.confidence">
+                    · {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
+                  </template>
+                  <template v-if="item.ai_assisted_triage.uncertainty">
+                    · {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
+                  </template>
+                </p>
+              </div>
+              <RouterLink
+                class="button"
+                :to="{ name: 'community-shield-review-detail', params: { id: item.id } }"
+                data-testid="open-review"
+              >
+                Open complete story
+              </RouterLink>
+            </li>
+          </ul>
+        </section>
+
+        <section class="queue-section">
+          <h2 class="queue-section-title">{{ completedStories.length ? 'All reports' : 'Queue' }}</h2>
+          <ul class="queue-list" data-testid="review-queue">
+            <li
+              v-for="item in items"
+              :key="item.id"
+              class="queue-case"
+              data-testid="review-queue-item"
+            >
+              <div class="queue-case-body">
+                <p class="queue-case-ref">#{{ item.id }}</p>
+                <div class="queue-indicators">
+                  <span class="queue-indicator">{{ platformLabel(item.platform) }}</span>
+                  <span class="queue-indicator">{{ contentTypeLabel(item.content_type) }}</span>
+                  <span class="queue-indicator">{{ visibilityLabel(item.visibility) }}</span>
+                  <span class="queue-indicator">{{ statusLabel(item.status) }}</span>
+                  <span v-if="item.review_outcome" class="queue-indicator confidence-high">
+                    {{ reviewOutcomeLabel(item.review_outcome) }}
+                  </span>
+                  <span
+                    v-if="item.ai_assisted_triage.confidence"
+                    class="queue-indicator"
+                    :class="confidenceClass(item.ai_assisted_triage.confidence)"
+                  >
+                    {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
+                  </span>
+                  <span
+                    v-if="item.ai_assisted_triage.uncertainty"
+                    class="queue-indicator"
+                    :class="uncertaintyClass(item.ai_assisted_triage.uncertainty)"
+                  >
+                    {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
+                  </span>
+                  <span v-if="item.escalated" class="queue-indicator uncertainty-high">Escalated</span>
+                  <span v-if="item.status === 'reviewing'" class="queue-indicator">Under review</span>
+                </div>
+                <p v-if="item.description" class="queue-description">{{ truncate(item.description) }}</p>
+                <p class="queue-triage" data-testid="ai-assisted-triage">
+                  AI-assisted triage:
+                  {{
+                    item.ai_assisted_triage.classification
+                      ? aiClassificationLabel(item.ai_assisted_triage.classification)
+                      : 'No analysis yet'
+                  }}
+                  <template v-if="item.ai_assisted_triage.confidence">
+                    · {{ aiConfidenceLabel(item.ai_assisted_triage.confidence) }} confidence
+                  </template>
+                  <template v-if="item.ai_assisted_triage.uncertainty">
+                    · {{ aiConfidenceLabel(item.ai_assisted_triage.uncertainty) }} uncertainty
+                  </template>
+                </p>
+                <p class="queue-meta">
+                  {{ item.related_item_count }} related
+                  {{ item.related_item_count === 1 ? 'item' : 'items' }}
+                  · Submitted {{ formatDateTime(item.created_at) }}
+                </p>
+                <p
+                  v-if="item.ai_assisted_triage.uncertainty === 'high'"
+                  class="queue-uncertainty-note"
+                  data-testid="high-uncertainty-flag"
+                >
+                  High uncertainty — additional context may help before a determination.
+                </p>
+              </div>
+              <RouterLink
+                class="button"
+                :to="{ name: 'community-shield-review-detail', params: { id: item.id } }"
+                data-testid="open-review"
+              >
+                Review
+              </RouterLink>
+            </li>
+          </ul>
+        </section>
+      </template>
     </template>
   </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import EmptyState from '@/components/ui/EmptyState.vue';
 import LoadingState from '@/components/ui/LoadingState.vue';
@@ -162,7 +237,10 @@ import {
   STATUS_OPTIONS,
   aiClassificationLabel,
   aiConfidenceLabel,
+  contentTypeLabel,
   platformLabel,
+  reviewOutcomeLabel,
+  statusLabel,
   visibilityLabel,
 } from '@/utils/communityShield';
 import { formatDateTime } from '@/utils/date';
@@ -179,6 +257,20 @@ const filters = reactive({
   uncertainty: '',
   classification: '',
 });
+
+const completedStories = computed(() =>
+  items.value.filter(
+    (item) => item.status === 'resolved' && item.review_outcome === 'confirmed',
+  ),
+);
+
+function truncate(text: string, max = 140): string {
+  const trimmed = text.trim();
+  if (trimmed.length <= max) {
+    return trimmed;
+  }
+  return `${trimmed.slice(0, max - 1)}…`;
+}
 
 function confidenceClass(level: string): string {
   if (level === 'high') return 'confidence-high';
@@ -221,3 +313,31 @@ watch(filters, () => {
   void loadQueue();
 });
 </script>
+
+<style scoped>
+.queue-section {
+  margin-top: var(--space-6);
+}
+
+.queue-section-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.queue-section-hint {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.queue-case-featured {
+  border-color: rgba(20, 92, 62, 0.35);
+  background: linear-gradient(180deg, var(--primary-soft) 0%, var(--surface) 70%);
+}
+
+.queue-description {
+  margin: var(--space-2) 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+</style>

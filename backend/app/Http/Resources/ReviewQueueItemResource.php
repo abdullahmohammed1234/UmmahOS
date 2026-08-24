@@ -31,6 +31,7 @@ class ReviewQueueItemResource extends JsonResource
             'platform' => $this->platform,
             'content_type' => $this->content_type,
             'visibility' => $this->visibility,
+            'description' => $this->description,
             'status' => $this->status,
             'review_outcome' => $this->review_outcome,
             'escalated' => (bool) $this->escalated,
