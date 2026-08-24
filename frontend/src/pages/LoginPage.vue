@@ -42,7 +42,8 @@
         <RouterLink to="/">← Back to UmmahOS overview</RouterLink>
       </p>
       <p class="muted demo-hint">
-        Demo credentials are documented in <code>docs/DEMO_RUNBOOK.md</code>.
+        Seeded demo password: <code>password</code>. Accounts are listed in
+        <code>docs/DEMO_RUNBOOK.md</code>. Demo data is labeled — not production analytics.
       </p>
     </section>
   </main>

@@ -10,10 +10,18 @@
     </header>
 
     <div class="academy-bridge">
-      <span aria-hidden="true">◆</span>
+      <div class="academy-bridge-flow" aria-hidden="true">
+        <span>Community Safety Pattern</span>
+        <span>↓</span>
+        <span>Academy Lesson</span>
+        <span>↓</span>
+        <span>Scenario</span>
+        <span>↓</span>
+        <span>ADAPT Practice</span>
+      </div>
       <p>
-        <strong>From concern to learning.</strong> Validated patterns from human-reviewed incidents
-        become Academy lessons. ADAPT adapts practice based on your responses — not a fixed quiz.
+        <strong>From Community Shield to Academy.</strong> Validated patterns from human-reviewed
+        incidents become lessons. ADAPT adapts practice based on your responses — not a fixed quiz.
       </p>
     </div>
 

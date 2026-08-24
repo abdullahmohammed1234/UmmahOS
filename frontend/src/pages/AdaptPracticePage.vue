@@ -158,7 +158,15 @@ const lessonId = computed(() => {
 
 const confidenceOptions = [1, 2, 3, 4, 5];
 
-const adaptLoopSteps = ['Your response', 'What ADAPT noticed', 'Feedback', 'Next challenge'];
+const adaptLoopSteps = [
+  'Answer',
+  'Confidence',
+  'Reasoning',
+  'Feedback',
+  'What ADAPT noticed',
+  'Why this question?',
+  'Next challenge',
+];
 
 const noticedText = computed(() => formatAdaptBlock(lastResult.value?.noticed));
 const whyText = computed(() => formatAdaptBlock(lastResult.value?.why_this_question));

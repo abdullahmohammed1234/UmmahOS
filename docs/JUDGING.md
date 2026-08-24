@@ -1,115 +1,123 @@
-# Judge Scorecard Mapping
+# GNCI Judge Scorecard Mapping
 
-This document maps UmmahOS implementation to the hackathon scorecard criteria. **No score is claimed** — this explains how the product addresses each criterion.
+Maps **implemented** UmmahOS behavior to the GNCI hackathon scorecard. **No score is claimed.**
 
-> **AI assists. Humans decide.**
+> **AI assists. Humans decide.**  
+> A community safety report should not end with a screenshot.
+
+| Criterion | Weight |
+|-----------|--------|
+| Impact | 25% |
+| Functionality | 25% |
+| Innovation | 15% |
+| Ethics | 15% |
+| Sustainability | 10% |
+| Communication | 10% |
 
 ---
 
 ## Impact — 25%
 
-**Demonstrate:** Real MSA/community reporting problem, fragmented workflows, context loss, need for trained human review, measurable outcome tracking.
+**What we demonstrate:** MSAs lose context when safety workflows live in forms, screenshots, spreadsheets, and chats. UmmahOS unifies reporting, review, evidence, outcomes, and learning in one organization-aware system.
 
-| Evidence | Where to see it |
-|----------|-----------------|
-| Problem statement | Landing page `/welcome` — "The problem" section |
-| Context loss vs structured evidence | Landing page before/after Community Shield section |
-| Member reporting flow | `/community-shield` — structured wizard with platform, visibility, context, replies |
-| Human review requirement | Review queue disclaimer, AI advisory banners |
-| Outcome tracking | `/community-shield/my-reports/:id` — "What happened next?" timeline |
-| Multi-org reality | Organization switcher in app sidebar |
+| | |
+|---|---|
+| **Where it exists** | `/welcome` problem section; Community Shield report wizard; My Reports |
+| **What the judge should look at** | Before/after context comparison; seeded Alpha incident with replies and related items |
+| **Repository evidence** | `frontend/src/pages/LandingPage.vue`, `CommunityShieldPage.vue`, `DemoCommunitySeeder.php` |
 
-**Demo path:** Landing → Member report → My Reports detail
+**Demo path:** Landing → Member report or My Reports
 
 ---
 
 ## Functionality — 25%
 
-**Demonstrate:** Incident → Context → AI → Human Review → Evidence → Outcome
+**What we demonstrate:** End-to-end workflow: Incident → Context → AI → Human Review → Evidence → Outcome
 
-| Step | Implementation |
-|------|----------------|
-| Incident | Community Shield report wizard (7 sections) |
-| Context | Original item, surrounding context, replies, related copies, language |
-| AI | Review detail `/community-shield/review-queue/:id` — AI Context Analysis card |
-| Human Review | Review actions: confirm, uncertain, escalate, request context |
-| Evidence | Evidence package with preview, JSON export, PDF export |
-| Outcome | OutcomeTrackingPanel — external reports, verification, appeals |
+| Step | Route / component |
+|------|-------------------|
+| Incident | `/community-shield` report wizard |
+| Context | Original item, surrounding context, replies, related copies |
+| AI | `/community-shield/review-queue/:id` — AI Analysis |
+| Human Review | Confirm, Mark Uncertain, Request Context, Escalate, Close |
+| Evidence | Evidence Package preview, JSON/PDF export |
+| Outcome | Outcome Tracking — What happened next? |
 
-**Demo path:** Review queue → Review detail → Evidence export → Outcome panel
+| | |
+|---|---|
+| **Repository evidence** | Backend feature tests in `tests/Feature/Community/`; frontend `humanReview.spec.ts`, `evidencePackage.spec.ts`, `outcomeTracking.spec.ts` |
+
+**Demo path:** Review queue → Review detail → Evidence → Outcome panel
 
 ---
 
 ## Innovation — 15%
 
-**Demonstrate:** Context-preserving evidence, cross-platform incident model, human-centered AI, Academy bridge, ADAPT adaptive learning.
+**What we demonstrate:** Context-preserving evidence model; cross-platform incident capture; human-centered advisory AI; safety-to-education bridge; ADAPT adaptive practice.
 
-| Innovation | Evidence |
-|------------|----------|
-| Context-preserving evidence | Report wizard completeness indicator; evidence package sections |
-| Cross-platform model | Platform options: X, YouTube, TikTok, Reddit, Discord, Telegram, WhatsApp |
-| Human-centered AI | Advisory disclaimer, uncertainty surfacing, no auto-enforcement |
-| Academy bridge | Learning patterns from confirmed incidents → Community Safety courses |
-| ADAPT | `/academy/adapt-sessions/:id` — adaptive loop with "What ADAPT noticed" |
+| Innovation | Judge should look at |
+|------------|---------------------|
+| Context preservation | Context relationship view; report completeness indicator |
+| Cross-platform model | X, YouTube, TikTok, Reddit, Discord, Telegram, WhatsApp, Other |
+| Human-centered AI | Advisory vs authoritative UI distinction; uncertainty banners |
+| Academy bridge | Learning Pattern from confirmed review → Community Safety lesson |
+| ADAPT | `/academy/adapt-sessions/:id` — What ADAPT noticed / Why this question? |
 
-**Demo path:** Seeded report with context → AI analysis → Academy lesson → ADAPT challenge
+| | |
+|---|---|
+| **Repository evidence** | `ContextRelationshipView.vue`, `IncidentEvidencePackageService.php`, `Phase9EducationTest.php` |
 
 ---
 
 ## Ethics — 15%
 
-**Demonstrate:** Human oversight, uncertainty, privacy boundaries, synthetic evaluation, no automatic enforcement, tenant isolation.
+**What we demonstrate:** Human oversight, explicit uncertainty, privacy boundaries, no automatic enforcement, synthetic safety evaluation, tenant isolation.
 
 | Principle | Implementation |
 |-----------|----------------|
-| Human oversight | Human Review block visually distinct from AI block |
-| Uncertainty allowed | High uncertainty banner; "Mark Uncertain" reviewer action |
-| Privacy boundaries | Reporter notes hidden from members; internal notes not in member view |
-| Synthetic evaluation | Phase 10: 42 scenarios, 0 critical failures (`docs/PHASE_10.md`) |
-| No auto-enforcement | Export disclaimer: packages are informational, not auto-submitted |
-| Tenant isolation | Organization switcher demo; cross-org access denied in tests |
+| Human oversight | Human Review visually distinct from AI Analysis |
+| Uncertainty allowed | High uncertainty banner; Mark Uncertain action |
+| Privacy | Member views omit internal notes; learner payloads omit source incident IDs |
+| No auto-enforcement | Evidence export disclaimer |
+| Synthetic evaluation | 42 scenarios, 7 categories, 0 critical failures |
+| Tenant isolation | Organization-scoped queries; IDOR tests |
 
-**Demo path:** Show uncertainty in AI analysis → Human decision → Ethics section on landing page
+| | |
+|---|---|
+| **Repository evidence** | `docs/SECURITY.md`, `CommunityShieldEvaluationRunnerTest.php`, `IncidentEvidencePackageTest.php` |
 
 ---
 
 ## Sustainability — 10%
 
-**Demonstrate:** Multi-MSA architecture, organization-scoped RBAC, reusable platform infrastructure.
+**What we demonstrate:** Multi-MSA infrastructure reusable across organizations; RBAC; modular Community Shield + Academy + ADAPT.
 
-| Aspect | Evidence |
-|--------|----------|
-| Multi-MSA | Seeded orgs: Demo MSA Alpha, Beta, Gamma, Delta |
-| RBAC | Role-aware sidebar: member vs reviewer vs admin sections |
-| Tenant isolation | `organizationStore` tests; switching org reloads context |
-| Modular architecture | Community Shield, Academy, ADAPT as distinct modules |
-| Reusable infrastructure | Central design system, shared UI components |
-
-**Demo path:** Switch organization in sidebar → Show permission changes
+| | |
+|---|---|
+| **Where** | Organization switcher; seeded Alpha/Beta/Gamma/Delta |
+| **Judge should look at** | `multi.user@example.com` — reviewer in Alpha, admin in Beta |
+| **Repository evidence** | `OrganizationContextTest.php`, `TenantIsolationTest.php`, `OrganizationSwitcher.vue` |
 
 ---
 
 ## Communication — 10%
 
-**Demonstrate:** Polished landing page, before/after story, clear product flow, focused demo, clear terminology.
+**What we demonstrate:** Repository communicates without video — README, landing page, demo runbook, architecture, screenshots guide, scorecard mapping.
 
 | Asset | Location |
 |-------|----------|
-| Landing page | `/welcome` |
-| Product story workflow | Landing page "From concern to learning" |
-| Before/after | Community Shield landing section |
+| Product README | `README.md` |
+| GNCI checklist | `docs/GNCI_SUBMISSION.md` |
 | Demo runbook | `docs/DEMO_RUNBOOK.md` |
-| Design system | `docs/DESIGN_SYSTEM.md` |
-| Consistent terminology | "AI assists. Humans decide." throughout product |
-
-**Demo path:** Start at landing page, follow `DEMO_RUNBOOK.md`
+| Architecture | `docs/ARCHITECTURE.md` |
+| Screenshots guide | `docs/screenshots/README.md` |
+| Landing page | `/welcome` |
 
 ---
 
-## Key differentiators to highlight
+## Claims we do not make
 
-1. **Structured evidence** — Not just screenshots
-2. **AI advisory boundary** — Visually obvious in reviewer UI
-3. **What happened next?** — Outcome tracking timeline
-4. **Academy → ADAPT loop** — Learning from confirmed patterns
-5. **Organization switcher** — Quiet proof of multi-MSA architecture
+- Production user counts or real-world harm reduction
+- AI accuracy percentages on live content
+- Automatic takedowns or platform integration
+- That seeded demo data represents live analytics

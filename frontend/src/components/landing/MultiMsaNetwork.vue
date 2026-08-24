@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-const organizations = ['SFU MSA', 'MSA Alpha', 'MSA Beta', 'Future MSA'];
+const organizations = ['MSA Alpha', 'MSA Beta', 'MSA Gamma', 'Future MSA'];
 
 const nodePositions = [
   { x: 200, y: 40 },
